@@ -1,4 +1,4 @@
-gen/*
-bin/*
-src/*
+gen/
+bin/
+src/
 project.properties
