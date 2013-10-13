@@ -1,3 +1,6 @@
 gen/
 bin/
 project.properties
+.classpath
+.project
+.settings/org.eclipse.jdt.core.prefs
