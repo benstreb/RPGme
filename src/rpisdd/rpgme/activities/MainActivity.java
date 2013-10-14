@@ -1,6 +1,10 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.StatType;
+import rpisdd.rpgme.gamelogic.quests.Quest;
+import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -26,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+//This is the main activity of the game, that will host the various menus and such.
 public class MainActivity extends FragmentActivity 
 {
     private DrawerLayout mDrawerLayout;
@@ -34,16 +39,22 @@ public class MainActivity extends FragmentActivity
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mMenuTitles = {"Quests", "Create Quest", "Inventory", "Stats"};
+    private String[] mMenuTitles = {"Quests", "Inventory", "Stats"};
 
+    //This is the main player of the activity
+    private Player player;
+    
+    public Player getPlayer(){ return player; }
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.master_layout);
         
+        createTestPlayer();
+        
         mTitle = mDrawerTitle = getTitle();
-        //mMenuTitles = getResources().getStringArray(R.array.planets_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -85,6 +96,29 @@ public class MainActivity extends FragmentActivity
         }
     }
 
+    public void createTestPlayer(){
+    	
+    	player = new Player();
+    	player.questManager.loadQuestsFromDatabase(this);
+    	
+    	//Log.i("Debug:", "player reached");
+    	
+    	/*
+    	player.getQuestManager().addQuest(new Quest("Do HW","Description",QuestDifficulty.EASY,StatType.INTELLIGENCE));
+    	player.getQuestManager().addQuest(new Quest("Eat","Description",QuestDifficulty.EASY,StatType.INTELLIGENCE));
+    	player.getQuestManager().addQuest(new Quest("Sleep","Description",QuestDifficulty.EASY,StatType.INTELLIGENCE));
+    	*/
+    	
+    	//Log.i("Debug:", "player 2 reached");
+    }
+    
+    //Save all data here
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	player.questManager.saveQuestsToDatabase(this);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -118,18 +152,20 @@ public class MainActivity extends FragmentActivity
         }
     }
 
+    //Change the current fragment, or menu.
+    public void changeFragment(Fragment fragment){
+    	FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    }
+    
+    //Called when an item was selected in the navigation drawer.
     private void selectItem(int position) {
-        // update the main content
-    	
+        
     	Fragment fragment;
     	
     	if(mMenuTitles[position].equals("Quests"))
     	{
     		fragment = new QuestMenu();
-    	}
-    	else if(mMenuTitles[position].equals("Create Quest"))
-    	{
-    		fragment = new CreateQuestMenu();
     	}
     	else if(mMenuTitles[position].equals("Inventory"))
     	{
@@ -148,8 +184,7 @@ public class MainActivity extends FragmentActivity
     		return;
     	}
     	
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    	changeFragment(fragment);
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);

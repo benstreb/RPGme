@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rpissd.rpgme.bitmap_utils;
+package rpisdd.rpgme.bitmap_utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -23,8 +23,8 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import rpisdd.rpgme.BuildConfig;
+import rpisdd.rpgme.bitmap_utils.RecyclingBitmapDrawable;
 
-import rpissd.rpgme.bitmap_utils.RecyclingBitmapDrawable;
 
 /**
  * Sub-class of ImageView which automatically notifies the drawable when it is

@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/create_quests_menu_background"
+    
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -9,5 +10,152 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
+	
+    <!-- android:background="@drawable/create_quests_menu_background" -->
 
-</RelativeLayout>
+	<!-- The top portion where you fill in stuff. -->
+	<LinearLayout
+	    android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5" 
+        >
+        
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Create Quest"
+	        android:textAppearance="?android:attr/textAppearanceLarge"
+	        android:textSize="25sp" />
+	    
+	    <!-- Enter name -->
+	    <LinearLayout
+	        android:orientation="horizontal"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	        <TextView
+	            android:id="@+id/textView0"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Name: "
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        <EditText
+	            android:id="@+id/enterQuestName"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:hint="Enter name"
+	            android:singleLine="true"
+	            android:layout_weight="1" >
+	        </EditText>
+	    </LinearLayout>
+	
+	    <!-- Enter description -->
+	    <LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        >
+	
+	        <TextView
+	            android:id="@+id/textView3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Description: "
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        
+	        <EditText
+	            android:id="@+id/enterQuestDesc"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:hint="Enter a description (optional)"
+	            android:inputType="textMultiLine" >
+
+	        </EditText>
+
+	    </LinearLayout>
+	    
+	     <!-- Select stat type -->
+	    <LinearLayout
+	        android:orientation="horizontal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        >
+	
+	        <TextView
+	            android:id="@+id/textView4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Stat Tag: "
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        
+		    <Spinner
+		        android:id="@+id/statDropDown"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content" 
+		        android:entries="@array/stat_types"
+
+		        />
+		    
+	    </LinearLayout>
+
+		<!-- Select Difficulty type -->
+	    <LinearLayout
+	        android:orientation="horizontal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content" 
+	        >
+	
+	        <TextView
+	            android:id="@+id/textView5"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Difficulty: "
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        
+		    <Spinner
+		        android:id="@+id/difficultyDropDown"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content" 
+		        android:entries="@array/difficulty"
+
+		        />
+		    
+	    </LinearLayout>
+	    
+	    <TextView
+	        android:id="@+id/createQuestError"
+	        android:editable="true"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Error"
+	        android:visibility="invisible"
+	        android:textAppearance="?android:attr/textAppearanceLarge" 
+	        android:textColor="#FF0000"
+	        />
+	        
+    </LinearLayout>
+    
+    <!-- Bottom buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+		
+	    <Button
+	        android:id="@+id/confirmCreateQuest"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Create!" />
+	
+	    <Button
+	        android:id="@+id/cancelCreateQuest"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Cancel" />
+	        
+    </LinearLayout>
+    
+</LinearLayout>

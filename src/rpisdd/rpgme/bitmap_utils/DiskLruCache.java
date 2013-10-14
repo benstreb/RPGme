@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rpissd.rpgme.bitmap_utils;
+package rpisdd.rpgme.bitmap_utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

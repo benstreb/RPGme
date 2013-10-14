@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rpissd.rpgme.bitmap_utils;
+package rpisdd.rpgme.bitmap_utils;
 
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
@@ -40,10 +40,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import rpisdd.rpgme.BuildConfig;
+import rpisdd.rpgme.bitmap_utils.ImageFetcher;
+import rpisdd.rpgme.bitmap_utils.Utils;
+import rpisdd.rpgme.bitmap_utils.ImageCache.ImageCacheParams;
 
-import rpissd.rpgme.bitmap_utils.ImageCache.ImageCacheParams;
-import rpissd.rpgme.bitmap_utils.ImageFetcher;
-import rpissd.rpgme.bitmap_utils.Utils;
 
 
 //
