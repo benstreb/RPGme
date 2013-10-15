@@ -36,19 +36,20 @@ public final class R {
         public static final int stats_menu_background=0x7f020006;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0012;
+        public static final int action_settings=0x7f0a0013;
         public static final int cancelCreateQuest=0x7f0a000b;
-        public static final int completeQuestButton=0x7f0a0011;
+        public static final int completeQuestButton=0x7f0a0012;
         public static final int confirmCreateQuest=0x7f0a000a;
-        public static final int content_frame=0x7f0a000d;
-        public static final int createQuestButton=0x7f0a000f;
+        public static final int content_frame=0x7f0a000e;
+        public static final int createQuestButton=0x7f0a0010;
         public static final int createQuestError=0x7f0a0009;
-        public static final int deleteQuestButton=0x7f0a0010;
+        public static final int deleteQuestButton=0x7f0a0011;
         public static final int difficultyDropDown=0x7f0a0008;
-        public static final int drawer_layout=0x7f0a000c;
+        public static final int drawer_layout=0x7f0a000d;
         public static final int enterQuestDesc=0x7f0a0004;
         public static final int enterQuestName=0x7f0a0002;
-        public static final int left_drawer=0x7f0a000e;
+        public static final int itemImage=0x7f0a000c;
+        public static final int left_drawer=0x7f0a000f;
         public static final int statDropDown=0x7f0a0006;
         public static final int textView0=0x7f0a0001;
         public static final int textView1=0x7f0a0000;
