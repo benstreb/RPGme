@@ -10,4 +10,85 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/totalExpDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nextExpDisplay"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:text="Total: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/nextExpDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/totalExpDisplay"
+        android:layout_alignLeft="@+id/spiritDisplay"
+        android:text="next: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/intDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/willDisplay"
+        android:layout_alignLeft="@+id/strengthDisplay"
+        android:text="Int:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/nameDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/strengthDisplay"
+        android:layout_alignLeft="@+id/strengthDisplay"
+        android:layout_marginBottom="5dp"
+        android:text="Name: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/strengthDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/intDisplay"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="48dp"
+        android:text="Strength:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/willDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spiritDisplay"
+        android:layout_alignLeft="@+id/intDisplay"
+        android:text="Will:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/spiritDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/nextExpDisplay"
+        android:layout_alignLeft="@+id/willDisplay"
+        android:layout_marginBottom="44dp"
+        android:text="Spirit:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/levelDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/strengthDisplay"
+        android:layout_alignLeft="@+id/nameDisplay"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/nameDisplay"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="175dp"
+        android:layout_toRightOf="@id/nameDisplay"
+        android:text="Lv: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
