@@ -1,22 +1,21 @@
 package rpisdd.rpgme.gamelogic.player;
 import android.support.v4.app.Fragment;
-import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 
 public class Player {
 	private static Player player = null;
 	String name;
 	String classs;
-	int img_attr;
+	int avatarId;
 	
 	
 	public QuestManager questManager;
 	public Stats stats;
 	
-	public Player(String name, String classs, int img_attr) {
-		this.name = name;
-		this.classs = classs;
-		this.img_attr = img_attr;
+	public Player(CharSequence name, CharSequence classs, int avatarId) {
+		this.name = name.toString();
+		this.classs = classs.toString();
+		this.avatarId = avatarId;
 		this.questManager = new QuestManager();
 		this.stats = new Stats();
 	}
@@ -31,8 +30,8 @@ public class Player {
 		return player;
 	}
 	
-	public static void createPlayer(String name, String classs, int img_attr) {
-		player = new Player(name, classs, img_attr);
+	public static void createPlayer(CharSequence name, CharSequence classs, int avatarId) {
+		player = new Player(name, classs, avatarId);
 	}
 	
 }

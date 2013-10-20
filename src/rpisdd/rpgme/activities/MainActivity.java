@@ -98,7 +98,7 @@ public class MainActivity extends FragmentActivity
 
     public void createTestPlayer(){
     	
-    	player = new Player();
+    	player = new Player("Anon", "Player", R.id.avatar2);
     	player.questManager.loadQuestsFromDatabase(this);
     	
     	//Log.i("Debug:", "player reached");

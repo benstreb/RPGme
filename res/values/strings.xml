@@ -27,5 +27,6 @@
     <string name="avatar1">male</string>
     <string name="avatar2">female</string>
     <string name="avatar">Your Avatar</string>
+    <string name="submit">Submit</string>
 
 </resources>
