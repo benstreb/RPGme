@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
     <string-array name="stat_types">
         <item>Strength</item>
         <item>Intelligence</item>
@@ -16,5 +17,15 @@
         <item>Normal</item>
         <item>Hard</item>
     </string-array>
-    
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title">RPGme</string>
+    <string name="title_activity_create_player">CreatePlayerActivity</string>
+    <string name="name">Name:</string>
+    <string name="classs">Class:</string>
+    <string name="avatar1">male</string>
+    <string name="avatar2">female</string>
+    <string name="avatar">Your Avatar</string>
+
 </resources>
