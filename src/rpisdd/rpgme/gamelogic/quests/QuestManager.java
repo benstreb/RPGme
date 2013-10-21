@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
-import rpisdd.rpgme.gamelogic.quests.QuestDatabase.FeedEntry;
+import rpisdd.rpgme.gamelogic.quests.QuestDatabase.QuestFeedEntry;
 
 //The QuestManager manages the player's current quests, much like with how
 //the Inventory manages the player's items.
@@ -132,6 +132,8 @@ public class QuestManager {
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Log.i("Debug:", "2");
 		
+		mDbHelper.onCreate(db);
+		
 		//Only uncomment this line of code if you've made a change to the database structure in code and
 		//are running the updated app for the first time, or if you want to erase the current database in the phone/emu.
 		//In a real deployment setting if you plan to provide updates for the app where new columns are added
@@ -139,18 +141,19 @@ public class QuestManager {
 		
 		//mDbHelper.dropTable(db);
 		
+		
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
 		String[] projection = {
-		    FeedEntry.COLUMN_NAME_QUEST_NAME,
-		    FeedEntry.COLUMN_NAME_QUEST_DESC,
-		    FeedEntry.COLUMN_NAME_QUEST_TYPE,
-		    FeedEntry.COLUMN_NAME_QUEST_DIFFICULTY,
-		    FeedEntry.COLUMN_NAME_IS_COMPLETED
+		    QuestFeedEntry.COLUMN_NAME_QUEST_NAME,
+		    QuestFeedEntry.COLUMN_NAME_QUEST_DESC,
+		    QuestFeedEntry.COLUMN_NAME_QUEST_TYPE,
+		    QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY,
+		    QuestFeedEntry.COLUMN_NAME_IS_COMPLETED
 		    };
 		Log.i("Debug:", "3");
 		Cursor cursor = db.query(
-		    FeedEntry.TABLE_NAME,  // The table to query
+		    QuestFeedEntry.TABLE_NAME,  // The table to query
 		    projection,                          // The columns to return
 		    null,                                // The columns for the WHERE clause
 		    null,                            	 // The values for the WHERE clause
@@ -207,11 +210,11 @@ public class QuestManager {
 			
 			// Create a new map of values, where column names are the keys
 			ContentValues values = new ContentValues();
-			values.put(FeedEntry.COLUMN_NAME_QUEST_NAME, allQuests.get(i).getName());
-			values.put(FeedEntry.COLUMN_NAME_QUEST_DESC, allQuests.get(i).getDescription());
-			values.put(FeedEntry.COLUMN_NAME_QUEST_TYPE, allQuests.get(i).getStatType().toString());
-			values.put(FeedEntry.COLUMN_NAME_QUEST_DIFFICULTY, allQuests.get(i).getDifficulty().toString());
-			values.put(FeedEntry.COLUMN_NAME_IS_COMPLETED, (allQuests.get(i).getIsComplete() ? 1 : 0) );
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_NAME, allQuests.get(i).getName());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DESC, allQuests.get(i).getDescription());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_TYPE, allQuests.get(i).getStatType().toString());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY, allQuests.get(i).getDifficulty().toString());
+			values.put(QuestFeedEntry.COLUMN_NAME_IS_COMPLETED, (allQuests.get(i).getIsComplete() ? 1 : 0) );
 			
 			Log.i("Debug:", "Saved quest '" + allQuests.get(i).getName() + "' in database:");
 			Log.i("Debug:", "	Name= '" + allQuests.get(i).getName());
@@ -223,7 +226,7 @@ public class QuestManager {
 			// Insert the new row, returning the primary key value of the new row
 			long newRowId;
 			newRowId = db.insert(
-			         FeedEntry.TABLE_NAME,
+			         QuestFeedEntry.TABLE_NAME,
 			         "null",
 			         values);
 		}

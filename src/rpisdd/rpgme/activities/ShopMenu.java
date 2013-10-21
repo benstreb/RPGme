@@ -1,38 +1,46 @@
 package rpisdd.rpgme.activities;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import com.squareup.picasso.Picasso;
 
 import rpisdd.rpgme.R;
-import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.quests.Quest;
+import rpisdd.rpgme.gamelogic.quests.QuestManager;
+import rpisdd.rpgme.gamelogic.items.EnergyPotion;
+import rpisdd.rpgme.gamelogic.items.Item;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class InventoryMenu extends ListFragment implements OnClickListener {
+public class ShopMenu extends ListFragment implements OnClickListener {
 
-	Button sell;
-	Button use;
+	public Item[] itemsInStock;
+	
+	Button buy;
 	View selectedItem;
 	int selectedItemIndex;
 
-	public InventoryMenu() {}
+	//Load in the items that the shop stocks from external XML
+	public void setItems(){
+		
+		itemsInStock = new Item[1];
+		itemsInStock[0] = (Item)(new EnergyPotion());
+	}
+
+	public ShopMenu() {}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,15 +50,13 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		selectedItem = null;
 		selectedItemIndex = -1;
 		
-		View v = inflater.inflate(R.layout.inventory_menu, container, false);
-
-		sell = (Button) v.findViewById(R.id.sellItem);
-		sell.setOnClickListener(this);
-
-		use = (Button) v.findViewById(R.id.useItem);
-		use.setOnClickListener(this);
-
+		setItems();
 		
+		View v = inflater.inflate(R.layout.shop_menu, container, false);
+
+		buy = (Button) v.findViewById(R.id.shopBuyButton);
+		buy.setOnClickListener(this);
+
 		updateButtons();
 		
 		return v;
@@ -59,11 +65,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	//Will enable or disable buttons, depending on the situation.
 	public void updateButtons(){
 		if (selectedItem == null){
-			sell.setEnabled(false);
-			use.setEnabled(false);
+			buy.setEnabled(false);
 		} else {
-			sell.setEnabled(true);
-			use.setEnabled(true);
+			buy.setEnabled(true);
 		}
 	}
 	
@@ -76,23 +80,19 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	// Take a list of items, and fill up the list view with those entries
 	public void fillListView(View v) {
 		
-		Player p = Player.getPlayer(this);
 		ItemAdapter adapter = new ItemAdapter(getActivity(),
-				R.layout.shop_item,p.inventory.getItems());
+				R.layout.shop_item,itemsInStock);
 		
 		setListAdapter(adapter);
-		
-		selectedItem = null;
-		selectedItemIndex = -1;
 		
 		updateButtons();
 	}
 	
 	private class ItemAdapter extends ArrayAdapter<Item> {
 
-		ArrayList<Item> items;
+		Item[] items;
 		
-        public ItemAdapter(Context context, int textViewResourceId, ArrayList<Item> items) {
+        public ItemAdapter(Context context, int textViewResourceId, Item[] items) {
                 super(context, textViewResourceId, items);
                 this.items = items;
         }
@@ -100,18 +100,19 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
         public View getView(int position, View convertView, ViewGroup parent) {
                 View v = convertView;
                 if(v == null){
-                    v = LayoutInflater.from(getActivity()).inflate(R.layout.inventory_item, null);
+                    v = LayoutInflater.from(getActivity()).inflate(R.layout.shop_item, null);
                 }
-                Item i = items.get(position);
+                Item i = items[position];
                 if (i != null) {
-                    TextView name = (TextView) v.findViewById(R.id.inventoryItemName);
-                    name.setText(i.getName());  
-                    
-                    ImageView image = (ImageView) v.findViewById(R.id.inventoryItemImage);
+                    TextView name = (TextView) v.findViewById(R.id.shopItemName);
+                    TextView price = (TextView) v.findViewById(R.id.shopItemPrice);
+                    ImageView image = (ImageView) v.findViewById(R.id.shopItemImage);
                     name.setText("Name: " + i.getName());     
+                    price.setText("Price: "+ Integer.toString(i.getPrice()));
                     Picasso.with(getActivity())
-                    	.load(i.getImagePath())
+                    	.load(items[position].getImagePath())
                     	.into(image);
+                    
                 }
                 return v;
         }
@@ -139,45 +140,20 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		
-		case R.id.useItem: {
+		case R.id.shopBuyButton: {
 			
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-           builder1.setMessage("Use this item?");
+           builder1.setMessage("Buy this item?");
            builder1.setCancelable(true);
-           builder1.setPositiveButton("Use",
+           builder1.setPositiveButton("Buy",
                    new DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int id) {
                    dialog.cancel();
-                   useItem();
+                   sellItemToPlayer();
                }
            });
            
-           builder1.setNegativeButton("Don't Use",
-                   new DialogInterface.OnClickListener() {
-               public void onClick(DialogInterface dialog, int id) {
-                   dialog.cancel();
-               }
-           });
-
-           AlertDialog alert11 = builder1.create();
-           alert11.show();
-           
-			break;
-		}
-		case R.id.sellItem: {
-			
-		   AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-           builder1.setMessage("Sell this item?");
-           builder1.setCancelable(true);
-           builder1.setPositiveButton("Sell",
-           new DialogInterface.OnClickListener() {
-               public void onClick(DialogInterface dialog, int id) {
-                   dialog.cancel();
-                   sellItemToShop();
-               }
-           });
-           
-           builder1.setNegativeButton("Don't Sell",
+           builder1.setNegativeButton("Don't Buy",
                    new DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int id) {
                    dialog.cancel();
@@ -194,19 +170,46 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		}
 	}
 	
-	public void sellItemToShop(){
+	public void sellItemToPlayer(){
 		Player p = Player.getPlayer(this);
-		p.addGold(p.inventory.getItems().get(selectedItemIndex).getRefundPrice());
-		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
-		fillListView(getView());
-	}
-	
-	public void useItem(){
-		Player p = Player.getPlayer(this);
-		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
-		//Add code to use item here...
 		
-		fillListView(getView());
+		if(p.getGold() < itemsInStock[selectedItemIndex].getPrice()){
+			
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+	           builder1.setMessage("You don't have enough gold!");
+	           builder1.setCancelable(true);
+	           builder1.setPositiveButton("OK",
+	                   new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	                   dialog.cancel();
+	               }
+	           });
+
+	           AlertDialog alert11 = builder1.create();
+	           alert11.show();
+	           
+	           return;
+		}
+		else if(p.inventory.isInventoryFull()) {
+			
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+	           builder1.setMessage("Your inventory is full!");
+	           builder1.setCancelable(true);
+	           builder1.setPositiveButton("OK",
+	                   new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int id) {
+	                   dialog.cancel();
+	               }
+	           });
+
+	           AlertDialog alert11 = builder1.create();
+	           alert11.show();
+	           
+	           return;
+		}
+		
+		p.inventory.addItem(itemsInStock[selectedItemIndex]);
+		p.deductGold(itemsInStock[selectedItemIndex].getPrice());
 	}
 	
 }

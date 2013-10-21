@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -7,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Inventory"
+        android:text="Shop"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="25sp" />
 
@@ -15,28 +16,18 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sellItem"
+        android:layout_above="@+id/shopBuyButton"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true" >
         
     </ListView>
 
     <Button
-        android:id="@+id/useItem"
+        android:id="@+id/shopBuyButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Use Item" />
-    
-    <Button
-        android:id="@+id/sellItem"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/useItem"
-        android:text="Sell Item" />
-    
+        android:text="Buy!" />
 
 </RelativeLayout>

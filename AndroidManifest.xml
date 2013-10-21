@@ -16,20 +16,24 @@
         android:label="@string/app_name" >
         <activity
             android:name="rpisdd.rpgme.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
+        <!-- need to give splash screen the name "RPGMe" to have the app show its name as "RPGme" in Android menu -->
         <activity
             android:name="rpisdd.rpgme.activities.SplashScreenActivity"
-            android:label="@string/title_activity_splash_screen" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>  
         </activity>
         <activity
             android:name="rpisdd.rpgme.activities.CreatePlayerActivity"
             android:label="@string/title_activity_create_player"
-            android:parentActivityName="rpisdd.rpgme.activities.SplashScreenActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:parentActivityName="rpisdd.rpgme.activities.SplashScreenActivity" 
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rpisdd.rpgme.activities.SplashScreenActivity" />

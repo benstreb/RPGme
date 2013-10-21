@@ -90,5 +90,14 @@
         android:layout_toRightOf="@id/nameDisplay"
         android:text="Lv: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+        <TextView
+        android:id="@+id/statPageGoldDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="48dp"
+        android:layout_alignParentBottom="true"
+        android:text="Gold: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

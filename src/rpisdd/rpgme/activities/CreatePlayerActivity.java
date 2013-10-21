@@ -17,7 +17,8 @@ import android.support.v4.app.NavUtils;
 
 public class CreatePlayerActivity extends Activity {
 	private int avatarId = R.id.avatar1;
-
+	private Activity thisActivity = this;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +61,7 @@ public class CreatePlayerActivity extends Activity {
 	    			((TextView) findViewById(R.id.playerName)).getText(),
 	    			((TextView) findViewById(R.id.playerClass)).getText(),
 	    			avatarId);
-			startActivity(new Intent("rpisdd.rpgme.activities.MainActivity"));
+	    	startActivity(new Intent(thisActivity, MainActivity.class));
 	    }
 	};
 

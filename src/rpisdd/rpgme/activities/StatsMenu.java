@@ -26,6 +26,8 @@ public class StatsMenu extends Fragment {
 	TextView toNextWidget;
 	TextView totalExpWidget;
 	
+	TextView goldWidget;
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -43,7 +45,9 @@ public class StatsMenu extends Fragment {
     	int toNext = playerStats.toNextExp;
     	int total = playerStats.level;
     	
-    	String playerName = "Kevin";
+    	int gold = Player.getPlayer(this).getGold();
+    	
+    	String playerName = Player.getPlayer().getName();
     		
     	//display the stats
     	strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
@@ -59,7 +63,7 @@ public class StatsMenu extends Fragment {
     	spiritWidget.setText("Spirit: " + currentSpr); 	
     	
     	nameWidget = (TextView) v.findViewById(R.id.nameDisplay);
-    	nameWidget.setText(playerName); 
+    	nameWidget.setText("Name: " + playerName); 
     	
     	levelWidget = (TextView) v.findViewById(R.id.levelDisplay);
     	levelWidget.setText("Lv: " + level); 
@@ -69,6 +73,9 @@ public class StatsMenu extends Fragment {
     	
     	totalExpWidget = (TextView) v.findViewById(R.id.totalExpDisplay);
     	totalExpWidget.setText("Total exp: " + total); 
+    	
+    	goldWidget = (TextView) v.findViewById(R.id.statPageGoldDisplay);
+    	goldWidget.setText("Gold: " + gold); 
     	
         // Inflate the layout for this fragment
     	return v;

@@ -39,12 +39,7 @@ public class MainActivity extends FragmentActivity
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mMenuTitles = {"Quests", "Inventory", "Stats"};
-
-    //This is the main player of the activity
-    private Player player;
-    
-    public Player getPlayer(){ return player; }
+    private String[] mMenuTitles = {"Quests", "Inventory", "Stats", "Shop", "Dungeon"};
     
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -52,23 +47,23 @@ public class MainActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.master_layout);
         
-        createTestPlayer();
+        setupPlayer();
         
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
+        
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mMenuTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+        
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
+        
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -89,19 +84,24 @@ public class MainActivity extends FragmentActivity
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        
         //Select the first menu, Quests
         if (savedInstanceState == null) {
             selectItem(0);
         }
+        
     }
 
-    public void createTestPlayer(){
+    public void setupPlayer(){
     	
-    	player = new Player("Anon", "Player", R.id.avatar2);
-    	player.questManager.loadQuestsFromDatabase(this);
+    	//If we didn't set up the player for the first time: Load player data from database here
+    	//Note: Current code is only a placeholder, creates a new test player for now.
+    	if(Player.getPlayer() == null){
+    		Player.createPlayer("Anon", "Player", R.id.avatar2);
+    	}
     	
-    	//Log.i("Debug:", "player reached");
+    	Player.getPlayer().questManager.loadQuestsFromDatabase(this);
+    	Player.getPlayer().inventory.loadItemsFromDatabase(this);
     	
     	/*
     	player.getQuestManager().addQuest(new Quest("Do HW","Description",QuestDifficulty.EASY,StatType.INTELLIGENCE));
@@ -116,7 +116,8 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onPause(){
     	super.onPause();
-    	player.questManager.saveQuestsToDatabase(this);
+    	Player.getPlayer().questManager.saveQuestsToDatabase(this);
+    	Player.getPlayer().inventory.saveItemsToDatabase(this);
     }
     
     @Override
@@ -174,6 +175,14 @@ public class MainActivity extends FragmentActivity
     	else if(mMenuTitles[position].equals("Stats"))
     	{
     		fragment = new StatsMenu();
+    	}
+    	else if(mMenuTitles[position].equals("Shop"))
+    	{
+    		fragment = new ShopMenu();
+    	}
+    	else if(mMenuTitles[position].equals("Dungeon"))
+    	{
+    		fragment = new DungeonMenu();
     	}
     	else
     	{
