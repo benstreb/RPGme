@@ -10,6 +10,7 @@ public class Stats
 	public int totalExp;
 	
 	//The player's base stats. To be displayed in "stats" menu
+	public int baseEnergy;
 	public int baseStrength;
 	public int baseIntelligence;
 	public int baseWill;
@@ -18,11 +19,10 @@ public class Stats
 	public Stats(){}
 	
 	public Stats(int aStrength,int aIntel,int aWill,int aSpirit){
-		baseStrength = aStrength;
-		baseIntelligence = aIntel;
-		baseWill = aWill;
-		baseSpirit = aSpirit;
+		this(1, 0, aStrength, aIntel, aWill, aSpirit);
+		baseEnergy = 10;
 	}
+	
 	public Stats(int aLevel, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit) {
 		level = aLevel;
 		totalExp = aTotal;

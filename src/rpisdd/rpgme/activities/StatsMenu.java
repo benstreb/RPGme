@@ -33,21 +33,21 @@ public class StatsMenu extends Fragment {
         Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.stats_menu, container, false);
     	
-    	Stats playerStats = Player.getPlayer(this).stats;
+    	Player thePlayer = Player.getPlayer(this);
     	
     	//get stats from player
-    	int currentStr = playerStats.baseStrength;
-    	int currentInt = playerStats.baseIntelligence;
-    	int currentWill = playerStats.baseWill;
-    	int currentSpr = playerStats.baseSpirit;
+    	int currentStr = thePlayer.getStrength();
+    	int currentInt = thePlayer.getInt();
+    	int currentWill = thePlayer.getWill();
+    	int currentSpr = thePlayer.getSpirit();
     	
-    	int level = playerStats.level;
-    	int toNext = 0;//playerStats.toNextExp;
-    	int total = playerStats.level;
+    	int level = thePlayer.getLevel();
+    	int toNext = thePlayer.getNextExp();//playerStats.toNextExp;
+    	int total = thePlayer.getTotalExp();
     	
-    	int gold = Player.getPlayer(this).getGold();
+    	int gold = thePlayer.getGold();
     	
-    	String playerName = Player.getPlayer().getName();
+    	String playerName = thePlayer.getName();
     		
     	//display the stats
     	strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
