@@ -1,4 +1,8 @@
 package rpisdd.rpgme.gamelogic.player;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v4.app.Fragment;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.items.Inventory;
@@ -48,6 +52,17 @@ public class Player {
 	//Todo: Eliminate this function, and replace all occurrences of getPlayer(this) with getPlayer()
 	public static Player getPlayer(Fragment fragment){
 		return player;
+	}
+	
+	public void savePlayer(Activity activity) {
+		questManager.saveQuestsToDatabase(activity);
+		SharedPreferences p = activity.getPreferences(Context.MODE_PRIVATE);
+		Editor e = p.edit();
+		stats.save(e);
+		e.putString("name", name);
+		e.putString("class", classs);
+		e.putInt("avatarId", avatarId);
+		e.commit();
 	}
 	
 	public static void createPlayer(CharSequence name, CharSequence classs, int avatarId) {

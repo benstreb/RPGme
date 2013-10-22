@@ -1,13 +1,12 @@
 package rpisdd.rpgme.gamelogic.player;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 public class Stats 
 {
-	//basic player info
-	public String playerName;
-	
 	//levels and experience
 	public int level;
-	public int toNextExp;
 	public int totalExp;
 	
 	//The player's base stats. To be displayed in "stats" menu
@@ -15,12 +14,6 @@ public class Stats
 	public int baseIntelligence;
 	public int baseWill;
 	public int baseSpirit;
-	
-	//The player's modified stats by the weapon he is carrying. 
-	public int netStrength;
-	public int netIntelligence;
-	public int netWill;
-	public int netSpirit;
 	
 	public Stats(){}
 	
@@ -30,11 +23,20 @@ public class Stats
 		baseWill = aWill;
 		baseSpirit = aSpirit;
 	}
-	
-	public Stats(String aName, int aLevel, int aToNext, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit){
-		playerName = aName;
+	public Stats(int aLevel, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit) {
 		level = aLevel;
-		toNextExp = aToNext;
+		totalExp = aTotal;
+		
+		baseStrength = aStrength;
+		baseIntelligence = aIntel;
+		baseWill = aWill;
+		baseSpirit = aSpirit;
+	}
+	
+	//aName and aToNext are just ignored, so don't use this function. I'll remove it later.
+	@Deprecated
+	public Stats(String aName, int aLevel, int aToNext, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit){
+		level = aLevel;
 		totalExp = aTotal;
 		
 		baseStrength = aStrength;
@@ -46,6 +48,26 @@ public class Stats
 	public int getBaseStr()
 	{
 		return baseStrength;
+	}
+	
+	public Stats load(SharedPreferences p) {
+		return new Stats(
+				p.getInt("level", 1),
+				p.getInt("exp", 0),
+				p.getInt("str", 1),
+				p.getInt("int", 1),
+				p.getInt("wil", 1),
+				p.getInt("spi", 1)
+				);
+	}
+
+	public void save(Editor e) {
+		e.putInt("level", level);
+		e.putInt("exp", totalExp);
+		e.putInt("str", baseStrength);
+		e.putInt("int", baseIntelligence);
+		e.putInt("wil", baseWill);
+		e.putInt("spi", baseSpirit);
 	}
 	
 	
