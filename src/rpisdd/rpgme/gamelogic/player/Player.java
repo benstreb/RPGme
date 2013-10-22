@@ -28,6 +28,7 @@ public class Player {
 	
 	public String getName(){ return name; }
 	public String getClasss(){ return classs; }
+	
 	public int getGold(){ return gold; }
 	
 	public void addGold(int amount){
@@ -40,6 +41,154 @@ public class Player {
 			gold = 0;
 		}
 	}
+	
+	/*
+		returns the player's current energy
+	*/
+	public int getEnergy()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's current energy
+	 */
+	public void addEnergy(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Decreases the player's current energy
+	 */
+	public void deductEnergy(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns exp to next level up
+	 */
+	public int nextExp()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Returns total exp accumulated.
+	 */
+	public int getTotalExp()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases earned exp
+	 */
+	public void addExp(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns the player's level
+	 */
+	public int getLevel()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Levels up the player
+	 */
+	public void levelUp()
+	{
+		incMaxEnergy(5);
+	}
+	
+	//Stat functions/////////////////////////////////////////////
+	
+	/*
+	 * Returns player's max energy
+	 */
+	public int getMaxEnergy()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's max energy
+	 */
+	public void incMaxEnergy(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns the player's strength
+	 */
+	public int getStrength()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's strength
+	 */
+	public void incStrength(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns the player's intelligence
+	 */
+	public int getInt()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's intelligence
+	 */
+	public void incInt(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns the player's will
+	 */
+	public int getWill()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's will
+	 */
+	public void incWill(int amount)
+	{
+		
+	}
+	
+	/*
+	 * Returns the player's spirit
+	 */
+	public int getSpirit()
+	{
+		return 0;
+	}
+	
+	/*
+	 * Increases the player's spirit
+	 */
+	public void incSpirit(int amount)
+	{
+		
+	}
+	
+	/////////////////////////////////////////////////
 	
 	public static Player getPlayer() {
 		return player;
