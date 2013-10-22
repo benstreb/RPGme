@@ -42,7 +42,7 @@ public class StatsMenu extends Fragment {
     	int currentSpr = playerStats.baseSpirit;
     	
     	int level = playerStats.level;
-    	int toNext = playerStats.toNextExp;
+    	int toNext = 0;//playerStats.toNextExp;
     	int total = playerStats.level;
     	
     	int gold = Player.getPlayer(this).getGold();
