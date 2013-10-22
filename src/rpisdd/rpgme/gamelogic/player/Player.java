@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v4.app.Fragment;
+import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -62,10 +63,26 @@ public class Player {
 		e.putString("name", name);
 		e.putString("class", classs);
 		e.putInt("avatarId", avatarId);
+		e.putBoolean("playerExists", true);
 		e.commit();
 	}
 	
+	public static void loadPlayer(Activity activity) {
+		SharedPreferences pref = activity.getPreferences(Context.MODE_PRIVATE);
+		assert pref.getBoolean("playerExists", false);
+		Player p = new Player(
+				pref.getString("name", "Missingno"),
+				pref.getString("class", "Bird, Water"),
+				pref.getInt("avatarId", R.drawable.splash_screen)
+				);
+		p.questManager.loadQuestsFromDatabase(activity);
+		p.inventory.loadItemsFromDatabase(activity);
+		p.stats = Stats.load(pref);
+		player = p;
+	}
+	
 	public static void createPlayer(CharSequence name, CharSequence classs, int avatarId) {
+		assert player == null;
 		player = new Player(name, classs, avatarId);
 	}
 	
