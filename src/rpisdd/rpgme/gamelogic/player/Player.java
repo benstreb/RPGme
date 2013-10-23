@@ -9,6 +9,8 @@ import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 
 public class Player {
+	final static int EXP_PER_LEVEL = 100;
+	
 	private static Player player = null;
 	String name;
 	String classs;
@@ -19,6 +21,7 @@ public class Player {
 	public Inventory inventory;
 	
 	private int gold;
+	private int energy;
 	
 	public Player(CharSequence name, CharSequence classs, int avatarId) {
 		this.name = name.toString();
@@ -28,6 +31,7 @@ public class Player {
 		this.inventory = new Inventory();
 		this.stats = new Stats();
 		this.gold = 100;
+		this.energy = 10;
 	}
 	
 	public String getName(){ return name; }
@@ -51,7 +55,7 @@ public class Player {
 	*/
 	public int getEnergy()
 	{
-		return 0;
+		return stats.baseEnergy;
 	}
 	
 	/*
@@ -59,7 +63,11 @@ public class Player {
 	 */
 	public void addEnergy(int amount)
 	{
-		
+		energy += amount;
+		if(energy > getMaxEnergy())
+		{
+			energy = getMaxEnergy();
+		}
 	}
 	
 	/*
@@ -67,15 +75,24 @@ public class Player {
 	 */
 	public void deductEnergy(int amount)
 	{
-		
+		energy -= amount;
+		if(energy < 0)
+		{
+			energy = 0;
+		}
 	}
 	
 	/*
 	 * Returns exp to next level up
 	 */
-	public int nextExp()
+	public int getExpForLevel(int aLevel)
 	{
-		return 0;
+		return EXP_PER_LEVEL * aLevel;
+	}
+	
+	public int getNextExp()
+	{
+		return getExpForLevel(getLevel()) - getTotalExp();
 	}
 	
 	/*
@@ -83,7 +100,7 @@ public class Player {
 	 */
 	public int getTotalExp()
 	{
-		return 0;
+		return stats.totalExp;
 	}
 	
 	/*
@@ -91,7 +108,11 @@ public class Player {
 	 */
 	public void addExp(int amount)
 	{
-		
+		stats.totalExp += amount;
+		if(stats.totalExp > getExpForLevel(getLevel()))
+		{
+			levelUp();
+		}
 	}
 	
 	/*
@@ -99,7 +120,7 @@ public class Player {
 	 */
 	public int getLevel()
 	{
-		return 0;
+		return stats.level;
 	}
 	
 	/*
@@ -108,6 +129,7 @@ public class Player {
 	public void levelUp()
 	{
 		incMaxEnergy(5);
+		stats.level++;
 	}
 	
 	//Stat functions/////////////////////////////////////////////
@@ -117,7 +139,7 @@ public class Player {
 	 */
 	public int getMaxEnergy()
 	{
-		return 0;
+		return stats.baseEnergy;
 	}
 	
 	/*
@@ -125,7 +147,7 @@ public class Player {
 	 */
 	public void incMaxEnergy(int amount)
 	{
-		
+		stats.baseEnergy += amount;
 	}
 	
 	/*
@@ -133,7 +155,7 @@ public class Player {
 	 */
 	public int getStrength()
 	{
-		return 0;
+		return stats.baseStrength;
 	}
 	
 	/*
@@ -141,7 +163,7 @@ public class Player {
 	 */
 	public void incStrength(int amount)
 	{
-		
+		stats.baseStrength += amount;
 	}
 	
 	/*
@@ -149,7 +171,7 @@ public class Player {
 	 */
 	public int getInt()
 	{
-		return 0;
+		return stats.baseIntelligence;
 	}
 	
 	/*
@@ -157,7 +179,7 @@ public class Player {
 	 */
 	public void incInt(int amount)
 	{
-		
+		stats.baseIntelligence += amount;
 	}
 	
 	/*
@@ -165,7 +187,7 @@ public class Player {
 	 */
 	public int getWill()
 	{
-		return 0;
+		return stats.baseWill;
 	}
 	
 	/*
@@ -173,7 +195,7 @@ public class Player {
 	 */
 	public void incWill(int amount)
 	{
-		
+		stats.baseWill += amount;
 	}
 	
 	/*
@@ -181,7 +203,7 @@ public class Player {
 	 */
 	public int getSpirit()
 	{
-		return 0;
+		return stats.baseSpirit;
 	}
 	
 	/*
@@ -189,7 +211,7 @@ public class Player {
 	 */
 	public void incSpirit(int amount)
 	{
-		
+		stats.baseSpirit += amount;
 	}
 	
 	/////////////////////////////////////////////////
