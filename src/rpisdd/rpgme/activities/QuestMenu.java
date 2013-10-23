@@ -67,7 +67,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	
 	//Will enable or disable buttons, depending on the situation.
 	public void updateButtons(){
-		if (Player.getPlayer(this).questManager.atMaxNumQuests()) {
+		if (Player.getPlayer().questManager.atMaxNumQuests()) {
 			createQuest.setEnabled(false);
 		} else {
 			createQuest.setEnabled(true);
@@ -84,7 +84,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	@Override
 	public void onResume() {
 
-		fillListView(Player.getPlayer(this).questManager, getView());
+		fillListView(Player.getPlayer().questManager, getView());
 
 		super.onResume();
 	}
@@ -219,7 +219,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	
 	public void removeQuest(){
 
-		Player player = Player.getPlayer(this);
+		Player player = Player.getPlayer();
 		Quest quest = player.questManager
 				.getQuestFromName(getSelectedQuestName());
 		player.questManager.removeQuest(quest);
@@ -228,7 +228,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	}
 	
 	public void completeQuest(){
-		Player player = Player.getPlayer(this);
+		Player player = Player.getPlayer();
 		Quest quest = player.questManager
 				.getQuestFromName(getSelectedQuestName());
 		player.questManager.completeQuest(player, quest);

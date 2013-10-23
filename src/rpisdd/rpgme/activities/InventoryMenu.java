@@ -76,7 +76,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	// Take a list of items, and fill up the list view with those entries
 	public void fillListView(View v) {
 		
-		Player p = Player.getPlayer(this);
+		Player p = Player.getPlayer();
 		ItemAdapter adapter = new ItemAdapter(getActivity(),
 				R.layout.shop_item,p.inventory.getItems());
 		
@@ -195,14 +195,14 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	}
 	
 	public void sellItemToShop(){
-		Player p = Player.getPlayer(this);
+		Player p = Player.getPlayer();
 		p.addGold(p.inventory.getItems().get(selectedItemIndex).getRefundPrice());
 		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
 		fillListView(getView());
 	}
 	
 	public void useItem(){
-		Player p = Player.getPlayer(this);
+		Player p = Player.getPlayer();
 		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
 		//Add code to use item here...
 		

@@ -207,7 +207,7 @@ public class Player {
 	}
 
 	// Todo: Eliminate this function, and replace all occurrences of
-	// getPlayer(this) with getPlayer()
+	// getPlayer() with getPlayer()
 	public static Player getPlayer(Fragment fragment) {
 		return player;
 	}

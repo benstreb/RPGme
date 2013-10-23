@@ -34,7 +34,7 @@ public class StatsMenu extends Fragment {
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.stats_menu, container, false);
 
-		Player thePlayer = Player.getPlayer(this);
+		Player thePlayer = Player.getPlayer();
 
 		// get stats from player
 		int currentStr = thePlayer.getStrength();
