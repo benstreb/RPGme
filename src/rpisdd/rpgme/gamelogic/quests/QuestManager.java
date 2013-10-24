@@ -24,10 +24,10 @@ public class QuestManager {
 	
 	//The list of quests that the user has open (i.e. not yet completed but still avaiable to complete)
 	//Unless specified, all method will refer to these quests.
-	ArrayList<Quest> quests;
+	private ArrayList<Quest> quests;
 	
 	//The list of completed quests (allows a "Journal" to be kept)
-	ArrayList<Quest> completedQuests;
+	private ArrayList<Quest> completedQuests;
 	
 	//List of aborted or failed quests
 	//ArrayList<Quest> failedQuests;
@@ -44,7 +44,7 @@ public class QuestManager {
 	//Is the name used in one of the quests?
 	public boolean isNameUsed(String name){
 		for(int i=0;i<quests.size();i++){
-			if(quests.get(i).name.equals(name)){
+			if(quests.get(i).getName().equals(name)){
 				return true;
 			}
 		}
@@ -53,7 +53,7 @@ public class QuestManager {
 	
 	public Quest getQuestFromName(String name){
 		for(int i=0;i<quests.size();i++){
-			if(quests.get(i).name.equals(name)){
+			if(quests.get(i).getName().equals(name)){
 				return quests.get(i);
 			}
 		}
@@ -105,7 +105,7 @@ public class QuestManager {
 	public String[] getQuestNames(){
 		String[] names = new String[numQuests()];
 		for(int i=0;i<quests.size();i++){
-			names[i] = quests.get(i).name;
+			names[i] = quests.get(i).getName();
 		}
 		return names;
 	}
@@ -114,7 +114,7 @@ public class QuestManager {
 	public String[] getCompleteQuestNames(){
 		String[] names = new String[completedQuests.size()];
 		for(int i=0;i<completedQuests.size();i++){
-			names[i] = completedQuests.get(i).name;
+			names[i] = completedQuests.get(i).getName();
 		}
 		return names;
 	}

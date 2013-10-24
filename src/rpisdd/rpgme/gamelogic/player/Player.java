@@ -13,9 +13,9 @@ public class Player {
 	final static int EXP_PER_LEVEL = 100;
 
 	private static Player player = null;
-	String name;
-	String classs;
-	int avatarId;
+	private String name;
+	private String classs;
+	private int avatarId;
 
 	public QuestManager questManager;
 	public Stats stats;

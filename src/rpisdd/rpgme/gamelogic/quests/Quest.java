@@ -1,15 +1,18 @@
 package rpisdd.rpgme.gamelogic.quests;
 
 import rpisdd.rpgme.gamelogic.player.StatType;
+import org.joda.time.DateTime;
 
 //The Quest class represents a quest that the player can add.
 public class Quest {
 	
-	String name;
-	String description;
-	QuestDifficulty difficulty;
-	StatType statType;
-	boolean isComplete;
+	private String name;
+	private String description;
+	private QuestDifficulty difficulty;
+	private StatType statType;
+	private boolean isComplete;
+	public DateTime startDate;
+	public DateTime endDate;
 	
 	public boolean getIsComplete(){ return isComplete; }
 	public String getName(){ return name; }

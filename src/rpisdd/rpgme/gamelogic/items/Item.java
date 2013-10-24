@@ -2,9 +2,9 @@ package rpisdd.rpgme.gamelogic.items;
 
 public class Item {
 	
-	String name;
-	int price;
-	String imagePath;	//Path to image in assets folder
+	private String name;
+	private int price;
+	private String imagePath;	//Path to image in assets folder
 	
 	public static Item createItemFromName(String aname){
 		Item newItem = null;

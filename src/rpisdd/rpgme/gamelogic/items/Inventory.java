@@ -20,7 +20,7 @@ public class Inventory {
 	
 	//The list of quests that the user has open (i.e. not yet completed but still avaiable to complete)
 	//Unless specified, all method will refer to these quests.
-	ArrayList<Item> items;
+	private ArrayList<Item> items;
 	
 	public Inventory(){ 
 		items = new ArrayList<Item>();  
