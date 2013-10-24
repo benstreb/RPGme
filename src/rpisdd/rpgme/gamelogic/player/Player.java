@@ -62,7 +62,7 @@ public class Player {
 	 * returns the player's current energy
 	 */
 	public int getEnergy() {
-		return stats.baseEnergy;
+		return stats.getBaseEnergy();
 	}
 
 	/*
@@ -100,15 +100,15 @@ public class Player {
 	 * Returns total exp accumulated.
 	 */
 	public int getTotalExp() {
-		return stats.totalExp;
+		return stats.getExp();
 	}
 
 	/*
 	 * Increases earned exp
 	 */
 	public void addExp(int amount) {
-		stats.totalExp += amount;
-		if (stats.totalExp > getExpForLevel(getLevel())) {
+		stats.incExp(amount);
+		if (stats.getExp() > getExpForLevel(getLevel())) {
 			levelUp();
 		}
 	}
@@ -117,7 +117,7 @@ public class Player {
 	 * Returns the player's level
 	 */
 	public int getLevel() {
-		return stats.level;
+		return stats.getLevel();
 	}
 
 	/*
@@ -125,7 +125,7 @@ public class Player {
 	 */
 	public void levelUp() {
 		incMaxEnergy(5);
-		stats.level++;
+		stats.incrementLevel();
 	}
 
 	// Stat functions/////////////////////////////////////////////
@@ -134,70 +134,70 @@ public class Player {
 	 * Returns player's max energy
 	 */
 	public int getMaxEnergy() {
-		return stats.baseEnergy;
+		return stats.getBaseEnergy();
 	}
 
 	/*
 	 * Increases the player's max energy
 	 */
 	public void incMaxEnergy(int amount) {
-		stats.baseEnergy += amount;
+		stats.incBaseEnergy(amount);
 	}
 
 	/*
 	 * Returns the player's strength
 	 */
 	public int getStrength() {
-		return stats.baseStrength;
+		return stats.getBaseStr();
 	}
 
 	/*
 	 * Increases the player's strength
 	 */
 	public void incStrength(int amount) {
-		stats.baseStrength += amount;
+		stats.incBaseStr(amount);
 	}
 
 	/*
 	 * Returns the player's intelligence
 	 */
 	public int getInt() {
-		return stats.baseIntelligence;
+		return stats.getBaseInt();
 	}
 
 	/*
 	 * Increases the player's intelligence
 	 */
 	public void incInt(int amount) {
-		stats.baseIntelligence += amount;
+		stats.incBaseInt(amount);
 	}
 
 	/*
 	 * Returns the player's will
 	 */
 	public int getWill() {
-		return stats.baseWill;
+		return stats.getBaseWill();
 	}
 
 	/*
 	 * Increases the player's will
 	 */
 	public void incWill(int amount) {
-		stats.baseWill += amount;
+		stats.incBaseWill(amount);
 	}
 
 	/*
 	 * Returns the player's spirit
 	 */
 	public int getSpirit() {
-		return stats.baseSpirit;
+		return stats.getBaseSpr();
 	}
 
 	/*
 	 * Increases the player's spirit
 	 */
 	public void incSpirit(int amount) {
-		stats.baseSpirit += amount;
+		stats.incBaseSpr(amount);
 	}
 
 	// ///////////////////////////////////////////////

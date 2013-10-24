@@ -171,7 +171,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	}
 	
 	public void sellItemToPlayer(){
-		Player p = Player.getPlayer(this);
+		Player p = Player.getPlayer();
 		
 		if(p.getGold() < itemsInStock[selectedItemIndex].getPrice()){
 			

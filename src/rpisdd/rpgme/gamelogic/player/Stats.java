@@ -6,15 +6,15 @@ import android.content.SharedPreferences.Editor;
 public class Stats 
 {
 	//levels and experience
-	public int level;
-	public int totalExp;
+	private int level;
+	private int totalExp;
 	
 	//The player's base stats. To be displayed in "stats" menu
-	public int baseEnergy;
-	public int baseStrength;
-	public int baseIntelligence;
-	public int baseWill;
-	public int baseSpirit;
+	private int baseEnergy;
+	private int baseStrength;
+	private int baseIntelligence;
+	private int baseWill;
+	private int baseSpirit;
 	
 	public Stats(){}
 	
@@ -45,9 +45,60 @@ public class Stats
 		baseSpirit = aSpirit;
 	}
 	
-	public int getBaseStr()
-	{
+	public int getLevel(){
+		return level;
+	}
+	
+	public void incrementLevel(){
+		level++;
+	}
+	
+	public int getExp(){
+		return totalExp;
+	}
+	
+	public void incExp(int amount){
+		totalExp += amount;
+	}
+	
+	public int getBaseEnergy(){
+		return baseEnergy;
+	}
+	
+	public void incBaseEnergy(int amount){
+		baseEnergy += amount;
+	}
+	
+	public int getBaseStr(){
 		return baseStrength;
+	}
+	
+	public void incBaseStr(int amount){
+		baseStrength = amount;
+	}
+	
+	public int getBaseInt(){
+		return baseIntelligence;
+	}
+	
+	public void incBaseInt(int amount){
+		baseIntelligence = amount;
+	}
+	
+	public int getBaseWill(){
+		return baseWill;
+	}
+	
+	public void incBaseWill(int amount){
+		baseWill = amount;
+	}
+	
+	public int getBaseSpr(){
+		return baseSpirit;
+	}
+	
+	public void incBaseSpr(int amount){
+		baseSpirit = amount;
 	}
 	
 	public static Stats load(SharedPreferences p) {

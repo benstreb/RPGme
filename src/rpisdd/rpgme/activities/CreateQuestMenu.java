@@ -60,7 +60,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
     //Return true if the quest was verified, false otherwise.
 	public boolean verifyAndCreate(){
 
-		Player player = Player.getPlayer(this);
+		Player player = Player.getPlayer();
 		
     	EditText name = (EditText) getView().findViewById(R.id.enterQuestName);
     	EditText desc = (EditText) getView().findViewById(R.id.enterQuestDesc);
