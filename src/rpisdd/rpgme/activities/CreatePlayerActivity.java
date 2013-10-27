@@ -61,6 +61,7 @@ public class CreatePlayerActivity extends Activity {
 	    			((TextView) findViewById(R.id.playerName)).getText(),
 	    			((TextView) findViewById(R.id.playerClass)).getText(),
 	    			avatarId);
+	    	Player.getPlayer().savePlayer(thisActivity);
 	    	startActivity(new Intent(thisActivity, MainActivity.class));
 	    }
 	};

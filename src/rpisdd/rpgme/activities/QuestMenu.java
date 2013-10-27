@@ -2,9 +2,13 @@ package rpisdd.rpgme.activities;
 
 import java.util.ArrayList;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
+import rpisdd.rpgme.gamelogic.quests.DateFormatter;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -41,6 +45,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	Button createQuest;
 	Button deleteQuest;
 	Button completeQuest;
+	Button viewQuest;
 	
 	View selectedQuest;
 
@@ -59,7 +64,9 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		deleteQuest.setOnClickListener(this);
 		completeQuest = (Button) v.findViewById(R.id.completeQuestButton);
 		completeQuest.setOnClickListener(this);
-
+		viewQuest = (Button) v.findViewById(R.id.viewQuestButton);
+		viewQuest.setOnClickListener(this);
+		
 		updateButtons();
 		
 		return v;
@@ -75,9 +82,11 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		if (selectedQuest != null){
 			deleteQuest.setEnabled(true);
 			completeQuest.setEnabled(true);
+			viewQuest.setEnabled(true);
 		} else {
 			deleteQuest.setEnabled(false);
 			completeQuest.setEnabled(false);
+			viewQuest.setEnabled(false);
 		}
 	}
 
@@ -91,11 +100,30 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 	// Take a list of quests, and fill up the list view with those entries
 	public void fillListView(QuestManager quests, View v) {
+		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_list_item_1, quests.getQuestNames());
 
 		setListAdapter(adapter);
 		
+		if(v == null) { return; }
+		
+		View list = v.findViewById(android.R.id.list);
+
+		if(list != null) {
+			ListView myList = (ListView) list;
+
+			//All quests whose deadlines have elapsed, put them in red text and append (failed)
+			for(int i=0;i<myList.getCount();i++) {
+				/*
+				TextView text = (TextView) myList.getAdapter().getView(i,null,null);
+				text.append(" (FAILED");
+				text.setTextColor(Color.RED);
+				*/
+			}
+			
+		}
+		adapter.notifyDataSetChanged();
 		updateButtons();
 	}
 	
@@ -212,6 +240,45 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 			
 			break;
 		}
+		case R.id.viewQuestButton: {
+			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage("View Quest");
+            builder1.setCancelable(true);
+            View viewQuest = LayoutInflater.from(getActivity()).inflate(R.layout.view_quest,null);
+            
+            Quest quest = Player.getPlayer().questManager.getQuestFromName(getSelectedQuestName());
+            
+            ((TextView)viewQuest.findViewById(R.id.viewQuestName)).setText(quest.getName());
+            
+            if(quest.isFailed()) {
+            	((TextView)viewQuest.findViewById(R.id.viewQuestName)).append(" (FAILED)");
+            	((TextView)viewQuest.findViewById(R.id.viewQuestName)).setTextColor(Color.RED);
+            }
+            
+            ((TextView)viewQuest.findViewById(R.id.viewQuestDesc)).setText(quest.getDescription());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestDifficulty)).setText(quest.getDifficulty().toString());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestStatTag)).setText(quest.getStatType().toString());
+            
+            if(quest.isTimed()) {
+        
+            	viewQuest.findViewById(R.id.viewQuestDueDate).setVisibility(View.VISIBLE);
+            	((TextView)viewQuest.findViewById(R.id.viewQuestDeadline)).setText(
+            			DateFormatter.formatDate(quest.getDeadline()));
+            	
+            }
+    
+            builder1.setView(viewQuest);
+            builder1.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                	dialog.cancel();
+                }
+            });
+            
+            AlertDialog alert11 = builder1.create();
+            alert11.show(); 
+            
+		}
 		default:
 			break;
 		}
@@ -234,6 +301,5 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		player.questManager.completeQuest(player, quest);
 		selectedQuest = null;
 		fillListView(player.questManager, getView());
-		
 	}
 }

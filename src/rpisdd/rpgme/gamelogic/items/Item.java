@@ -1,12 +1,9 @@
 package rpisdd.rpgme.gamelogic.items;
 
-public class Item {
-	
-	private String name;
-	private int price;
-	private String imagePath;	//Path to image in assets folder
-	
-	public static Item createItemFromName(String aname){
+import rpisdd.rpgme.gamelogic.player.Player;
+
+public abstract class Item {
+	public static Item createItemFromName(String aname) {
 		Item newItem = null;
 		if(aname.equals("Energy Potion")){
 			newItem = (Item)(new EnergyPotion());
@@ -14,17 +11,12 @@ public class Item {
 		return newItem;
 	}
 	
-	public Item(String aname,int aprice,String aimagePath){
-		name = aname;
-		price = aprice;
-		imagePath = aimagePath;
+	public int getRefundPrice() {
+		return getPrice()/2;
 	}
 	
-	public int getRefundPrice(){
-		return (int)(price * 0.5f);
-	}
-	
-	public String getName(){ return name; }
-	public int getPrice(){ return price; }
-	public String getImagePath(){ return imagePath; }
+	public abstract String getName();
+	public abstract int getPrice();
+	public abstract String getImagePath();
+	public abstract void useMe(Player p);
 }
