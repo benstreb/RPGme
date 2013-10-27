@@ -166,6 +166,7 @@ public class QuestManager {
 		    );
 		Log.i("Debug:", "4");
 		cursor.moveToFirst();
+		quests.clear();
 	    while (!cursor.isAfterLast()) {
 	    	String name = cursor.getString(0);
 	    	String desc = cursor.getString(1);

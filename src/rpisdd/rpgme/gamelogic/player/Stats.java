@@ -101,7 +101,7 @@ public class Stats
 		baseSpirit = amount;
 	}
 	
-	public Stats load(SharedPreferences p) {
+	public static Stats load(SharedPreferences p) {
 		return new Stats(
 				p.getInt("level", 1),
 				p.getInt("exp", 0),
