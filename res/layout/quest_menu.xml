@@ -19,22 +19,21 @@
         android:layout_height="match_parent"
         android:choiceMode="singleChoice" 
         android:listSelector="@android:color/transparent"
-        android:layout_weight="3">
+        android:layout_weight="6">
     </ListView>
 	<TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_weight="3"
+        android:layout_weight="6"
         android:text="No Quests" >
     </TextView>
     
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
-		
 	    <Button
 	        android:id="@+id/createQuestButton"
 	        style="?android:attr/buttonStyleSmall"
@@ -42,7 +41,6 @@
 	        android:layout_height="wrap_content"
 	        android:onClick = "onClickCreate"
 	        android:text="Create New" />
-	
 	    <Button
 	        android:id="@+id/deleteQuestButton"
 	        style="?android:attr/buttonStyleSmall"
@@ -50,7 +48,12 @@
 	        android:layout_height="wrap_content"
 	        android:onClick="onClickDelete"
 	        android:text="Delete" />
-	
+    </LinearLayout>
+    
+ 	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 	    <Button
 	        android:id="@+id/completeQuestButton"
 	        style="?android:attr/buttonStyleSmall"
@@ -58,8 +61,13 @@
 	        android:layout_height="wrap_content"
 	        android:onClick="onClickComplete"
 	        android:text="Complete" />
-	        
+	    <Button
+	        android:id="@+id/viewQuestButton"
+	        style="?android:attr/buttonStyleSmall"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="onClickView"
+	        android:text="View" />        
     </LinearLayout>
     
-
 </LinearLayout>

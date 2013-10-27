@@ -2,6 +2,8 @@ package rpisdd.rpgme.gamelogic.quests;
 
 import java.util.ArrayList;
 
+import org.joda.time.DateTime;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -132,15 +134,15 @@ public class QuestManager {
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Log.i("Debug:", "2");
 		
+		/*
+		 * Only uncomment this line of code if you've made a change to the database structure in code and
+		 * are running the updated app for the first time, or if you want to erase the current database in the phone/emu.
+		 * In a real deployment setting if you plan to provide updates for the app where new columns are added
+		 * in the database in code, you should have a plan to backup and save the user's data first.
+		*/
+		mDbHelper.dropTable(db);
+
 		mDbHelper.onCreate(db);
-		
-		//Only uncomment this line of code if you've made a change to the database structure in code and
-		//are running the updated app for the first time, or if you want to erase the current database in the phone/emu.
-		//In a real deployment setting if you plan to provide updates for the app where new columns are added
-		//in the database in code, you should have a plan to backup and save the user's data first.
-		
-		//mDbHelper.dropTable(db);
-		
 		
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
@@ -149,7 +151,8 @@ public class QuestManager {
 		    QuestFeedEntry.COLUMN_NAME_QUEST_DESC,
 		    QuestFeedEntry.COLUMN_NAME_QUEST_TYPE,
 		    QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY,
-		    QuestFeedEntry.COLUMN_NAME_IS_COMPLETED
+		    QuestFeedEntry.COLUMN_NAME_IS_COMPLETED,
+		    QuestFeedEntry.COLUMN_NAME_DEADLINE
 		    };
 		Log.i("Debug:", "3");
 		Cursor cursor = db.query(
@@ -169,6 +172,11 @@ public class QuestManager {
 	    	StatType type = StatType.stringToType(cursor.getString(2));
 	    	QuestDifficulty diff = QuestDifficulty.stringToDifficulty(cursor.getString(3));
 	    	int completed = cursor.getInt(4);
+	    	String deadlineStr = cursor.getString(5);
+	    	DateTime deadline = null;
+	    	if(deadlineStr != null) {
+	    		deadline = new DateTime(deadlineStr);
+	    	}
 	    	
 	    	Log.i("Debug:", "Loaded quest '" + name + "' from database:");
 			Log.i("Debug:", "	Name= '" + name);
@@ -177,8 +185,13 @@ public class QuestManager {
 			Log.i("Debug:", "	Difficulty= '" + type.toString());
 			Log.i("Debug:", "	Completed= '" + Integer.toString(completed));
 			
-	    	Quest quest = new Quest(name,desc,diff,type,(completed!=0));
-	    	
+			Quest quest;
+			
+			if(deadline == null) 
+				quest = new Quest(name,desc,diff,type,(completed!=0));
+			else 
+				quest = new Quest(name,desc,diff,type,(completed!=0),deadline);
+			
 	    	if(completed == 0)
 	    		quests.add(quest);
 	    	else
@@ -215,6 +228,9 @@ public class QuestManager {
 			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_TYPE, allQuests.get(i).getStatType().toString());
 			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY, allQuests.get(i).getDifficulty().toString());
 			values.put(QuestFeedEntry.COLUMN_NAME_IS_COMPLETED, (allQuests.get(i).getIsComplete() ? 1 : 0) );
+			
+			if(allQuests.get(i).isTimed())
+				values.put(QuestFeedEntry.COLUMN_NAME_DEADLINE, allQuests.get(i).getDeadline().toString() );
 			
 			Log.i("Debug:", "Saved quest '" + allQuests.get(i).getName() + "' in database:");
 			Log.i("Debug:", "	Name= '" + allQuests.get(i).getName());

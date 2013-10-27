@@ -22,6 +22,7 @@ public class QuestDatabase extends SQLiteOpenHelper  {
         public static final String COLUMN_NAME_QUEST_TYPE = "stat_type";
         public static final String COLUMN_NAME_QUEST_DIFFICULTY = "difficulty";
         public static final String COLUMN_NAME_IS_COMPLETED = "completed";	//0 = false, 1 = true
+        public static final String COLUMN_NAME_DEADLINE = "deadline";
     }
 
 	private String TEXT_TYPE = " TEXT";
@@ -33,7 +34,8 @@ public class QuestDatabase extends SQLiteOpenHelper  {
 	    QuestFeedEntry.COLUMN_NAME_QUEST_DESC + TEXT_TYPE + COMMA_SEP +
 	    QuestFeedEntry.COLUMN_NAME_QUEST_TYPE + TEXT_TYPE + COMMA_SEP +
 	    QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY + TEXT_TYPE + COMMA_SEP +
-	    QuestFeedEntry.COLUMN_NAME_IS_COMPLETED + TEXT_TYPE +
+	    QuestFeedEntry.COLUMN_NAME_IS_COMPLETED + TEXT_TYPE + COMMA_SEP +
+	    QuestFeedEntry.COLUMN_NAME_DEADLINE + TEXT_TYPE +
 	    " )";
 
 	private String SQL_DELETE_ENTRIES =
