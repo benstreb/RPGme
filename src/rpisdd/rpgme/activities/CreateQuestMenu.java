@@ -22,20 +22,23 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class CreateQuestMenu extends Fragment implements OnClickListener {
 	
-	Button confirmCreate;
-	Button cancel;
-	Button clearDateTime;
-	Button changeDateTime;
+	private final String noDateSet = "(Not Set)";
 	
-	TextView deadlineView;
+	private Button confirmCreate;
+	private Button cancel;
+	private Button clearDateTime;
+	private Button changeDateTime;
+	
+	private TextView deadlineView;
 
-	DateTime deadline;
+	private DateTime deadline;
 	
 	public CreateQuestMenu(){}
 
@@ -66,6 +69,8 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			if (verifyAndCreate()) {
 				((MainActivity) getActivity()).changeFragment(new QuestMenu());
 			}
+			//Scroll the view all the way up so user sees the error
+			((ScrollView)getView().findViewById(R.id.createQuestScrollView)).smoothScrollTo(0,0);
 			break;
 		}
 		case R.id.cancelCreateQuest: {
@@ -73,7 +78,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			break;
 		}
 		case R.id.removeQuestDeadline: {
-			deadlineView.setText("(None Set)");
+			deadlineView.setText(noDateSet);
 			break;
 		}
 		case R.id.changeQuestDeadline: {
@@ -179,7 +184,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			error.setVisibility(View.VISIBLE);
 			error.setText("Error: That name is used by another quest");
 			return false;
-		} else if (isBadTime(deadline)) {
+		} else if ( !((String)deadlineView.getText()).equals(noDateSet) && isBadTime(deadline)) {
 			badTimePopup();
 			return false;
 		}
@@ -191,7 +196,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 
 		Quest newQuest = null;
 
-		if (deadlineStr.equals("(None Set)")) {
+		if (deadlineStr.equals(noDateSet)) {
 			newQuest = new Quest(name.getText().toString(), desc.getText()
 					.toString(), quest_diff, type);
 			Log.i("Debug", "Created non-timed quest");
