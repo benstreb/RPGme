@@ -10,6 +10,7 @@ import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.DateFormatter;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
+import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -197,12 +198,11 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Quest newQuest = null;
 
 		if (deadlineStr.equals(noDateSet)) {
-			newQuest = new Quest(name.getText().toString(), desc.getText()
-					.toString(), quest_diff, type);
+			newQuest = new Quest(name.getText().toString(),desc.getText().toString(),quest_diff,type);
 			Log.i("Debug", "Created non-timed quest");
 		} else {
-			newQuest = new Quest(name.getText().toString(), desc.getText()
-					.toString(), quest_diff, type, deadline);
+			newQuest = new QuestBuilder(name.getText().toString(), desc.getText()
+					.toString(), quest_diff, type).deadline(deadline).getQuest();
 			Log.i("Debug", "Created timed quest with time " + deadline);
 		}
 

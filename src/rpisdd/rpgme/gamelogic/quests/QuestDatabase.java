@@ -57,6 +57,19 @@ public class QuestDatabase extends SQLiteOpenHelper  {
     	onCreate(db);
     }
 
+    //This method will add any columns to the database that don't exist.
+    //These won't wipe out the current data stored, so don't need to worry about backing up data.
+    public void updateColumns(SQLiteDatabase db) {
+    	
+    	Cursor cursor = db.rawQuery( "SELECT * FROM " + QuestFeedEntry.TABLE_NAME + " LIMIT 0", null );
+
+    	//If there's no deadline column: add it
+    	if(cursor.getColumnIndex(QuestFeedEntry.COLUMN_NAME_DEADLINE) == -1) {
+    		db.execSQL("ALTER TABLE " + QuestFeedEntry.TABLE_NAME + " ADD COLUMN" + QuestFeedEntry.COLUMN_NAME_DEADLINE + "TEXT");
+    	}
+    	
+    }
+    
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
