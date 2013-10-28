@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import com.squareup.picasso.Picasso;
+
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.DateFormatter;
@@ -13,6 +16,7 @@ import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -48,6 +53,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	Button viewQuest;
 	
 	View selectedQuest;
+	Quest currentQuest;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,8 +87,11 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		}
 		if (selectedQuest != null){
 			deleteQuest.setEnabled(true);
-			completeQuest.setEnabled(true);
 			viewQuest.setEnabled(true);
+			if(currentQuest != null && currentQuest.isFailed())
+				completeQuest.setEnabled(false);
+			else
+				completeQuest.setEnabled(true);
 		} else {
 			deleteQuest.setEnabled(false);
 			completeQuest.setEnabled(false);
@@ -101,11 +110,12 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	// Take a list of quests, and fill up the list view with those entries
 	public void fillListView(QuestManager quests, View v) {
 		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-				android.R.layout.simple_list_item_1, quests.getQuestNames());
+		QuestAdapter adapter = new QuestAdapter(getActivity(),
+				R.layout.quest_list_item, quests.getQuests());
 
 		setListAdapter(adapter);
 		
+		/*
 		if(v == null) { return; }
 		
 		View list = v.findViewById(android.R.id.list);
@@ -115,17 +125,49 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 			//All quests whose deadlines have elapsed, put them in red text and append (failed)
 			for(int i=0;i<myList.getCount();i++) {
-				/*
+				
 				TextView text = (TextView) myList.getAdapter().getView(i,null,null);
 				text.append(" (FAILED");
 				text.setTextColor(Color.RED);
-				*/
+				
 			}
 			
 		}
 		adapter.notifyDataSetChanged();
+		*/
 		updateButtons();
 	}
+	
+	private class QuestAdapter extends ArrayAdapter<Quest> {
+
+		ArrayList<Quest> quests;
+		
+        public QuestAdapter(Context context, int textViewResourceId, ArrayList<Quest> quests) {
+                super(context, textViewResourceId, quests);
+                this.quests = quests;
+        }
+        
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+                View v = convertView;
+                if(v == null){
+                    v = LayoutInflater.from(getActivity()).inflate(R.layout.quest_list_item, null);
+                }
+                Quest q = quests.get(position);
+                if (q != null) {
+                    TextView name = (TextView) v.findViewById(R.id.questListItemName);
+                    if(q.isFailed()) {
+                    	name.setText(q.getName() + " (FAILED)");  
+                    	name.setTextColor(Color.RED);
+                    }
+                    else {
+                    	name.setText(q.getName()); 
+                    }
+                }
+                return v;
+        }
+	}
+	
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -139,13 +181,11 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 		v.setSelected(true);
 		selectedQuest = v;
+		currentQuest = Player.getPlayer().questManager.getQuests().get(position);
 		
 		updateButtons();
 	}
 
-	public String getSelectedQuestName() {
-		return ((TextView) selectedQuest).getText().toString();
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -246,24 +286,22 @@ public class QuestMenu extends ListFragment implements OnClickListener {
             builder1.setCancelable(true);
             View viewQuest = LayoutInflater.from(getActivity()).inflate(R.layout.view_quest,null);
             
-            Quest quest = Player.getPlayer().questManager.getQuestFromName(getSelectedQuestName());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestName)).setText(currentQuest.getName());
             
-            ((TextView)viewQuest.findViewById(R.id.viewQuestName)).setText(quest.getName());
-            
-            if(quest.isFailed()) {
+            if(currentQuest.isFailed()) {
             	((TextView)viewQuest.findViewById(R.id.viewQuestName)).append(" (FAILED)");
             	((TextView)viewQuest.findViewById(R.id.viewQuestName)).setTextColor(Color.RED);
             }
             
-            ((TextView)viewQuest.findViewById(R.id.viewQuestDesc)).setText(quest.getDescription());
-            ((TextView)viewQuest.findViewById(R.id.viewQuestDifficulty)).setText(quest.getDifficulty().toString());
-            ((TextView)viewQuest.findViewById(R.id.viewQuestStatTag)).setText(quest.getStatType().toString());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestDesc)).setText(currentQuest.getDescription());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestDifficulty)).setText(currentQuest.getDifficulty().toString());
+            ((TextView)viewQuest.findViewById(R.id.viewQuestStatTag)).setText(currentQuest.getStatType().toString());
             
-            if(quest.isTimed()) {
+            if(currentQuest.isTimed()) {
         
             	viewQuest.findViewById(R.id.viewQuestDueDate).setVisibility(View.VISIBLE);
             	((TextView)viewQuest.findViewById(R.id.viewQuestDeadline)).setText(
-            			DateFormatter.formatDate(quest.getDeadline()));
+            			DateFormatter.formatDate(currentQuest.getDeadline()));
             	
             }
     
@@ -285,21 +323,18 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	}
 	
 	public void removeQuest(){
-
 		Player player = Player.getPlayer();
-		Quest quest = player.questManager
-				.getQuestFromName(getSelectedQuestName());
-		player.questManager.removeQuest(quest);
+		player.questManager.removeQuest(currentQuest);
 		selectedQuest = null;
+		currentQuest = null;
 		fillListView(player.questManager, getView());
 	}
 	
 	public void completeQuest(){
 		Player player = Player.getPlayer();
-		Quest quest = player.questManager
-				.getQuestFromName(getSelectedQuestName());
-		player.questManager.completeQuest(player, quest);
+		player.questManager.completeQuest(player, currentQuest);
 		selectedQuest = null;
+		currentQuest = null;
 		fillListView(player.questManager, getView());
 	}
 }

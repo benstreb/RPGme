@@ -12,6 +12,7 @@ import android.util.Log;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.QuestDatabase.QuestFeedEntry;
+import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
 
 //The QuestManager manages the player's current quests, much like with how
 //the Inventory manages the player's items.
@@ -134,14 +135,9 @@ public class QuestManager {
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Log.i("Debug:", "2");
 		
-		/*
-		 * Only uncomment this line of code if you've made a change to the database structure in code and
-		 * are running the updated app for the first time, or if you want to erase the current database in the phone/emu.
-		 * In a real deployment setting if you plan to provide updates for the app where new columns are added
-		 * in the database in code, you should have a plan to backup and save the user's data first.
-		*/
-		mDbHelper.dropTable(db);
-
+		//Make sure current database is up to date by updating the columns.
+		mDbHelper.updateColumns(db);
+		
 		mDbHelper.onCreate(db);
 		
 		// Define a projection that specifies which columns from the database
@@ -189,9 +185,9 @@ public class QuestManager {
 			Quest quest;
 			
 			if(deadline == null) 
-				quest = new Quest(name,desc,diff,type,(completed!=0));
+				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).getQuest();
 			else 
-				quest = new Quest(name,desc,diff,type,(completed!=0),deadline);
+				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).deadline(deadline).getQuest();
 			
 	    	if(completed == 0)
 	    		quests.add(quest);
