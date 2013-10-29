@@ -3,21 +3,21 @@ package rpisdd.rpgme.activities;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
-import android.os.Bundle;
-import android.view.Menu;
-import android.widget.ListView;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 //This is the main activity of the game, that will host the various menus and such.
 public class MainActivity extends FragmentActivity {
@@ -65,12 +65,14 @@ public class MainActivity extends FragmentActivity {
 				R.string.drawer_close // "close drawer" description for
 										// accessibility
 		) {
+			@Override
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to
 											// onPrepareOptionsMenu()
 			}
 
+			@Override
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu(); // creates call to
@@ -106,7 +108,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the nav drawer is open, hide action items related to the content
 		// view
-		//boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		// boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

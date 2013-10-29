@@ -2,9 +2,10 @@ package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,22 +14,24 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class CreatePlayerActivity extends Activity {
 	private int avatarId = R.id.avatar1;
 	private Activity thisActivity = this;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_player);
 		// Show the Up button in the action bar.
 		setupActionBar();
-	    // Register the onClick listener with the implementation above
-	    ((ImageButton) findViewById(R.id.avatar1)).setOnClickListener(avatar1Listener);
-	    ((ImageButton) findViewById(R.id.avatar2)).setOnClickListener(avatar2Listener);
-	    ((Button) findViewById(R.id.submitButton)).setOnClickListener(submitListener);
+		// Register the onClick listener with the implementation above
+		((ImageButton) findViewById(R.id.avatar1))
+				.setOnClickListener(avatar1Listener);
+		((ImageButton) findViewById(R.id.avatar2))
+				.setOnClickListener(avatar2Listener);
+		((Button) findViewById(R.id.submitButton))
+				.setOnClickListener(submitListener);
 	}
 
 	/**
@@ -44,26 +47,29 @@ public class CreatePlayerActivity extends Activity {
 		getMenuInflater().inflate(R.menu.create_player, menu);
 		return true;
 	}
-	
+
 	private OnClickListener avatar1Listener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	setAvatarId(R.drawable.av_f1_avatar);
-	    }
+		@Override
+		public void onClick(View v) {
+			setAvatarId(R.drawable.av_f1_avatar);
+		}
 	};
 	private OnClickListener avatar2Listener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	setAvatarId(R.drawable.av_m1_avatar);
-	    }
+		@Override
+		public void onClick(View v) {
+			setAvatarId(R.drawable.av_m1_avatar);
+		}
 	};
 	private OnClickListener submitListener = new OnClickListener() {
-	    public void onClick(View v) {
-	    	Player.createPlayer(
-	    			((TextView) findViewById(R.id.playerName)).getText(),
-	    			((TextView) findViewById(R.id.playerClass)).getText(),
-	    			avatarId);
-	    	Player.getPlayer().savePlayer(thisActivity);
-	    	startActivity(new Intent(thisActivity, MainActivity.class));
-	    }
+		@Override
+		public void onClick(View v) {
+			Player.createPlayer(
+					((TextView) findViewById(R.id.playerName)).getText(),
+					((TextView) findViewById(R.id.playerClass)).getText(),
+					avatarId);
+			Player.getPlayer().savePlayer(thisActivity);
+			startActivity(new Intent(thisActivity, MainActivity.class));
+		}
 	};
 
 	@Override
@@ -82,7 +88,7 @@ public class CreatePlayerActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private int setAvatarId(int id) {
 		this.avatarId = id;
 		ImageView avatarView = ((ImageView) findViewById(R.id.playerAvatar));

@@ -3,13 +3,14 @@ package rpisdd.rpgme.gamelogic.items;
 import rpisdd.rpgme.gamelogic.player.Player;
 
 public class Consumable extends Item {
-	public static final Consumable ENERGY_POTION = new Consumable("Energy Potion", 50,
-			"potion_energy.gif", new Doer() {
+	public static final Consumable ENERGY_POTION = new Consumable(
+			"Energy Potion", 50, "potion_energy.gif", new Doer() {
+				@Override
 				public void doIt(Player p) {
 					p.addEnergy(100);
 				}
 			});
-	
+
 	public static final void loadConsumables() {
 	}
 

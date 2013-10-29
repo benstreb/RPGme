@@ -1,16 +1,14 @@
 package rpisdd.rpgme.activities;
 
 import org.joda.time.DateTime;
-import org.joda.time.ReadableDateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.DateFormatter;
 import rpisdd.rpgme.gamelogic.quests.Quest;
-import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
+import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -18,8 +16,8 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,19 +27,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class CreateQuestMenu extends Fragment implements OnClickListener {
-	
+
 	private final String noDateSet = "(Not Set)";
-	
+
 	private Button confirmCreate;
 	private Button cancel;
 	private Button clearDateTime;
 	private Button changeDateTime;
-	
+
 	private TextView deadlineView;
 
 	private DateTime deadline;
-	
-	public CreateQuestMenu(){}
+
+	public CreateQuestMenu() {
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,12 +66,13 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.confirmCreateQuest: {
 			// Verified quest: Switch back to Quest Menu
-			Log.i("Debug","Blah");
+			Log.i("Debug", "Blah");
 			if (verifyAndCreate()) {
 				((MainActivity) getActivity()).changeFragment(new QuestMenu());
 			}
-			//Scroll the view all the way up so user sees the error
-			((ScrollView)getView().findViewById(R.id.createQuestScrollView)).smoothScrollTo(0,0);
+			// Scroll the view all the way up so user sees the error
+			((ScrollView) getView().findViewById(R.id.createQuestScrollView))
+					.smoothScrollTo(0, 0);
 			break;
 		}
 		case R.id.cancelCreateQuest: {
@@ -109,6 +109,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 
 		builder1.setPositiveButton("Set",
 				new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int id) {
 
 						// Note: 0 is January, 11 is December
@@ -126,7 +127,8 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 						if (isBadTime(deadline)) {
 							badTimePopup();
 						} else {
-							deadlineView.setText(DateFormatter.formatDate(deadline));
+							deadlineView.setText(DateFormatter
+									.formatDate(deadline));
 							dialog.cancel();
 						}
 					}
@@ -134,6 +136,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 
 		builder1.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						dialog.cancel();
 					}
@@ -154,6 +157,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		builder2.setMessage("Error: The deadline you entered has already passed!");
 		builder2.setCancelable(true);
 		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.cancel();
 			}
@@ -180,13 +184,15 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			error.setText("Error: Enter in a name");
 			error.setVisibility(View.VISIBLE);
 			return false;
-		} else if (player.getQuestManager().isNameUsed(name.getText().toString())) {
+		} else if (player.getQuestManager().isNameUsed(
+				name.getText().toString())) {
 			TextView error = (TextView) getView().findViewById(
 					R.id.createQuestError);
 			error.setVisibility(View.VISIBLE);
 			error.setText("Error: That name is used by another quest");
 			return false;
-		} else if ( !((String)deadlineView.getText()).equals(noDateSet) && isBadTime(deadline)) {
+		} else if (!((String) deadlineView.getText()).equals(noDateSet)
+				&& isBadTime(deadline)) {
 			badTimePopup();
 			return false;
 		}
@@ -199,11 +205,13 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Quest newQuest = null;
 
 		if (deadlineStr.equals(noDateSet)) {
-			newQuest = new QuestBuilder(name.getText().toString(),desc.getText().toString(),quest_diff,type).build();
+			newQuest = new QuestBuilder(name.getText().toString(), desc
+					.getText().toString(), quest_diff, type).build();
 			Log.i("Debug", "Created non-timed quest");
 		} else {
-			newQuest = new QuestBuilder(name.getText().toString(), desc.getText()
-					.toString(), quest_diff, type).deadline(deadline).build();
+			newQuest = new QuestBuilder(name.getText().toString(), desc
+					.getText().toString(), quest_diff, type).deadline(deadline)
+					.build();
 			Log.i("Debug", "Created timed quest with time " + deadline);
 		}
 
