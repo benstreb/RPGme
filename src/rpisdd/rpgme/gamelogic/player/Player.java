@@ -231,7 +231,7 @@ public class Player {
 	public void savePlayer(Activity activity) {
 		questManager.saveQuestsToDatabase(activity);
 		inventory.saveItemsToDatabase(activity);
-		SharedPreferences p = activity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences p = activity.getSharedPreferences("player", Context.MODE_PRIVATE);
 		Editor e = p.edit();
 		stats.save(e);
 		e.putString("name", name);
@@ -242,14 +242,14 @@ public class Player {
 	}
 
 	public static void loadPlayer(Activity activity) {
-		SharedPreferences pref = activity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences pref = activity.getSharedPreferences("player", Context.MODE_PRIVATE);
 		assert pref.getBoolean("playerExists", false);
 		Player p = new Player(pref.getString("name", "Missingno"),
 				pref.getString("class", "Bird, Water"), pref.getInt("avatarId",
 						R.drawable.splash_screen));
 		p.questManager.loadQuestsFromDatabase(activity);
 		p.inventory.loadItemsFromDatabase(activity);
-		p.stats = Stats.load(pref);
+		p.stats.load(pref);
 		player = p;
 	}
 

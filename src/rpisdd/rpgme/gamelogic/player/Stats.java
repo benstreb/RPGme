@@ -6,15 +6,15 @@ import android.content.SharedPreferences.Editor;
 public class Stats 
 {
 	//levels and experience
-	private int level;
-	private int totalExp;
+	private int level = 1;
+	private int totalExp = 0;
 	
 	//The player's base stats. To be displayed in "stats" menu
-	private int baseEnergy;
-	private int baseStrength;
-	private int baseIntelligence;
-	private int baseWill;
-	private int baseSpirit;
+	private int baseEnergy = 10;
+	private int baseStrength = 1;
+	private int baseIntelligence = 1;
+	private int baseWill = 1;
+	private int baseSpirit = 1;
 	
 	public Stats(){}
 	
@@ -101,15 +101,13 @@ public class Stats
 		baseSpirit = amount;
 	}
 	
-	public static Stats load(SharedPreferences p) {
-		return new Stats(
-				p.getInt("level", 1),
-				p.getInt("exp", 0),
-				p.getInt("str", 1),
-				p.getInt("int", 1),
-				p.getInt("wil", 1),
-				p.getInt("spi", 1)
-				);
+	public void load(SharedPreferences p) {
+		this.level = p.getInt("level", 1);
+		this.totalExp = p.getInt("exp", 0);
+		this.baseStrength = p.getInt("str", 1);
+		this.baseIntelligence = p.getInt("int", 1);
+		this.baseWill = p.getInt("wil", 1);
+		this.baseSpirit = p.getInt("spi", 1);
 	}
 
 	public void save(Editor e) {
