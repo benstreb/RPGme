@@ -190,10 +190,10 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	           
 	           return;
 		}
-		else if(p.inventory.isInventoryFull()) {
+		else if(p.getInventory().isInventoryFull()) {
 			
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-	           builder1.setMessage("Your inventory is full!");
+	           builder1.setMessage("Your getInventory() is full!");
 	           builder1.setCancelable(true);
 	           builder1.setPositiveButton("OK",
 	                   new DialogInterface.OnClickListener() {
@@ -208,7 +208,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	           return;
 		}
 		
-		p.inventory.addItem(itemsInStock[selectedItemIndex]);
+		p.getInventory().addItem(itemsInStock[selectedItemIndex]);
 		p.deductGold(itemsInStock[selectedItemIndex].getPrice());
 	}
 	

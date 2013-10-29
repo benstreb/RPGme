@@ -88,8 +88,8 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Player.getPlayer().questManager.saveQuestsToDatabase(this);
-		Player.getPlayer().inventory.saveItemsToDatabase(this);
+		Player.getPlayer().getQuests().saveQuestsToDatabase(this);
+		Player.getPlayer().getInventory().saveItemsToDatabase(this);
 	}
 
 	@Override

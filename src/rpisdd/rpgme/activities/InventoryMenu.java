@@ -78,7 +78,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		
 		Player p = Player.getPlayer();
 		ItemAdapter adapter = new ItemAdapter(getActivity(),
-				R.layout.shop_item,p.inventory.getItems());
+				R.layout.shop_item,p.getInventory().getItems());
 		
 		setListAdapter(adapter);
 		
@@ -196,14 +196,14 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	
 	public void sellItemToShop(){
 		Player p = Player.getPlayer();
-		p.addGold(p.inventory.getItems().get(selectedItemIndex).getRefundPrice());
-		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
+		p.addGold(p.getInventory().getItems().get(selectedItemIndex).getRefundPrice());
+		p.getInventory().removeItem(p.getInventory().getItems().get(selectedItemIndex));
 		fillListView(getView());
 	}
 	
 	public void useItem(){
 		Player p = Player.getPlayer();
-		p.inventory.removeItem(p.inventory.getItems().get(selectedItemIndex));
+		p.getInventory().removeItem(p.getInventory().getItems().get(selectedItemIndex));
 		//Add code to use item here...
 		
 		fillListView(getView());

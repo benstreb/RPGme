@@ -17,9 +17,9 @@ public class Player {
 	private String classs;
 	private int avatarId;
 
-	public QuestManager questManager;
-	public Stats stats;
-	public Inventory inventory;
+	private QuestManager questManager;
+	private Stats stats;
+	private Inventory inventory;
 
 	private int gold;
 	private int energy;
@@ -33,6 +33,18 @@ public class Player {
 		this.stats = new Stats();
 		this.gold = 100;
 		this.energy = 10;
+	}
+	
+	public QuestManager getQuests() {
+		return questManager;
+	}
+	
+	public Stats getStats() {
+		return stats;
+	}
+	
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	public String getName() {
