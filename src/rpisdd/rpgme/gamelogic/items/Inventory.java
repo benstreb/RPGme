@@ -39,6 +39,9 @@ public class Inventory {
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
+	public void removeAt(int at) {
+		items.remove(at);
+	}
 	
 	public Equipment equipWeapon(Equipment e) {
 		Equipment old = weapon;

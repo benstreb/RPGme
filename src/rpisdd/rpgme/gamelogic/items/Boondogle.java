@@ -18,7 +18,7 @@ public class Boondogle extends Item {
 		return false;
 	}
 	@Override
-	public void useMe(Player p) {
+	public void useMe(Player p, int index) {
 		Log.e("items", "Trying to use a boondogle.");
 	}
 

@@ -51,5 +51,5 @@ public abstract class Item {
 	public boolean isUsable() {
 		return true;
 	}
-	public abstract void useMe(Player p);
+	public abstract void useMe(Player p, int index);
 }

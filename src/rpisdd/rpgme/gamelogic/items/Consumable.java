@@ -25,9 +25,9 @@ public class Consumable extends Item {
 	}
 
 	@Override
-	public void useMe(Player p) {
-		assert p.getInventory().getItems().contains(this);
+	public void useMe(Player p, int index) {
+		assert p.getInventory().getItems().get(index) == this;
 		action.doIt(p);
-		p.getInventory().removeItem(this);
+		p.getInventory().removeAt(index);
 	}
 }

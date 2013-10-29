@@ -58,12 +58,17 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	
 	//Will enable or disable buttons, depending on the situation.
 	public void updateButtons(){
+		Item i = Player.getPlayer().getInventory().getItems().get(selectedItemIndex);
 		if (selectedItem == null){
 			sell.setEnabled(false);
 			use.setEnabled(false);
 		} else {
 			sell.setEnabled(true);
-			use.setEnabled(true);
+			if (i.isUsable()) {
+				use.setEnabled(true);
+			} else {
+				use.setEnabled(false);
+			}
 		}
 	}
 	
@@ -197,14 +202,13 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	public void sellItemToShop(){
 		Player p = Player.getPlayer();
 		p.addGold(p.getInventory().getItems().get(selectedItemIndex).getRefundPrice());
-		p.getInventory().removeItem(p.getInventory().getItems().get(selectedItemIndex));
+		p.getInventory().removeAt(selectedItemIndex);
 		fillListView(getView());
 	}
 	
 	public void useItem(){
 		Player p = Player.getPlayer();
-		p.getInventory().removeItem(p.getInventory().getItems().get(selectedItemIndex));
-		//Add code to use item here...
+		p.getInventory().getItems().get(selectedItemIndex).useMe(p, selectedItemIndex);
 		
 		fillListView(getView());
 	}

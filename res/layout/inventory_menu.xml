@@ -23,20 +23,18 @@
 
     <Button
         android:id="@+id/useItem"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Use Item" />
-    
+        android:layout_alignParentLeft="true"
+        android:text="@string/useItem" />
+
     <Button
         android:id="@+id/sellItem"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@id/useItem"
-        android:text="Sell Item" />
-    
+        android:layout_alignParentRight="true"
+        android:text="@string/sellItem" />
 
 </RelativeLayout>
