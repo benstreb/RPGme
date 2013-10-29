@@ -25,16 +25,17 @@ public class Quest {
 		return isTimed() && DateTime.now().isAfter(deadline);
 	}
 	
-	public Quest() {
-	}
-	
 	//Create a normal quest with no special attributes.
-	public Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype) {
+	private Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype, boolean isComplete, DateTime adeadline) {
 		name = aname;
 		description = adesc;
 		difficulty = adiff;
 		statType = atype;
+		deadline = adeadline;
 		isComplete = false;
+		if (deadline != null) {
+			deadline = null;
+		}
 	}
 
 	/*
@@ -74,25 +75,32 @@ public class Quest {
 	//Builder class to streamline quest creation
 	//Usage: Quest myQuest = new QuestBuilder("Name","Desc",difficulty,type).isComplete(true).deadline(deadline).(and so on...).getQuest()
 	public static class QuestBuilder {
-		
-		private Quest quest;
+		String name;
+		String desc;
+		QuestDifficulty difficulty;
+		StatType type;
+		boolean isComplete = false;
+		DateTime deadline = null;
 		
 		public QuestBuilder(String aname,String adesc,QuestDifficulty adiff,StatType atype) {
-			quest = new Quest(aname,adesc,adiff,atype);
+			name = aname;
+			desc = adesc;
+			difficulty = adiff;
+			type = atype;
 		}
 		
 		public QuestBuilder isComplete(boolean aIsComplete) {
-			quest.isComplete = aIsComplete;
+			isComplete = aIsComplete;
 			return this;
 		}
 		
 		public QuestBuilder deadline(DateTime aDeadline) {
-			quest.deadline = aDeadline;
+			deadline = aDeadline;
 			return this;
 		}
 		
-		public Quest getQuest() {
-			return quest;
+		public Quest build() {
+			return new Quest(name, desc, difficulty, type, isComplete, deadline);
 		}
 		
 	}

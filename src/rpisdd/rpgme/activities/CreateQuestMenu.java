@@ -179,7 +179,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			error.setText("Error: Enter in a name");
 			error.setVisibility(View.VISIBLE);
 			return false;
-		} else if (player.questManager.isNameUsed(name.getText().toString())) {
+		} else if (player.getQuests().isNameUsed(name.getText().toString())) {
 			TextView error = (TextView) getView().findViewById(
 					R.id.createQuestError);
 			error.setVisibility(View.VISIBLE);
@@ -198,15 +198,15 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Quest newQuest = null;
 
 		if (deadlineStr.equals(noDateSet)) {
-			newQuest = new Quest(name.getText().toString(),desc.getText().toString(),quest_diff,type);
+			newQuest = new QuestBuilder(name.getText().toString(),desc.getText().toString(),quest_diff,type).build();
 			Log.i("Debug", "Created non-timed quest");
 		} else {
 			newQuest = new QuestBuilder(name.getText().toString(), desc.getText()
-					.toString(), quest_diff, type).deadline(deadline).getQuest();
+					.toString(), quest_diff, type).deadline(deadline).build();
 			Log.i("Debug", "Created timed quest with time " + deadline);
 		}
 
-		player.questManager.addQuest(newQuest);
+		player.getQuests().addQuest(newQuest);
 
 		return true;
 

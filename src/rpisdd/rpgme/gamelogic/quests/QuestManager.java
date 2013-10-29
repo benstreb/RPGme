@@ -185,9 +185,9 @@ public class QuestManager {
 			Quest quest;
 			
 			if(deadline == null) 
-				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).getQuest();
+				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).build();
 			else 
-				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).deadline(deadline).getQuest();
+				quest = new QuestBuilder(name,desc,diff,type).isComplete(completed!=0).deadline(deadline).build();
 			
 	    	if(completed == 0)
 	    		quests.add(quest);
