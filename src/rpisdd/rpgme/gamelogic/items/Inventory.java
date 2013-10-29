@@ -3,10 +3,6 @@ package rpisdd.rpgme.gamelogic.items;
 import java.util.ArrayList;
 
 import rpisdd.rpgme.gamelogic.items.ItemDatabase.ItemFeedEntry;
-import rpisdd.rpgme.gamelogic.player.StatType;
-import rpisdd.rpgme.gamelogic.quests.Quest;
-import rpisdd.rpgme.gamelogic.quests.QuestDatabase;
-import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -22,6 +18,7 @@ public class Inventory {
 	// still avaiable to complete)
 	// Unless specified, all method will refer to these quests.
 	private ArrayList<Item> items;
+	private Equipment weapon, armor;
 
 	public Inventory() {
 		items = new ArrayList<Item>();
@@ -42,7 +39,25 @@ public class Inventory {
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
-
+	
+	public Equipment equipWeapon(Equipment e) {
+		Equipment old = weapon;
+		this.weapon = e;
+		return old;
+	}
+	public Equipment getWeapon() {
+		return this.weapon;
+	}
+	
+	public Equipment equipArmor(Equipment e) {
+		Equipment old = armor;
+		this.armor = e;
+		return old;
+	}
+	public Equipment getArmor() {
+		return this.armor;
+	}
+	
 	public boolean isInventoryFull() {
 		return numItems() >= maxInventorySlots;
 	}
@@ -123,8 +138,7 @@ public class Inventory {
 
 			// Insert the new row, returning the primary key value of the new
 			// row
-			long newRowId;
-			newRowId = db.insert(ItemFeedEntry.TABLE_NAME, "null", values);
+			db.insert(ItemFeedEntry.TABLE_NAME, "null", values);
 		}
 
 		// Make sure to close the database when done

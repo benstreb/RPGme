@@ -4,9 +4,6 @@ import com.squareup.picasso.Picasso;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
-import rpisdd.rpgme.gamelogic.quests.Quest;
-import rpisdd.rpgme.gamelogic.quests.QuestManager;
-import rpisdd.rpgme.gamelogic.items.EnergyPotion;
 import rpisdd.rpgme.gamelogic.items.Item;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,7 +11,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +32,9 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	//Load in the items that the shop stocks from external XML
 	public void setItems(){
 		
-		itemsInStock = new Item[1];
-		itemsInStock[0] = (Item)(new EnergyPotion());
+		itemsInStock = new Item[2];
+		itemsInStock[0] = Item.createItemFromName("Energy Potion");
+		itemsInStock[1] = Item.createItemFromName("Small Sword");
 	}
 
 	public ShopMenu() {}

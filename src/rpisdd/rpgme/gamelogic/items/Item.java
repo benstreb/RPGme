@@ -1,22 +1,55 @@
 package rpisdd.rpgme.gamelogic.items;
 
+import java.util.HashMap;
+
+import android.util.Log;
 import rpisdd.rpgme.gamelogic.player.Player;
 
 public abstract class Item {
+	private final String name;
+	private final int price;
+	private final String imagePath;
+	
+	//No really, we need to do this, at least for the current architecture.
+	//Even though it looks really stupid if you look at the methods called...
+	public static final void load() {
+		Equipment.loadEquipment();
+		Consumable.loadConsumables();
+		Boondogle.loadBoondogles();
+	}
+	
+	private static final HashMap<String, Item> allItems = new HashMap<String, Item>();
 	public static Item createItemFromName(String aname) {
-		Item newItem = null;
-		if(aname.equals("Energy Potion")){
-			newItem = (Item)(new EnergyPotion());
+		if (allItems.containsKey(aname)) {
+			return allItems.get(aname);
+		} else {
+			Log.e("items", "Trying to create an item that doesn't exist.");
+			return Boondogle.INVALID;
 		}
-		return newItem;
+	}
+	
+	protected Item(String name, int price, String imageName) {
+		this.name = name;
+		this.price = price;
+		this.imagePath = "file:///android_asset/Items/" + imageName;
+		allItems.put(name, this);
 	}
 	
 	public int getRefundPrice() {
 		return getPrice()/2;
 	}
 	
-	public abstract String getName();
-	public abstract int getPrice();
-	public abstract String getImagePath();
+	public String getName() {
+		return name;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public String getImagePath() {
+		return imagePath;
+	}
+	public boolean isUsable() {
+		return true;
+	}
 	public abstract void useMe(Player p);
 }

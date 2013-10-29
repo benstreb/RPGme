@@ -1,6 +1,7 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.master_layout);
 
+		Item.load();
 		Player.loadPlayer(this);
 
 		mTitle = mDrawerTitle = getTitle();

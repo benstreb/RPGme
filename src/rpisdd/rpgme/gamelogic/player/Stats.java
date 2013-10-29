@@ -121,5 +121,28 @@ public class Stats
 		e.putInt("spi", baseSpirit);
 	}
 	
-	
+	public static class Mod {
+		public final int str;
+		public final int intel;
+		public final int will;
+		public final int spirit;
+		private Mod(int str, int intel, int will, int spirit) {
+			this.str = str;
+			this.intel = intel;
+			this.will = will;
+			this.spirit = spirit;
+		}
+		public static Mod strMod(int amount) {
+			return new Mod(amount, 0, 0, 0);
+		}
+		public static Mod intelMod(int amount) {
+			return new Mod(0, amount, 0, 0);
+		}
+		public static Mod willMod(int amount) {
+			return new Mod(0, 0, amount, 0);
+		}
+		public static Mod spiritMod(int amount) {
+			return new Mod(0, 0, 0, amount);
+		}
+	}
 }
