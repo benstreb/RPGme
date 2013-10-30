@@ -77,7 +77,7 @@ public class Stats {
 	}
 
 	public void incBaseStr(int amount) {
-		baseStrength = amount;
+		baseStrength += amount;
 	}
 
 	public int getBaseInt() {
@@ -85,7 +85,7 @@ public class Stats {
 	}
 
 	public void incBaseInt(int amount) {
-		baseIntelligence = amount;
+		baseIntelligence += amount;
 	}
 
 	public int getBaseWill() {
@@ -93,7 +93,7 @@ public class Stats {
 	}
 
 	public void incBaseWill(int amount) {
-		baseWill = amount;
+		baseWill += amount;
 	}
 
 	public int getBaseSpr() {
@@ -101,7 +101,7 @@ public class Stats {
 	}
 
 	public void incBaseSpr(int amount) {
-		baseSpirit = amount;
+		baseSpirit += amount;
 	}
 
 	public void load(SharedPreferences p) {

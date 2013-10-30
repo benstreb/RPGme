@@ -10,12 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class StatsMenu extends Fragment {
 
 	public StatsMenu() {
 	}
 
 	ImageView avatarImage;
+	ImageView weaponImage;
+	ImageView armorImage;
 
 	TextView strengthWidget;
 	TextView intWidget;
@@ -51,8 +55,30 @@ public class StatsMenu extends Fragment {
 
 		String playerName = thePlayer.getName();
 
+		// draw the avatar and their equipment
 		avatarImage = (ImageView) v.findViewById(R.id.avatarView);
 		avatarImage.setImageResource(avatarId);
+
+		weaponImage = (ImageView) v.findViewById(R.id.weaponView);
+		String weaponName = "";
+		if (thePlayer.getInventory().getWeapon() != null) {
+			weaponName = thePlayer.getInventory().getWeapon().getImagePath();
+			Picasso.with(getActivity()).load(weaponName).into(weaponImage);
+		} else {
+			weaponName = "invalid.png";
+			weaponImage.setVisibility(View.INVISIBLE);
+		}
+
+		armorImage = (ImageView) v.findViewById(R.id.armorView);
+		String armorName = "";
+		if (thePlayer.getInventory().getArmor() != null) {
+			armorName = thePlayer.getInventory().getArmor().getImagePath();
+			Picasso.with(getActivity()).load(armorName).into(armorImage);
+		} else {
+			armorName = "invalid.png";
+			armorImage.setVisibility(View.INVISIBLE);
+		}
+
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
 		strengthWidget.setText("Strength: " + currentStr);
