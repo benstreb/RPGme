@@ -39,36 +39,40 @@ public class Inventory {
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
+
 	public void removeAt(int at) {
 		items.remove(at);
 	}
-	
+
 	public Equipment equipWeapon(Equipment e) {
 		Equipment old = weapon;
 		this.weapon = e;
 		return old;
 	}
+
 	public Equipment getWeapon() {
 		return this.weapon;
 	}
-	
+
 	public Equipment equipArmor(Equipment e) {
 		Equipment old = armor;
 		this.armor = e;
 		return old;
 	}
+
 	public Equipment getArmor() {
 		return this.armor;
 	}
-	
+
 	public boolean isInventoryFull() {
 		return numItems() >= maxInventorySlots;
 	}
 
 	public void loadItemsFromDatabase(Activity activity) {
 
-		if (items == null)
+		if (items == null) {
 			items = new ArrayList<Item>();
+		}
 		ItemDatabase mDbHelper = new ItemDatabase(activity);
 		Log.i("Debug:", "1");
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();

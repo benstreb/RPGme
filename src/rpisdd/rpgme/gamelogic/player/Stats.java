@@ -3,104 +3,107 @@ package rpisdd.rpgme.gamelogic.player;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-public class Stats 
-{
-	//levels and experience
+public class Stats {
+	// levels and experience
 	private int level = 1;
 	private int totalExp = 0;
-	
-	//The player's base stats. To be displayed in "stats" menu
+
+	// The player's base stats. To be displayed in "stats" menu
 	private int baseEnergy = 10;
 	private int baseStrength = 1;
 	private int baseIntelligence = 1;
 	private int baseWill = 1;
 	private int baseSpirit = 1;
-	
-	public Stats(){}
-	
-	public Stats(int aStrength,int aIntel,int aWill,int aSpirit){
+
+	public Stats() {
+	}
+
+	public Stats(int aStrength, int aIntel, int aWill, int aSpirit) {
 		this(1, 0, aStrength, aIntel, aWill, aSpirit);
 		baseEnergy = 10;
 	}
-	
-	public Stats(int aLevel, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit) {
+
+	public Stats(int aLevel, int aTotal, int aStrength, int aIntel, int aWill,
+			int aSpirit) {
 		level = aLevel;
 		totalExp = aTotal;
-		
+
 		baseStrength = aStrength;
 		baseIntelligence = aIntel;
 		baseWill = aWill;
 		baseSpirit = aSpirit;
 	}
-	
-	//aName and aToNext are just ignored, so don't use this function. I'll remove it later.
+
+	// aName and aToNext are just ignored, so don't use this function. I'll
+	// remove it later.
 	@Deprecated
-	public Stats(String aName, int aLevel, int aToNext, int aTotal, int aStrength,int aIntel,int aWill,int aSpirit){
+	public Stats(String aName, int aLevel, int aToNext, int aTotal,
+			int aStrength, int aIntel, int aWill, int aSpirit) {
 		level = aLevel;
 		totalExp = aTotal;
-		
+
 		baseStrength = aStrength;
 		baseIntelligence = aIntel;
 		baseWill = aWill;
 		baseSpirit = aSpirit;
 	}
-	
-	public int getLevel(){
+
+	public int getLevel() {
 		return level;
 	}
-	
-	public void incrementLevel(){
+
+	public void incrementLevel() {
 		level++;
 	}
-	
-	public int getExp(){
+
+	public int getExp() {
 		return totalExp;
 	}
-	
-	public void incExp(int amount){
+
+	public void incExp(int amount) {
 		totalExp += amount;
 	}
-	
-	public int getBaseEnergy(){
+
+	public int getBaseEnergy() {
 		return baseEnergy;
 	}
-	
-	public void incBaseEnergy(int amount){
+
+	public void incBaseEnergy(int amount) {
 		baseEnergy += amount;
 	}
-	
-	public int getBaseStr(){
+
+	public int getBaseStr() {
 		return baseStrength;
 	}
-	
-	public void incBaseStr(int amount){
+
+	public void incBaseStr(int amount) {
 		baseStrength = amount;
 	}
-	
-	public int getBaseInt(){
+
+	public int getBaseInt() {
 		return baseIntelligence;
 	}
-	
-	public void incBaseInt(int amount){
+
+	public void incBaseInt(int amount) {
 		baseIntelligence = amount;
 	}
-	
-	public int getBaseWill(){
+
+	public int getBaseWill() {
 		return baseWill;
 	}
-	
-	public void incBaseWill(int amount){
+
+	public void incBaseWill(int amount) {
 		baseWill = amount;
 	}
-	
-	public int getBaseSpr(){
+
+	public int getBaseSpr() {
 		return baseSpirit;
 	}
-	
-	public void incBaseSpr(int amount){
+
+	public void incBaseSpr(int amount) {
 		baseSpirit = amount;
 	}
-	
+
 	public void load(SharedPreferences p) {
 		this.level = p.getInt("level", 1);
 		this.totalExp = p.getInt("exp", 0);
@@ -118,27 +121,32 @@ public class Stats
 		e.putInt("wil", baseWill);
 		e.putInt("spi", baseSpirit);
 	}
-	
+
 	public static class Mod {
 		public final int str;
 		public final int intel;
 		public final int will;
 		public final int spirit;
+
 		private Mod(int str, int intel, int will, int spirit) {
 			this.str = str;
 			this.intel = intel;
 			this.will = will;
 			this.spirit = spirit;
 		}
+
 		public static Mod strMod(int amount) {
 			return new Mod(amount, 0, 0, 0);
 		}
+
 		public static Mod intelMod(int amount) {
 			return new Mod(0, amount, 0, 0);
 		}
+
 		public static Mod willMod(int amount) {
 			return new Mod(0, 0, amount, 0);
 		}
+
 		public static Mod spiritMod(int amount) {
 			return new Mod(0, 0, 0, amount);
 		}
