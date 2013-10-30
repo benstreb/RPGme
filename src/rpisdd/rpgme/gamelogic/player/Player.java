@@ -35,7 +35,7 @@ public class Player {
 		this.energy = 10;
 	}
 	
-	public QuestManager getQuests() {
+	public QuestManager getQuestManager() {
 		return questManager;
 	}
 	

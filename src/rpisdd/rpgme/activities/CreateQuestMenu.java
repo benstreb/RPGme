@@ -179,7 +179,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			error.setText("Error: Enter in a name");
 			error.setVisibility(View.VISIBLE);
 			return false;
-		} else if (player.getQuests().isNameUsed(name.getText().toString())) {
+		} else if (player.getQuestManager().isNameUsed(name.getText().toString())) {
 			TextView error = (TextView) getView().findViewById(
 					R.id.createQuestError);
 			error.setVisibility(View.VISIBLE);
@@ -206,7 +206,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 			Log.i("Debug", "Created timed quest with time " + deadline);
 		}
 
-		player.getQuests().addQuest(newQuest);
+		player.getQuestManager().addQuest(newQuest);
 
 		return true;
 

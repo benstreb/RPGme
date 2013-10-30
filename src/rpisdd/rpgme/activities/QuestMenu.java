@@ -80,7 +80,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	
 	//Will enable or disable buttons, depending on the situation.
 	public void updateButtons(){
-		if (Player.getPlayer().getQuests().atMaxNumQuests()) {
+		if (Player.getPlayer().getQuestManager().atMaxNumQuests()) {
 			createQuest.setEnabled(false);
 		} else {
 			createQuest.setEnabled(true);
@@ -102,7 +102,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	@Override
 	public void onResume() {
 
-		fillListView(Player.getPlayer().getQuests(), getView());
+		fillListView(Player.getPlayer().getQuestManager(), getView());
 
 		super.onResume();
 	}
@@ -111,7 +111,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	public void fillListView(QuestManager quests, View v) {
 		
 		QuestAdapter adapter = new QuestAdapter(getActivity(),
-				R.layout.quest_list_item, quests.getQuests());
+				R.layout.quest_list_item, quests.getQuestManager());
 
 		setListAdapter(adapter);
 		
@@ -181,7 +181,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 		v.setSelected(true);
 		selectedQuest = v;
-		currentQuest = Player.getPlayer().getQuests().getQuests().get(position);
+		currentQuest = Player.getPlayer().getQuestManager().getQuestManager().get(position);
 		
 		updateButtons();
 	}
@@ -324,17 +324,17 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	
 	public void removeQuest(){
 		Player player = Player.getPlayer();
-		player.getQuests().removeQuest(currentQuest);
+		player.getQuestManager().removeQuest(currentQuest);
 		selectedQuest = null;
 		currentQuest = null;
-		fillListView(player.getQuests(), getView());
+		fillListView(player.getQuestManager(), getView());
 	}
 	
 	public void completeQuest(){
 		Player player = Player.getPlayer();
-		player.getQuests().completeQuest(player, currentQuest);
+		player.getQuestManager().completeQuest(player, currentQuest);
 		selectedQuest = null;
 		currentQuest = null;
-		fillListView(player.getQuests(), getView());
+		fillListView(player.getQuestManager(), getView());
 	}
 }
