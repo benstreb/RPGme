@@ -67,6 +67,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.confirmCreateQuest: {
 			// Verified quest: Switch back to Quest Menu
+			Log.i("Debug","Blah");
 			if (verifyAndCreate()) {
 				((MainActivity) getActivity()).changeFragment(new QuestMenu());
 			}

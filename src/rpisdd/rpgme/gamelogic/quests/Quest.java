@@ -26,16 +26,13 @@ public class Quest {
 	}
 	
 	//Create a normal quest with no special attributes.
-	private Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype, boolean isComplete, DateTime adeadline) {
+	private Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype, boolean aIsComplete, DateTime adeadline) {
 		name = aname;
 		description = adesc;
 		difficulty = adiff;
 		statType = atype;
 		deadline = adeadline;
-		isComplete = false;
-		if (deadline != null) {
-			deadline = null;
-		}
+		isComplete = aIsComplete;
 	}
 
 	/*
