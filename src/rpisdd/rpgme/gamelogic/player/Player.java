@@ -35,6 +35,10 @@ public class Player {
 		this.energy = 10;
 	}
 	
+	public int getAvatar(){
+		return this.avatarId;
+	}
+	
 	public QuestManager getQuests() {
 		return questManager;
 	}
