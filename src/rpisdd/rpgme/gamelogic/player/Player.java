@@ -122,10 +122,10 @@ public class Player {
 	/*
 	 * Increases earned exp
 	 */
-	public void addExp(int amount) {
+	public void addExp(int amount,Reward reward) {
 		stats.incExp(amount);
 		if (stats.getExp() > getExpForLevel(getLevel())) {
-			levelUp();
+			levelUp(reward);
 		}
 	}
 
@@ -139,9 +139,12 @@ public class Player {
 	/*
 	 * Levels up the player
 	 */
-	public void levelUp() {
+	public void levelUp(Reward reward) {
 		incMaxEnergy(5);
 		stats.incrementLevel();
+		reward.setEnergyGained(5);
+		reward.setNewLevel(stats.getLevel());
+		reward.setIsLevelUp(true);
 	}
 
 	// Stat functions/////////////////////////////////////////////
@@ -214,6 +217,23 @@ public class Player {
 	 */
 	public void incSpirit(int amount) {
 		stats.incBaseSpr(amount);
+	}
+	
+	public int getStat(StatType type) {
+		
+		switch(type)
+		{	
+		case STRENGTH:
+			return getStrength();
+		case INTELLIGENCE:
+			return getInt();
+		case WILL:
+			return getWill();
+		case SPIRIT:
+			return getSpirit();
+		default:
+			return -1;
+		}
 	}
 
 	// ///////////////////////////////////////////////

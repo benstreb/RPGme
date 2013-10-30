@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.QuestDatabase.QuestFeedEntry;
 import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
@@ -97,11 +98,12 @@ public class QuestManager {
 	}
 	
 	//Complete the quest, rewarding the player.
-	public void completeQuest(Player player, Quest quest){
-		quest.completeQuest();
+	public Reward completeQuest(Player player, Quest quest){
+		Reward reward = quest.completeQuest();
 		//Add to completed quests, remove from current quests
 		completedQuests.add(quest);
 		quests.remove(quest);
+		return reward;
 	}
 	
 	//Return a string array of the quest names.

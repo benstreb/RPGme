@@ -30,7 +30,7 @@ import android.widget.TimePicker;
 
 public class CreateQuestMenu extends Fragment implements OnClickListener {
 	
-	private final String noDateSet = "(Not Set)";
+	private final String noDateSet = "(None Set)";
 	
 	private Button confirmCreate;
 	private Button cancel;
@@ -67,7 +67,6 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.confirmCreateQuest: {
 			// Verified quest: Switch back to Quest Menu
-			Log.i("Debug","Blah");
 			if (verifyAndCreate()) {
 				((MainActivity) getActivity()).changeFragment(new QuestMenu());
 			}
@@ -174,6 +173,13 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Spinner diff = (Spinner) getView()
 				.findViewById(R.id.difficultyDropDown);
 
+		if( ((String)deadlineView.getText()).equals(noDateSet) ) {
+			Log.i("Debug", "The deadline text eqlas noDateSet.");
+		}
+		else
+			Log.i("Debug","not so");
+		Log.i("Debug", (String)deadlineView.getText() + "=" + noDateSet);
+		
 		if (name.getText().toString().equals("")) {
 			TextView error = (TextView) getView().findViewById(
 					R.id.createQuestError);

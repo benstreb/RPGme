@@ -65,12 +65,14 @@ public class Quest {
 	}
 	*/
 	
-	public void completeQuest() {
+	public Reward completeQuest() {
+		
 		isComplete = true;
 		Player thePlayer = Player.getPlayer();
+		int increaseGoldBy = 0;
 		int increaseStatBy;
 		int increaseExpBy;
-		String statIncreased;
+		
 		switch(this.difficulty)
 		{
 		case EASY:
@@ -106,13 +108,21 @@ public class Quest {
 			break;
 		default:	
 		}
+
+		Reward reward = new Reward();
 		
-		statIncreased = statType.toString();
-		thePlayer.addExp(increaseExpBy);
+		reward.setGoldIncrease(increaseGoldBy);
+		reward.setExpIncrease(increaseExpBy);
+		reward.setStatIncrease(increaseStatBy);
+		reward.setStatType(this.statType);
+		
+		thePlayer.addExp(increaseExpBy,reward);
+		
+		return reward;
 	}
 	
 	//Builder class to streamline quest creation
-	//Usage: Quest myQuest = new QuestBuilder("Name","Desc",difficulty,type).isComplete(true).deadline(deadline).(and so on...).getQuest()
+	//Usage: Quest myQuest = new QuestBuilder("Name","Desc",difficulty,type).isComplete(true).deadline(deadline).(and so on...).build()
 	public static class QuestBuilder {
 		String name;
 		String desc;

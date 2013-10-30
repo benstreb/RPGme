@@ -18,10 +18,16 @@
         android:layout_below="@id/title"
         android:text="You gained 0 experience points." />
     <TextView
-        android:id="@+id/stats"
+        android:id="@+id/goldGained"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/expGained"
         android:text="You earned 0 gold." />
+   	<TextView
+        android:id="@+id/statsGained"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/goldGained"
+        android:text="Stats Gained: " />
     
 </RelativeLayout>
