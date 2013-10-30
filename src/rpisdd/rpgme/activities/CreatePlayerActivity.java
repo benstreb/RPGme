@@ -47,12 +47,12 @@ public class CreatePlayerActivity extends Activity {
 	
 	private OnClickListener avatar1Listener = new OnClickListener() {
 	    public void onClick(View v) {
-	    	setAvatarId(R.drawable.ic_drawer);
+	    	setAvatarId(R.drawable.av_f1_avatar);
 	    }
 	};
 	private OnClickListener avatar2Listener = new OnClickListener() {
 	    public void onClick(View v) {
-	    	setAvatarId(R.drawable.ic_drawer);
+	    	setAvatarId(R.drawable.av_m1_avatar);
 	    }
 	};
 	private OnClickListener submitListener = new OnClickListener() {

@@ -39,26 +39,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/nameDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/strengthDisplay"
-        android:layout_alignLeft="@+id/strengthDisplay"
-        android:layout_marginBottom="5dp"
-        android:text="Name: "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/strengthDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/intDisplay"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="48dp"
-        android:text="Strength:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
         android:id="@+id/willDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,5 +79,33 @@
         android:layout_alignParentBottom="true"
         android:text="Gold: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/nameDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/strengthDisplay"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="66dp"
+            android:text="Name: "
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/strengthDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/intDisplay"
+            android:layout_alignLeft="@+id/nameDisplay"
+            android:text="Strength:"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/avatarView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/levelDisplay"
+            android:layout_below="@+id/intDisplay"
+            android:contentDescription="image of avatar"
+            android:src="@drawable/av_m1_avatar" />
 
 </RelativeLayout>

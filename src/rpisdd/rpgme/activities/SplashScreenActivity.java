@@ -30,7 +30,7 @@ public class SplashScreenActivity extends Activity implements OnTouchListener {
 	@Override
 	public boolean onTouchEvent(MotionEvent arg1) {
 		SharedPreferences pref = this.getPreferences(Context.MODE_PRIVATE);
-		if (pref.getBoolean("playerExists", false)) {
+		if (!pref.getBoolean("playerExists", false)) {
 			startActivity(new Intent(this, CreatePlayerActivity.class));
 		} else {
 			Player.loadPlayer(this);

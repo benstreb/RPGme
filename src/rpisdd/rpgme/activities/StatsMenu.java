@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 public class StatsMenu extends Fragment {
 
 	public StatsMenu() {
 	}
+	ImageView avatarImage;
 
 	TextView strengthWidget;
 	TextView intWidget;
@@ -35,7 +37,7 @@ public class StatsMenu extends Fragment {
 		View v = inflater.inflate(R.layout.stats_menu, container, false);
 
 		Player thePlayer = Player.getPlayer();
-
+		
 		// get stats from player
 		int currentStr = thePlayer.getStrength();
 		int currentInt = thePlayer.getInt();
@@ -47,9 +49,12 @@ public class StatsMenu extends Fragment {
 		int total = thePlayer.getTotalExp();
 
 		int gold = thePlayer.getGold();
+		int avatarId = thePlayer.getAvatar();
 
 		String playerName = thePlayer.getName();
 
+		avatarImage = (ImageView) v.findViewById(R.id.avatarView);
+		avatarImage.setImageResource(avatarId);
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
 		strengthWidget.setText("Strength: " + currentStr);
