@@ -1,13 +1,13 @@
 package rpisdd.rpgme.gamelogic.player;
 
+import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.items.Inventory;
+import rpisdd.rpgme.gamelogic.quests.QuestManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v4.app.Fragment;
-import rpisdd.rpgme.R;
-import rpisdd.rpgme.gamelogic.items.Inventory;
-import rpisdd.rpgme.gamelogic.quests.QuestManager;
 
 public class Player {
 	final static int EXP_PER_LEVEL = 100;
@@ -34,19 +34,19 @@ public class Player {
 		this.gold = 100;
 		this.energy = 10;
 	}
-	
-	public int getAvatar(){
+
+	public int getAvatar() {
 		return this.avatarId;
 	}
-	
+
 	public QuestManager getQuestManager() {
 		return questManager;
 	}
-	
+
 	public Stats getStats() {
 		return stats;
 	}
-	
+
 	public Inventory getInventory() {
 		return inventory;
 	}
@@ -251,7 +251,8 @@ public class Player {
 	public void savePlayer(Activity activity) {
 		questManager.saveQuestsToDatabase(activity);
 		inventory.saveItemsToDatabase(activity);
-		SharedPreferences p = activity.getSharedPreferences("player", Context.MODE_PRIVATE);
+		SharedPreferences p = activity.getSharedPreferences("player",
+				Context.MODE_PRIVATE);
 		Editor e = p.edit();
 		stats.save(e);
 		e.putString("name", name);
@@ -262,7 +263,8 @@ public class Player {
 	}
 
 	public static void loadPlayer(Activity activity) {
-		SharedPreferences pref = activity.getSharedPreferences("player", Context.MODE_PRIVATE);
+		SharedPreferences pref = activity.getSharedPreferences("player",
+				Context.MODE_PRIVATE);
 		assert pref.getBoolean("playerExists", false);
 		Player p = new Player(pref.getString("name", "Missingno"),
 				pref.getString("class", "Bird, Water"), pref.getInt("avatarId",

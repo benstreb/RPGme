@@ -1,32 +1,56 @@
 package rpisdd.rpgme.gamelogic.quests;
 
-import rpisdd.rpgme.gamelogic.player.*;
 import org.joda.time.DateTime;
+
+import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.Reward;
+import rpisdd.rpgme.gamelogic.player.StatType;
 
 //The Quest class represents a quest that the player can add.
 public class Quest {
-	
+
 	private String name;
 	private String description;
 	private QuestDifficulty difficulty;
 	private StatType statType;
 	private boolean isComplete;
 	public DateTime deadline;
-	
-	public boolean getIsComplete(){ return isComplete; }
-	public String getName(){ return name; }
-	public String getDescription(){ return description; }
-	public QuestDifficulty getDifficulty(){ return difficulty; }
-	public StatType getStatType(){ return statType; }
-	public boolean isTimed(){ return deadline != null; }
-	public DateTime getDeadline(){ return deadline; }
-	
+
+	public boolean getIsComplete() {
+		return isComplete;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public QuestDifficulty getDifficulty() {
+		return difficulty;
+	}
+
+	public StatType getStatType() {
+		return statType;
+	}
+
+	public boolean isTimed() {
+		return deadline != null;
+	}
+
+	public DateTime getDeadline() {
+		return deadline;
+	}
+
 	public boolean isFailed() {
 		return isTimed() && DateTime.now().isAfter(deadline);
 	}
-	
-	//Create a normal quest with no special attributes.
-	private Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype, boolean aIsComplete, DateTime adeadline) {
+
+	// Create a normal quest with no special attributes.
+	private Quest(String aname, String adesc, QuestDifficulty adiff,
+			StatType atype, boolean aIsComplete, DateTime adeadline) {
 		name = aname;
 		description = adesc;
 		difficulty = adiff;
@@ -66,13 +90,11 @@ public class Quest {
 	*/
 	
 	public Reward completeQuest() {
-		
 		isComplete = true;
 		Player thePlayer = Player.getPlayer();
 		int increaseGoldBy = 0;
 		int increaseStatBy;
 		int increaseExpBy;
-		
 		switch(this.difficulty)
 		{
 		case EASY:
@@ -92,8 +114,7 @@ public class Quest {
 			increaseExpBy = 0;
 		}
 
-		switch(this.statType)
-		{	
+		switch (this.statType) {
 		case STRENGTH:
 			thePlayer.incStrength(increaseStatBy);
 			break;
@@ -106,7 +127,7 @@ public class Quest {
 		case SPIRIT:
 			thePlayer.incSpirit(increaseStatBy);
 			break;
-		default:	
+		default:
 		}
 
 		Reward reward = new Reward();
@@ -120,9 +141,12 @@ public class Quest {
 		
 		return reward;
 	}
-	
-	//Builder class to streamline quest creation
-	//Usage: Quest myQuest = new QuestBuilder("Name","Desc",difficulty,type).isComplete(true).deadline(deadline).(and so on...).build()
+
+
+	// Builder class to streamline quest creation
+	// Usage: Quest myQuest = new
+	// QuestBuilder("Name","Desc",difficulty,type).isComplete(true).deadline(deadline).(and
+	// so on...).getQuest()
 	public static class QuestBuilder {
 		String name;
 		String desc;
@@ -130,28 +154,29 @@ public class Quest {
 		StatType type;
 		boolean isComplete = false;
 		DateTime deadline = null;
-		
-		public QuestBuilder(String aname,String adesc,QuestDifficulty adiff,StatType atype) {
+
+		public QuestBuilder(String aname, String adesc, QuestDifficulty adiff,
+				StatType atype) {
 			name = aname;
 			desc = adesc;
 			difficulty = adiff;
 			type = atype;
 		}
-		
+
 		public QuestBuilder isComplete(boolean aIsComplete) {
 			isComplete = aIsComplete;
 			return this;
 		}
-		
+
 		public QuestBuilder deadline(DateTime aDeadline) {
 			deadline = aDeadline;
 			return this;
 		}
-		
+
 		public Quest build() {
 			return new Quest(name, desc, difficulty, type, isComplete, deadline);
 		}
-		
+
 	}
-	
+
 }

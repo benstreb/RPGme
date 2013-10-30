@@ -28,5 +28,8 @@
     <string name="avatar2">female</string>
     <string name="avatar">Your Avatar</string>
     <string name="submit">Submit</string>
+    <string name="equipItem">equip</string>
+    <string name="sellItem">sell</string>
+    <string name="useItem">use</string>
 
 </resources>

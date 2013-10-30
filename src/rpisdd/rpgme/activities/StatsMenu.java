@@ -2,22 +2,24 @@ package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
-import rpisdd.rpgme.gamelogic.player.Stats;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class StatsMenu extends Fragment {
 
 	public StatsMenu() {
 	}
+
 	ImageView avatarImage;
+	ImageView weaponImage;
+	ImageView armorImage;
 
 	TextView strengthWidget;
 	TextView intWidget;
@@ -37,7 +39,7 @@ public class StatsMenu extends Fragment {
 		View v = inflater.inflate(R.layout.stats_menu, container, false);
 
 		Player thePlayer = Player.getPlayer();
-		
+
 		// get stats from player
 		int currentStr = thePlayer.getStrength();
 		int currentInt = thePlayer.getInt();
@@ -53,8 +55,30 @@ public class StatsMenu extends Fragment {
 
 		String playerName = thePlayer.getName();
 
+		// draw the avatar and their equipment
 		avatarImage = (ImageView) v.findViewById(R.id.avatarView);
 		avatarImage.setImageResource(avatarId);
+
+		weaponImage = (ImageView) v.findViewById(R.id.weaponView);
+		String weaponName = "";
+		if (thePlayer.getInventory().getWeapon() != null) {
+			weaponName = thePlayer.getInventory().getWeapon().getImagePath();
+			Picasso.with(getActivity()).load(weaponName).into(weaponImage);
+		} else {
+			weaponName = "invalid.png";
+			weaponImage.setVisibility(View.INVISIBLE);
+		}
+
+		armorImage = (ImageView) v.findViewById(R.id.armorView);
+		String armorName = "";
+		if (thePlayer.getInventory().getArmor() != null) {
+			armorName = thePlayer.getInventory().getArmor().getImagePath();
+			Picasso.with(getActivity()).load(armorName).into(armorImage);
+		} else {
+			armorName = "invalid.png";
+			armorImage.setVisibility(View.INVISIBLE);
+		}
+
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
 		strengthWidget.setText("Strength: " + currentStr);

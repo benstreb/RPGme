@@ -3,13 +3,14 @@ package rpisdd.rpgme.gamelogic.items;
 import rpisdd.rpgme.gamelogic.player.Player;
 
 public class Consumable extends Item {
-	public static final Consumable ENERGY_POTION = new Consumable("Energy Potion", 50,
-			"potion_energy.gif", new Doer() {
+	public static final Consumable ENERGY_POTION = new Consumable(
+			"Energy Potion", 50, "potion_energy.gif", new Doer() {
+				@Override
 				public void doIt(Player p) {
 					p.addEnergy(100);
 				}
 			});
-	
+
 	public static final void loadConsumables() {
 	}
 
@@ -25,9 +26,9 @@ public class Consumable extends Item {
 	}
 
 	@Override
-	public void useMe(Player p) {
-		assert p.getInventory().getItems().contains(this);
+	public void useMe(Player p, int index) {
+		assert p.getInventory().getItems().get(index) == this;
 		action.doIt(p);
-		p.getInventory().removeItem(this);
+		p.getInventory().removeAt(index);
 	}
 }
