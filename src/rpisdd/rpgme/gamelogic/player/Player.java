@@ -122,7 +122,7 @@ public class Player {
 	/*
 	 * Increases earned exp
 	 */
-	public void addExp(int amount,Reward reward) {
+	public void addExp(int amount, Reward reward) {
 		stats.incExp(amount);
 		if (stats.getExp() > getExpForLevel(getLevel())) {
 			levelUp(reward);
@@ -170,6 +170,22 @@ public class Player {
 		return stats.getBaseStr();
 	}
 
+	public int getStrAtk() {
+		int total = stats.getBaseStr();
+		if (inventory.getWeapon() != null) {
+			total += inventory.getWeapon().getMod().str;
+		}
+		return total;
+	}
+
+	public int getStrDef() {
+		int total = stats.getBaseStr();
+		if (inventory.getArmor() != null) {
+			total += inventory.getArmor().getMod().str;
+		}
+		return total;
+	}
+
 	/*
 	 * Increases the player's strength
 	 */
@@ -182,6 +198,22 @@ public class Player {
 	 */
 	public int getInt() {
 		return stats.getBaseInt();
+	}
+
+	public int getIntAtk() {
+		int total = stats.getBaseInt();
+		if (inventory.getWeapon() != null) {
+			total += inventory.getWeapon().getMod().intel;
+		}
+		return total;
+	}
+
+	public int getIntDef() {
+		int total = stats.getBaseInt();
+		if (inventory.getArmor() != null) {
+			total += inventory.getArmor().getMod().intel;
+		}
+		return total;
 	}
 
 	/*
@@ -198,6 +230,22 @@ public class Player {
 		return stats.getBaseWill();
 	}
 
+	public int getWillAtk() {
+		int total = stats.getBaseWill();
+		if (inventory.getWeapon() != null) {
+			total += inventory.getWeapon().getMod().will;
+		}
+		return total;
+	}
+
+	public int getWillDef() {
+		int total = stats.getBaseWill();
+		if (inventory.getArmor() != null) {
+			total += inventory.getArmor().getMod().will;
+		}
+		return total;
+	}
+
 	/*
 	 * Increases the player's will
 	 */
@@ -212,17 +260,32 @@ public class Player {
 		return stats.getBaseSpr();
 	}
 
+	public int getSprAtk() {
+		int total = stats.getBaseSpr();
+		if (inventory.getWeapon() != null) {
+			total += inventory.getWeapon().getMod().spirit;
+		}
+		return total;
+	}
+
+	public int getSprDef() {
+		int total = stats.getBaseSpr();
+		if (inventory.getArmor() != null) {
+			total += inventory.getArmor().getMod().spirit;
+		}
+		return total;
+	}
+
 	/*
 	 * Increases the player's spirit
 	 */
 	public void incSpirit(int amount) {
 		stats.incBaseSpr(amount);
 	}
-	
+
 	public int getStat(StatType type) {
-		
-		switch(type)
-		{	
+
+		switch (type) {
 		case STRENGTH:
 			return getStrength();
 		case INTELLIGENCE:

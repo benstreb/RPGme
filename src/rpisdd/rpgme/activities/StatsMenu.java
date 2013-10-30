@@ -26,6 +26,9 @@ public class StatsMenu extends Fragment {
 	TextView willWidget;
 	TextView spiritWidget;
 
+	TextView weaponWidget;
+	TextView armorWidget;
+
 	TextView nameWidget;
 	TextView levelWidget;
 	TextView toNextWidget;
@@ -60,24 +63,39 @@ public class StatsMenu extends Fragment {
 		avatarImage.setImageResource(avatarId);
 
 		weaponImage = (ImageView) v.findViewById(R.id.weaponView);
-		String weaponName = "";
+		String weaponPath = "";
 		if (thePlayer.getInventory().getWeapon() != null) {
-			weaponName = thePlayer.getInventory().getWeapon().getImagePath();
-			Picasso.with(getActivity()).load(weaponName).into(weaponImage);
+			weaponPath = thePlayer.getInventory().getWeapon().getImagePath();
+			Picasso.with(getActivity()).load(weaponPath).into(weaponImage);
 		} else {
-			weaponName = "invalid.png";
+			weaponPath = "invalid.png";
 			weaponImage.setVisibility(View.INVISIBLE);
 		}
 
 		armorImage = (ImageView) v.findViewById(R.id.armorView);
-		String armorName = "";
+		String armorPath = "";
 		if (thePlayer.getInventory().getArmor() != null) {
-			armorName = thePlayer.getInventory().getArmor().getImagePath();
-			Picasso.with(getActivity()).load(armorName).into(armorImage);
+			armorPath = thePlayer.getInventory().getArmor().getImagePath();
+			Picasso.with(getActivity()).load(armorPath).into(armorImage);
 		} else {
-			armorName = "invalid.png";
+			armorPath = "invalid.png";
 			armorImage.setVisibility(View.INVISIBLE);
 		}
+
+		// display equipment stats
+		String weaponName = "None";
+		if (thePlayer.getInventory().getWeapon() != null) {
+			weaponName = thePlayer.getInventory().getWeapon().getName();
+		}
+		weaponWidget = (TextView) v.findViewById(R.id.weaponDisplay);
+		weaponWidget.setText("Weapon: " + weaponName);
+
+		String armorName = "None";
+		if (thePlayer.getInventory().getArmor() != null) {
+			armorName = thePlayer.getInventory().getArmor().getName();
+		}
+		armorWidget = (TextView) v.findViewById(R.id.armorDisplay);
+		armorWidget.setText("Armor: " + armorName);
 
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
