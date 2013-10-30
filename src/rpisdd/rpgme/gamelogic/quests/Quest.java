@@ -1,6 +1,6 @@
 package rpisdd.rpgme.gamelogic.quests;
 
-import rpisdd.rpgme.gamelogic.player.StatType;
+import rpisdd.rpgme.gamelogic.player.*;
 import org.joda.time.DateTime;
 
 //The Quest class represents a quest that the player can add.
@@ -67,6 +67,48 @@ public class Quest {
 	
 	public void completeQuest() {
 		isComplete = true;
+		Player thePlayer = Player.getPlayer();
+		int increaseStatBy;
+		int increaseExpBy;
+		String statIncreased;
+		switch(this.difficulty)
+		{
+		case EASY:
+			increaseStatBy = 1;
+			increaseExpBy = 10;
+			break;
+		case NORMAL:
+			increaseStatBy = 2;
+			increaseExpBy = 20;
+			break;
+		case HARD:
+			increaseStatBy = 5;
+			increaseExpBy = 50;
+			break;
+		default:
+			increaseStatBy = 0;
+			increaseExpBy = 0;
+		}
+
+		switch(this.statType)
+		{	
+		case STRENGTH:
+			thePlayer.incStrength(increaseStatBy);
+			break;
+		case INTELLIGENCE:
+			thePlayer.incInt(increaseStatBy);
+			break;
+		case WILL:
+			thePlayer.incWill(increaseStatBy);
+			break;
+		case SPIRIT:
+			thePlayer.incSpirit(increaseStatBy);
+			break;
+		default:	
+		}
+		
+		statIncreased = statType.toString();
+		thePlayer.addExp(increaseExpBy);
 	}
 	
 	//Builder class to streamline quest creation
