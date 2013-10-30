@@ -39,7 +39,7 @@ public class Player {
 		return this.avatarId;
 	}
 	
-	public QuestManager getQuests() {
+	public QuestManager getQuestManager() {
 		return questManager;
 	}
 	
