@@ -3,6 +3,8 @@ package rpisdd.rpgme.activities;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -32,6 +34,9 @@ public class CreatePlayerActivity extends Activity {
 				.setOnClickListener(avatar2Listener);
 		((Button) findViewById(R.id.submitButton))
 				.setOnClickListener(submitListener);
+
+		// set default character image
+		setAvatarId(R.drawable.av_f1_avatar);
 	}
 
 	/**
@@ -63,12 +68,21 @@ public class CreatePlayerActivity extends Activity {
 	private OnClickListener submitListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Player.createPlayer(
-					((TextView) findViewById(R.id.playerName)).getText(),
-					((TextView) findViewById(R.id.playerClass)).getText(),
-					avatarId);
-			Player.getPlayer().savePlayer(thisActivity);
-			startActivity(new Intent(thisActivity, MainActivity.class));
+			if (((TextView) findViewById(R.id.playerName)).getText().length() < 1) {
+				// error
+				badInputPopup("Please enter a name");
+			} else if (((TextView) findViewById(R.id.playerClass)).getText()
+					.length() < 1) {
+				// error
+				badInputPopup("Please enter a class");
+			} else {
+				Player.createPlayer(
+						((TextView) findViewById(R.id.playerName)).getText(),
+						((TextView) findViewById(R.id.playerClass)).getText(),
+						avatarId);
+				Player.getPlayer().savePlayer(thisActivity);
+				startActivity(new Intent(thisActivity, MainActivity.class));
+			}
 		}
 	};
 
@@ -94,5 +108,22 @@ public class CreatePlayerActivity extends Activity {
 		ImageView avatarView = ((ImageView) findViewById(R.id.playerAvatar));
 		avatarView.setImageResource(avatarId);
 		return id;
+	}
+
+	public void badInputPopup(String message) {
+
+		// Bring up a confirmation prompt first
+		AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+		builder2.setMessage(message);
+		builder2.setCancelable(true);
+		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alert2 = builder2.create();
+		alert2.show();
 	}
 }

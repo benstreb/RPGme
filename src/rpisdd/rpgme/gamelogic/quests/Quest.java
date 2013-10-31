@@ -60,52 +60,41 @@ public class Quest {
 	}
 
 	/*
-	//Create a normal quest with no special attributes. (Takes in complete parameter)
-	public Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype,boolean aIsComplete) {
-		name = aname;
-		description = adesc;
-		difficulty = adiff;
-		statType = atype;
-		isComplete = aIsComplete;
-	}
-	
-	//Create a timed quest
-	public Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype,DateTime aDeadline) {
-		name = aname;
-		description = adesc;
-		difficulty = adiff;
-		statType = atype;
-		deadline = aDeadline;
-	}
-	
-	//Create a timed quest
-	public Quest(String aname,String adesc,QuestDifficulty adiff,StatType atype,boolean aIsComplete,DateTime aDeadline) {
-		name = aname;
-		description = adesc;
-		difficulty = adiff;
-		statType = atype;
-		deadline = aDeadline;
-		isComplete = aIsComplete;
-	}
-	*/
-	
+	 * //Create a normal quest with no special attributes. (Takes in complete
+	 * parameter) public Quest(String aname,String adesc,QuestDifficulty
+	 * adiff,StatType atype,boolean aIsComplete) { name = aname; description =
+	 * adesc; difficulty = adiff; statType = atype; isComplete = aIsComplete; }
+	 * 
+	 * //Create a timed quest public Quest(String aname,String
+	 * adesc,QuestDifficulty adiff,StatType atype,DateTime aDeadline) { name =
+	 * aname; description = adesc; difficulty = adiff; statType = atype;
+	 * deadline = aDeadline; }
+	 * 
+	 * //Create a timed quest public Quest(String aname,String
+	 * adesc,QuestDifficulty adiff,StatType atype,boolean aIsComplete,DateTime
+	 * aDeadline) { name = aname; description = adesc; difficulty = adiff;
+	 * statType = atype; deadline = aDeadline; isComplete = aIsComplete; }
+	 */
+
 	public Reward completeQuest() {
 		isComplete = true;
 		Player thePlayer = Player.getPlayer();
 		int increaseGoldBy = 0;
 		int increaseStatBy;
 		int increaseExpBy;
-		switch(this.difficulty)
-		{
+		switch (this.difficulty) {
 		case EASY:
+			increaseGoldBy = 25;
 			increaseStatBy = 1;
 			increaseExpBy = 10;
 			break;
 		case NORMAL:
+			increaseGoldBy = 60;
 			increaseStatBy = 2;
 			increaseExpBy = 20;
 			break;
 		case HARD:
+			increaseGoldBy = 150;
 			increaseStatBy = 5;
 			increaseExpBy = 50;
 			break;
@@ -131,17 +120,17 @@ public class Quest {
 		}
 
 		Reward reward = new Reward();
-		
+
 		reward.setGoldIncrease(increaseGoldBy);
 		reward.setExpIncrease(increaseExpBy);
 		reward.setStatIncrease(increaseStatBy);
 		reward.setStatType(this.statType);
-		
-		thePlayer.addExp(increaseExpBy,reward);
-		
+
+		thePlayer.addGold(increaseGoldBy);
+		thePlayer.addExp(increaseExpBy, reward);
+
 		return reward;
 	}
-
 
 	// Builder class to streamline quest creation
 	// Usage: Quest myQuest = new

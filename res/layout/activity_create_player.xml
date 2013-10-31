@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/playerClass"
         android:layout_below="@+id/playerClass"
-        android:src="@drawable/ic_launcher"
-        android:contentDescription="@string/avatar1" />
+        android:contentDescription="@string/avatar1"
+        android:src="@drawable/av_f1_icon" />
 
     <ImageButton
         android:id="@+id/avatar2"
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/playerClass"
         android:layout_below="@+id/playerClass"
-        android:src="@drawable/ic_launcher"
-        android:contentDescription="@string/avatar2" />
+        android:contentDescription="@string/avatar2"
+        android:src="@drawable/av_m1_icon" />
 
     <ImageView
         android:id="@+id/playerAvatar"
