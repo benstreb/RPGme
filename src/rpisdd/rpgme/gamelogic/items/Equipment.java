@@ -47,6 +47,11 @@ public class Equipment extends Item {
 		p.getInventory().removeAt(index);
 	}
 
+	@Override
+	public boolean isEquipment() {
+		return true;
+	}
+
 	public Stats.Mod getMod() {
 		return this.statMod;
 	}

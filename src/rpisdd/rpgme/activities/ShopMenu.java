@@ -146,27 +146,34 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
 					getActivity());
-			builder1.setMessage("Buy this item?");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("Buy",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							sellItemToPlayer();
-						}
-					});
+			sellItemToPlayer();
 
-			builder1.setNegativeButton("Don't Buy",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
+			final Item selected = itemsInStock[selectedItemIndex];
+			if (selected.isEquipment()) {
+				builder1.setMessage("Equip this item?");
+				builder1.setCancelable(true);
+				builder1.setPositiveButton("Equip",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+								selected.useMe(Player.getPlayer(), Player
+										.getPlayer().getInventory().getItems()
+										.size() - 1);
+							}
+						});
 
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
+				builder1.setNegativeButton("Don't Equip",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				AlertDialog alert11 = builder1.create();
+				alert11.show();
+			}
 
 			break;
 		}

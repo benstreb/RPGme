@@ -61,5 +61,9 @@ public abstract class Item {
 		return true;
 	}
 
+	public boolean isEquipment() {
+		return false;
+	}
+
 	public abstract void useMe(Player p, int index);
 }
