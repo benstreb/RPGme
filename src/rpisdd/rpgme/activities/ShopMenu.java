@@ -32,9 +32,10 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	// Load in the items that the shop stocks from external XML
 	public void setItems() {
 
-		itemsInStock = new Item[2];
+		itemsInStock = new Item[3];
 		itemsInStock[0] = Item.createItemFromName("Energy Potion");
 		itemsInStock[1] = Item.createItemFromName("Small Sword");
+		itemsInStock[2] = Item.createItemFromName("Steel Plate");
 	}
 
 	public ShopMenu() {

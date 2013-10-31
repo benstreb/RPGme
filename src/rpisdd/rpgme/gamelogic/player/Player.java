@@ -124,7 +124,7 @@ public class Player {
 	 */
 	public void addExp(int amount, Reward reward) {
 		stats.incExp(amount);
-		if (stats.getExp() > getExpForLevel(getLevel())) {
+		if (stats.getExp() >= getExpForLevel(getLevel())) {
 			levelUp(reward);
 		}
 	}

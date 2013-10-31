@@ -15,6 +15,9 @@ public class Equipment extends Item {
 	public static final Equipment SMALL_SWORD = new Equipment(Type.WEAPON,
 			"Small Sword", 100, "sword1_red.png", Stats.Mod.strMod(1));
 
+	public static final Equipment ARMOR_1 = new Equipment(Type.ARMOR,
+			"Steel Plate", 100, "armor1.png", Stats.Mod.strMod(1));
+
 	final Stats.Mod statMod;
 	final Type type;
 
