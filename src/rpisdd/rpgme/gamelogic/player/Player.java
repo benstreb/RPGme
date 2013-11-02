@@ -13,13 +13,13 @@ public class Player {
 	final static int EXP_PER_LEVEL = 100;
 
 	private static Player player = null;
-	private String name;
-	private String classs;
-	private int avatarId;
+	private final String name;
+	private final String classs;
+	private final int avatarId;
 
-	private QuestManager questManager;
-	private Stats stats;
-	private Inventory inventory;
+	private final QuestManager questManager;
+	private final Stats stats;
+	private final Inventory inventory;
 
 	private int gold;
 	private int energy;
@@ -322,10 +322,12 @@ public class Player {
 		e.putString("class", classs);
 		e.putInt("avatarId", avatarId);
 		e.putBoolean("playerExists", true);
+		e.putInt("gold", gold);
 		e.commit();
 	}
 
 	public static void loadPlayer(Activity activity) {
+
 		SharedPreferences pref = activity.getSharedPreferences("player",
 				Context.MODE_PRIVATE);
 		assert pref.getBoolean("playerExists", false);
@@ -335,6 +337,7 @@ public class Player {
 		p.questManager.loadQuestsFromDatabase(activity);
 		p.inventory.loadItemsFromDatabase(activity);
 		p.stats.load(pref);
+		p.gold = pref.getInt("gold", 100);
 		player = p;
 	}
 

@@ -1,7 +1,6 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
-import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,11 +28,11 @@ public class SplashScreenActivity extends Activity implements OnTouchListener {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent arg1) {
-		SharedPreferences pref = this.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences pref = this.getSharedPreferences("player",
+				Context.MODE_PRIVATE);
 		if (!pref.getBoolean("playerExists", false)) {
 			startActivity(new Intent(this, CreatePlayerActivity.class));
 		} else {
-			Player.loadPlayer(this);
 			startActivity(new Intent(this, MainActivity.class));
 		}
 		return true;

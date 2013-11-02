@@ -207,7 +207,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
 					getActivity());
-			builder1.setMessage("Your getInventory() is full!");
+			builder1.setMessage("Your inventory is full!");
 			builder1.setCancelable(true);
 			builder1.setPositiveButton("OK",
 					new DialogInterface.OnClickListener() {

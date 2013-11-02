@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
-import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.DateFormatter;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,13 +33,15 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	public QuestMenu() {
 	}
 
-	Button createQuest;
-	Button deleteQuest;
-	Button completeQuest;
-	Button viewQuest;
+	private Button createQuest;
+	private Button deleteQuest;
+	private Button completeQuest;
+	private Button viewQuest;
 
-	View selectedQuest;
-	Quest currentQuest;
+	private View selectedQuest;
+	private Quest currentQuest;
+
+	private QuestAdapter adapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +86,10 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 			completeQuest.setEnabled(false);
 			viewQuest.setEnabled(false);
 		}
+
+		if (adapter != null) {
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -99,8 +103,8 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	// Take a list of quests, and fill up the list view with those entries
 	public void fillListView(QuestManager quests, View v) {
 
-		QuestAdapter adapter = new QuestAdapter(getActivity(),
-				R.layout.quest_list_item, quests.getQuestManager());
+		adapter = new QuestAdapter(getActivity(), R.layout.quest_list_item,
+				quests.getQuests());
 
 		setListAdapter(adapter);
 
@@ -169,7 +173,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 		v.setSelected(true);
 		selectedQuest = v;
-		currentQuest = Player.getPlayer().getQuestManager().getQuestManager()
+		currentQuest = Player.getPlayer().getQuestManager().getQuests()
 				.get(position);
 
 		updateButtons();
@@ -177,6 +181,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+
 		switch (v.getId()) {
 		case R.id.createQuestButton: {
 			Log.i("Debug:", "created");
@@ -231,31 +236,26 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		}
 		case R.id.completeQuestButton: {
 			Log.i("Debug:", "complete");
-			
-			//Bring up a confirmation prompt first
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-            builder1.setMessage("Are you sure you want to complete the selected quest?");
-            builder1.setCancelable(true);
-            builder1.setPositiveButton("Yes",
-                    new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                	
-                    dialog.cancel();
-                    completeQuest();
+			if (currentQuest.isFailed()) {
 
-                }
-            });
-            
-            builder1.setNegativeButton("No",
-                    new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
-			
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(
+						getActivity());
+				builder1.setMessage("You cannot complete that quest since the deadline has been reached.");
+				builder1.setCancelable(true);
+				builder1.setPositiveButton("OK",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				AlertDialog alert11 = builder1.create();
+				alert11.show();
+
+			} else {
+				completeQuestPopup();
+			}
 			break;
 		}
 		case R.id.viewQuestButton: {
@@ -310,49 +310,87 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 			break;
 		}
 	}
-	
+
+	public void completeQuestPopup() {
+
+		// Bring up a confirmation prompt first
+		AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+		builder1.setMessage("Are you sure you want to complete the selected quest?");
+		builder1.setCancelable(true);
+		builder1.setPositiveButton("Yes",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+
+						dialog.cancel();
+						completeQuest();
+
+					}
+				});
+
+		builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog alert11 = builder1.create();
+		alert11.show();
+
+	}
+
 	public void completeQuest() {
 
-		Reward reward = Player.getPlayer().getQuestManager().completeQuest(Player.getPlayer(), currentQuest);
-		
+		Reward reward = Player.getPlayer().getQuestManager()
+				.completeQuest(Player.getPlayer(), currentQuest);
+
 		AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
-        
-		int energyBefore = Player.getPlayer().getEnergy() - reward.getEnergyGained();
+
+		int energyBefore = Player.getPlayer().getEnergy()
+				- reward.getEnergyGained();
 		int energyAfter = Player.getPlayer().getEnergy();
-		
-		if(reward.getIsLevelUp() == true) {
-			builder2.setMessage("Level up!\nNew Level: " + Integer.toString(reward.getNewLevel()) + 
-					"\nNew Energy: " + Integer.toString(energyBefore) + " > " + Integer.toString(energyAfter) );
+
+		if (reward.getIsLevelUp() == true) {
+			builder2.setMessage("Level up!\nNew Level: "
+					+ Integer.toString(reward.getNewLevel()) + "\nNew Energy: "
+					+ Integer.toString(energyBefore) + " > "
+					+ Integer.toString(energyAfter));
 		}
-		
-        builder2.setCancelable(true);
-        builder2.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        
-        View popup = LayoutInflater.from(getActivity()).inflate(R.layout.complete_quest,null);
-        TextView expGained = (TextView) popup.findViewById(R.id.expGained);
-        TextView goldGained = (TextView) popup.findViewById(R.id.goldGained);
-        TextView statsGained = (TextView) popup.findViewById(R.id.statsGained);
-        
-        expGained.setText("You gained " + reward.getExpIncrease() + " experience points.");
-        goldGained.setText("You gained " + reward.getGoldIncrease() + " gold.");
-        
-        int oldStat = Player.getPlayer().getStat(reward.getStatType()) - reward.getStatIncrease();
-        int newStat = Player.getPlayer().getStat(reward.getStatType());
-        
-        statsGained.setText("New " + reward.getStatType().toString() + ": " +
-			Integer.toString(oldStat) + " > " + Integer.toString(newStat) );
-        
-        builder2.setView(popup);
-        
-        AlertDialog alert2 = builder2.create();
-        alert2.show();
-        
-        Player player = Player.getPlayer();
+
+		builder2.setCancelable(true);
+		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
+
+		View popup = LayoutInflater.from(getActivity()).inflate(
+				R.layout.complete_quest, null);
+		TextView expGained = (TextView) popup.findViewById(R.id.expGained);
+		TextView goldGained = (TextView) popup.findViewById(R.id.goldGained);
+		TextView statsGained = (TextView) popup.findViewById(R.id.statsGained);
+
+		expGained.setText("You gained " + reward.getExpIncrease()
+				+ " experience points.");
+		goldGained.setText("You gained " + reward.getGoldIncrease() + " gold.");
+
+		int oldStat = Player.getPlayer().getStat(reward.getStatType())
+				- reward.getStatIncrease();
+		int newStat = Player.getPlayer().getStat(reward.getStatType());
+
+		statsGained
+				.setText("New " + reward.getStatType().toString() + ": "
+						+ Integer.toString(oldStat) + " > "
+						+ Integer.toString(newStat));
+
+		builder2.setView(popup);
+
+		AlertDialog alert2 = builder2.create();
+		alert2.show();
+
+		Player player = Player.getPlayer();
 		player.getQuestManager().removeQuest(currentQuest);
 		selectedQuest = null;
 		currentQuest = null;
@@ -367,5 +405,5 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		fillListView(Player.getPlayer().getQuestManager(), getView());
 
 	}
-	
+
 }

@@ -70,7 +70,7 @@ public class QuestManager {
 		return numQuests() >= maxQuests;
 	}
 
-	public ArrayList<Quest> getQuestManager() {
+	public ArrayList<Quest> getQuests() {
 		return quests;
 	}
 

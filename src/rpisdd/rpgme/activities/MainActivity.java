@@ -27,8 +27,8 @@ public class MainActivity extends FragmentActivity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private String[] mMenuTitles = { "Quests", "Inventory", "Stats", "Shop",
-			"Dungeon" };
+	private final String[] mMenuTitles = { "Quests", "Inventory", "Stats",
+			"Shop", "Dungeon" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +92,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		Player.getPlayer().getQuestManager().saveQuestsToDatabase(this);
-		Player.getPlayer().getInventory().saveItemsToDatabase(this);
+		Player.getPlayer().savePlayer(this);
 	}
 
 	@Override

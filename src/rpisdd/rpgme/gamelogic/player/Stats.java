@@ -111,6 +111,7 @@ public class Stats {
 		this.baseIntelligence = p.getInt("int", 1);
 		this.baseWill = p.getInt("wil", 1);
 		this.baseSpirit = p.getInt("spi", 1);
+		this.baseEnergy = p.getInt("eng", 1);
 	}
 
 	public void save(Editor e) {
@@ -120,6 +121,7 @@ public class Stats {
 		e.putInt("int", baseIntelligence);
 		e.putInt("wil", baseWill);
 		e.putInt("spi", baseSpirit);
+		e.putInt("eng", baseEnergy);
 	}
 
 	public static class Mod {

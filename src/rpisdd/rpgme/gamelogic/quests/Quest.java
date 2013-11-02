@@ -14,7 +14,7 @@ public class Quest {
 	private QuestDifficulty difficulty;
 	private StatType statType;
 	private boolean isComplete;
-	public DateTime deadline;
+	private DateTime deadline;
 
 	public boolean getIsComplete() {
 		return isComplete;
