@@ -29,6 +29,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	View selectedItem;
 	int selectedItemIndex;
 
+	TextView goldWidget;
+
 	// Load in the items that the shop stocks from external XML
 	public void setItems() {
 
@@ -55,6 +57,10 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		buy = (Button) v.findViewById(R.id.shopBuyButton);
 		buy.setOnClickListener(this);
+
+		Player p = Player.getPlayer();
+		goldWidget = (TextView) v.findViewById(R.id.shopGoldDisplay);
+		goldWidget.setText("Gold: " + p.getGold());
 
 		updateButtons();
 
@@ -225,6 +231,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		p.getInventory().addItem(itemsInStock[selectedItemIndex]);
 		p.deductGold(itemsInStock[selectedItemIndex].getPrice());
+		goldWidget.setText("Gold: " + p.getGold());
 	}
 
 }

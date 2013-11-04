@@ -29,5 +29,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Buy!" />
+    
+    <TextView
+        android:id="@+id/shopGoldDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Gold maybe?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp" />
 
 </RelativeLayout>
