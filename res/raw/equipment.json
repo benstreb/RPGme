@@ -1,0 +1,16 @@
+[
+	{
+		"name":"Small Sword",
+		"price":100 ,
+		"filename":"sword1_red.png",
+		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
+		"type":"weapon"
+	},
+	{
+		"name":"Steel Plate",
+		"price":100,
+		"filename":"armor1.png",
+		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
+		"type":"weapon"
+	}
+]

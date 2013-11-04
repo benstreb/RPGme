@@ -64,7 +64,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 			Item i = Player.getPlayer().getInventory().getItems()
 					.get(selectedItemIndex);
 			sell.setEnabled(true);
-			if (i != null && i.isUsable()) {
+			if (i != null && i.isUsable(Player.getPlayer())) {
 				use.setEnabled(true);
 			} else {
 				use.setEnabled(false);

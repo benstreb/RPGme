@@ -1,0 +1,14 @@
+[
+	{
+		"name":"Energy Potion",
+		"price":50,
+		"filename":"potion_energy.gif",
+		"effect":["heal energy", 25]
+	},
+	{
+		"name":"Revival Potion",
+		"price":9001,
+		"filename":"potion_yellow.png",
+		"effect":["revive", 50]
+	}
+]

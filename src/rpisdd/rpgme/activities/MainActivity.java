@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.master_layout);
 
-		Item.load();
+		Item.load(this);
 		Player.loadPlayer(this);
 
 		mTitle = mDrawerTitle = getTitle();

@@ -4,28 +4,30 @@ import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Stats;
 import android.util.Log;
 
-public class Equipment extends Item {
+import com.google.gson.JsonObject;
+
+public final class Equipment extends Item {
 	public static enum Type {
-		WEAPON, ARMOR
+		WEAPON, ARMOR;
+		public static Type fromString(String s) {
+			if (s.equals("weapon")) {
+				return WEAPON;
+			} else if (s.equals("armor")) {
+				return ARMOR;
+			} else {
+				throw new RuntimeException("Invalid type of equipment");
+			}
+		}
 	}
-
-	public static final void loadEquipment() {
-	}
-
-	public static final Equipment SMALL_SWORD = new Equipment(Type.WEAPON,
-			"Small Sword", 100, "sword1_red.png", Stats.Mod.strMod(1));
-
-	public static final Equipment ARMOR_1 = new Equipment(Type.ARMOR,
-			"Steel Plate", 100, "armor1.png", Stats.Mod.strMod(1));
 
 	final Stats.Mod statMod;
 	final Type type;
 
-	private Equipment(Type type, String name, int price, String imageName,
-			Stats.Mod statMod) {
-		super(name, price, imageName);
-		this.statMod = statMod;
-		this.type = type;
+	protected Equipment(JsonObject o) {
+		super(o);
+		this.type = Type.fromString(o.get("type").getAsString());
+		this.statMod = Stats.Mod.fromJsonObject(o.get("effect")
+				.getAsJsonObject());
 	}
 
 	@Override
@@ -45,6 +47,11 @@ public class Equipment extends Item {
 			}
 		}
 		p.getInventory().removeAt(index);
+	}
+
+	@Override
+	public boolean isUsable(Player p) {
+		return true;
 	}
 
 	@Override
