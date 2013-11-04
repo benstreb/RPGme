@@ -1,5 +1,8 @@
 package rpisdd.rpgme.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
@@ -23,7 +26,7 @@ import com.squareup.picasso.Picasso;
 
 public class ShopMenu extends ListFragment implements OnClickListener {
 
-	public Item[] itemsInStock;
+	private List<Item> itemsInStock;
 
 	Button buy;
 	View selectedItem;
@@ -34,10 +37,10 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	// Load in the items that the shop stocks from external XML
 	public void setItems() {
 
-		itemsInStock = new Item[3];
-		itemsInStock[0] = Item.createItemFromName("Energy Potion");
-		itemsInStock[1] = Item.createItemFromName("Small Sword");
-		itemsInStock[2] = Item.createItemFromName("Steel Plate");
+		itemsInStock = new ArrayList<Item>();
+		itemsInStock.add(Item.createItemFromName("Energy Potion"));
+		itemsInStock.add(Item.createItemFromName("Small Sword"));
+		itemsInStock.add(Item.createItemFromName("Steel Plate"));
 	}
 
 	public ShopMenu() {
@@ -95,11 +98,12 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 	private class ItemAdapter extends ArrayAdapter<Item> {
 
-		Item[] items;
+		List<Item> items;
 
-		public ItemAdapter(Context context, int textViewResourceId, Item[] items) {
-			super(context, textViewResourceId, items);
-			this.items = items;
+		public ItemAdapter(Context context, int textViewResourceId,
+				List<Item> itemsInStock) {
+			super(context, textViewResourceId, itemsInStock);
+			this.items = itemsInStock;
 		}
 
 		@Override
@@ -109,7 +113,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 				v = LayoutInflater.from(getActivity()).inflate(
 						R.layout.shop_item, null);
 			}
-			Item i = items[position];
+			Item i = items.get(position);
 			if (i != null) {
 				TextView name = (TextView) v.findViewById(R.id.shopItemName);
 				TextView price = (TextView) v.findViewById(R.id.shopItemPrice);
@@ -118,7 +122,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 				name.setText("Name: " + i.getName());
 				price.setText("Price: " + Integer.toString(i.getPrice()));
 				Picasso.with(getActivity())
-						.load(items[position].getImagePath()).into(image);
+						.load(items.get(position).getImagePath()).into(image);
 
 			}
 			return v;
@@ -154,7 +158,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 					getActivity());
 			sellItemToPlayer();
 
-			final Item selected = itemsInStock[selectedItemIndex];
+			final Item selected = itemsInStock.get(selectedItemIndex);
 			if (selected.isEquipment()) {
 				builder1.setMessage("Equip this item?");
 				builder1.setCancelable(true);
@@ -191,7 +195,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	public void sellItemToPlayer() {
 		Player p = Player.getPlayer();
 
-		if (p.getGold() < itemsInStock[selectedItemIndex].getPrice()) {
+		if (p.getGold() < itemsInStock.get(selectedItemIndex).getPrice()) {
 
 			AlertDialog.Builder builder1 = new AlertDialog.Builder(
 					getActivity());
@@ -229,8 +233,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 			return;
 		}
 
-		p.getInventory().addItem(itemsInStock[selectedItemIndex]);
-		p.deductGold(itemsInStock[selectedItemIndex].getPrice());
+		p.getInventory().addItem(itemsInStock.get(selectedItemIndex));
+		p.deductGold(itemsInStock.get(selectedItemIndex).getPrice());
 		goldWidget.setText("Gold: " + p.getGold());
 	}
 
