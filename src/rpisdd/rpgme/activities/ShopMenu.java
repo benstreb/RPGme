@@ -6,7 +6,6 @@ import java.util.List;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -29,7 +28,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	private List<Item> itemsInStock;
 
 	Button buy;
-	View selectedItem;
+	Button details;
+	View selectedItemSlot;
 	int selectedItemIndex;
 
 	TextView goldWidget;
@@ -51,7 +51,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 
-		selectedItem = null;
+		selectedItemSlot = null;
 		selectedItemIndex = -1;
 
 		setItems();
@@ -60,6 +60,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		buy = (Button) v.findViewById(R.id.shopBuyButton);
 		buy.setOnClickListener(this);
+		details = (Button) v.findViewById(R.id.shopDetailButton);
+		details.setOnClickListener(this);
 
 		Player p = Player.getPlayer();
 		goldWidget = (TextView) v.findViewById(R.id.shopGoldDisplay);
@@ -72,10 +74,12 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 	// Will enable or disable buttons, depending on the situation.
 	public void updateButtons() {
-		if (selectedItem == null) {
+		if (selectedItemSlot == null) {
 			buy.setEnabled(false);
+			details.setEnabled(false);
 		} else {
 			buy.setEnabled(true);
+			details.setEnabled(true);
 		}
 	}
 
@@ -136,34 +140,29 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		selectedItemIndex = position;
 
-		if (selectedItem != null) {
-			selectedItem.setBackgroundColor(Color.TRANSPARENT);
+		if (selectedItemSlot != null) {
+			selectedItemSlot.setBackgroundColor(Color.TRANSPARENT);
 		}
 
 		v.setBackgroundColor(Color.GRAY);
 
 		v.setSelected(true);
-		selectedItem = v;
+		selectedItemSlot = v;
 
 		updateButtons();
 	}
 
 	@Override
 	public void onClick(View v) {
+		final Item selected = itemsInStock.get(selectedItemIndex);
 		switch (v.getId()) {
 
-		case R.id.shopBuyButton: {
+		case R.id.shopBuyButton:
+			boolean wasSold = sellItemToPlayer();
 
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(
-					getActivity());
-			sellItemToPlayer();
-
-			final Item selected = itemsInStock.get(selectedItemIndex);
-			if (selected.isEquipment()) {
-				builder1.setMessage("Equip this item?");
-				builder1.setCancelable(true);
-				builder1.setPositiveButton("Equip",
-						new DialogInterface.OnClickListener() {
+			if (wasSold && selected.isEquipment()) {
+				AnnoyingPopup.doDont(getActivity(), "Equip this item?",
+						"Equip", new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
@@ -172,70 +171,35 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 										.size() - 1);
 							}
 						});
-
-				builder1.setNegativeButton("Don't Equip",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-
-				AlertDialog alert11 = builder1.create();
-				alert11.show();
+			} else if (wasSold) {
+				AnnoyingPopup.notice(getActivity(),
+						"You purchased " + selected.getName());
 			}
 
 			break;
-		}
+		case R.id.shopDetailButton:
+			AnnoyingPopup.notice(getActivity(), selected.getDescription());
 		default:
 			break;
 		}
 	}
 
-	public void sellItemToPlayer() {
+	public boolean sellItemToPlayer() {
 		Player p = Player.getPlayer();
+		Item i = itemsInStock.get(selectedItemIndex);
 
-		if (p.getGold() < itemsInStock.get(selectedItemIndex).getPrice()) {
-
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(
-					getActivity());
-			builder1.setMessage("You don't have enough gold!");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("OK",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-
-			return;
+		if (p.getGold() < i.getPrice()) {
+			AnnoyingPopup.notice(getActivity(), "You don't have enough gold!");
+			return false;
 		} else if (p.getInventory().isInventoryFull()) {
-
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(
-					getActivity());
-			builder1.setMessage("Your inventory is full!");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("OK",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-
-			return;
+			AnnoyingPopup.notice(getActivity(), "Your inventory is full!");
+			return false;
 		}
 
-		p.getInventory().addItem(itemsInStock.get(selectedItemIndex));
-		p.deductGold(itemsInStock.get(selectedItemIndex).getPrice());
+		p.getInventory().addItem(i);
+		p.deductGold(i.getPrice());
 		goldWidget.setText("Gold: " + p.getGold());
+		return true;
 	}
 
 }
