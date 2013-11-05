@@ -18,7 +18,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public abstract class Item {
-	public static final Item INVALID = new Item("M.", -100, "invalid.png") {
+	public static final Item INVALID = new Item("M.", -100, "invalid.png",
+			"WILD M. APPEARED") {
 		@Override
 		public void useMe(Player p, int index) {
 			Log.wtf("items", "Trying to use invalid item.");
@@ -28,6 +29,7 @@ public abstract class Item {
 	private final String name;
 	private final int price;
 	private final String imagePath;
+	private final String description;
 
 	protected interface Factory {
 		public Item fromJsonObject(JsonObject o);
@@ -84,15 +86,16 @@ public abstract class Item {
 		}
 	}
 
-	private Item(String name, int price, String imageName) {
+	private Item(String name, int price, String imageName, String description) {
 		this.name = name;
 		this.price = price;
 		this.imagePath = "file:///android_asset/Items/" + imageName;
+		this.description = description;
 	}
 
 	protected Item(JsonObject o) {
 		this(o.get("name").getAsString(), o.get("price").getAsInt(), o.get(
-				"filename").getAsString());
+				"filename").getAsString(), o.get("description").getAsString());
 	}
 
 	public int getRefundPrice() {
@@ -109,6 +112,10 @@ public abstract class Item {
 
 	public String getImagePath() {
 		return imagePath;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 	@Override
