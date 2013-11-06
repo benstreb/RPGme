@@ -11,5 +11,11 @@
         android:layout_centerHorizontal="true"
         android:text="Dungeon"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+	
+    <Button
+        android:id="@+id/treasureEnterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="$$$?" />
 </RelativeLayout>
