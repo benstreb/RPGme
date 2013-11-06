@@ -31,5 +31,6 @@
     <string name="equipItem">equip</string>
     <string name="sellItem">sell</string>
     <string name="useItem">use</string>
+    <string name="details">Details</string>
 
 </resources>

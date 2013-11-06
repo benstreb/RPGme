@@ -1,0 +1,16 @@
+[
+	{
+		"name":"Energy Potion",
+		"price":50,
+		"filename":"potion_energy.gif",
+		"effect":["heal energy", 25],
+		"description":"Restores 25% of your max HP"
+	},
+	{
+		"name":"Revival Potion",
+		"price":9001,
+		"filename":"potion_yellow.png",
+		"effect":["revive", 50],
+		"description":"Revives you at 50% of your max HP"
+	}
+]

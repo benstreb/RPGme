@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -28,7 +27,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 	Button sell;
 	Button use;
-	View selectedItem;
+	Button details;
+	Item selectedItem;
+	View selectedItemSlot;
 	int selectedItemIndex;
 
 	public InventoryMenu() {
@@ -40,6 +41,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		// Inflate the layout for this fragment
 
 		selectedItem = null;
+		selectedItemSlot = null;
 		selectedItemIndex = -1;
 
 		View v = inflater.inflate(R.layout.inventory_menu, container, false);
@@ -50,6 +52,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		use = (Button) v.findViewById(R.id.useItem);
 		use.setOnClickListener(this);
 
+		details = (Button) v.findViewById(R.id.detailsItem);
+		details.setOnClickListener(this);
+
 		updateButtons();
 
 		return v;
@@ -57,14 +62,15 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 	// Will enable or disable buttons, depending on the situation.
 	public void updateButtons() {
-		if (selectedItem == null) {
+		if (selectedItemSlot == null) {
 			sell.setEnabled(false);
 			use.setEnabled(false);
+			details.setEnabled(false);
 		} else {
-			Item i = Player.getPlayer().getInventory().getItems()
-					.get(selectedItemIndex);
 			sell.setEnabled(true);
-			if (i != null && i.isUsable()) {
+			details.setEnabled(true);
+			if (selectedItem != null
+					&& selectedItem.isUsable(Player.getPlayer())) {
 				use.setEnabled(true);
 			} else {
 				use.setEnabled(false);
@@ -88,6 +94,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		setListAdapter(adapter);
 
 		selectedItem = null;
+		selectedItemSlot = null;
 		selectedItemIndex = -1;
 
 		updateButtons();
@@ -127,19 +134,20 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-
 		super.onListItemClick(l, v, position, id);
 
 		selectedItemIndex = position;
 
-		if (selectedItem != null) {
-			selectedItem.setBackgroundColor(Color.TRANSPARENT);
+		if (selectedItemSlot != null) {
+			selectedItemSlot.setBackgroundColor(Color.TRANSPARENT);
 		}
 
 		v.setBackgroundColor(Color.GRAY);
 
 		v.setSelected(true);
-		selectedItem = v;
+		selectedItemSlot = v;
+		selectedItem = Player.getPlayer().getInventory().getItems()
+				.get(selectedItemIndex);
 
 		updateButtons();
 	}
@@ -148,13 +156,8 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 
-		case R.id.useItem: {
-
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(
-					getActivity());
-			builder1.setMessage("Use this item?");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("Use",
+		case R.id.useItem:
+			AnnoyingPopup.doDont(getActivity(), "Use this item?", "Use",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
@@ -162,27 +165,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 							useItem();
 						}
 					});
-
-			builder1.setNegativeButton("Don't Use",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-
 			break;
-		}
-		case R.id.sellItem: {
-
-			AlertDialog.Builder builder1 = new AlertDialog.Builder(
-					getActivity());
-			builder1.setMessage("Sell this item?");
-			builder1.setCancelable(true);
-			builder1.setPositiveButton("Sell",
+		case R.id.sellItem:
+			AnnoyingPopup.doDont(getActivity(), "Sell this item?", "Sell",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
@@ -190,20 +175,10 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 							sellItemToShop();
 						}
 					});
-
-			builder1.setNegativeButton("Don't Sell",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-						}
-					});
-
-			AlertDialog alert11 = builder1.create();
-			alert11.show();
-
 			break;
-		}
+		case R.id.detailsItem:
+			AnnoyingPopup.notice(getActivity(), selectedItem.getDescription());
+			break;
 		default:
 			break;
 		}
@@ -211,16 +186,14 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 	public void sellItemToShop() {
 		Player p = Player.getPlayer();
-		p.addGold(p.getInventory().getItems().get(selectedItemIndex)
-				.getRefundPrice());
+		p.addGold(selectedItem.getRefundPrice());
 		p.getInventory().removeAt(selectedItemIndex);
 		fillListView(getView());
 	}
 
 	public void useItem() {
 		Player p = Player.getPlayer();
-		p.getInventory().getItems().get(selectedItemIndex)
-				.useMe(p, selectedItemIndex);
+		selectedItem.useMe(p, selectedItemIndex);
 		Log.i("items", String.format("Player has %s and %s equipped", p
 				.getInventory().getWeapon(), p.getInventory().getArmor()));
 		fillListView(getView());

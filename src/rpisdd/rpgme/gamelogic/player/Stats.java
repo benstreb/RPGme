@@ -3,6 +3,9 @@ package rpisdd.rpgme.gamelogic.player;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 public class Stats {
 	// levels and experience
 	private int level = 1;
@@ -151,6 +154,17 @@ public class Stats {
 
 		public static Mod spiritMod(int amount) {
 			return new Mod(0, 0, 0, amount);
+		}
+
+		public static Mod fromJsonObject(JsonObject amounts) {
+			JsonElement strAmount = amounts.get("strength");
+			JsonElement intAmount = amounts.get("intelligence");
+			JsonElement willAmount = amounts.get("will");
+			JsonElement spiritAmount = amounts.get("spirit");
+			return new Mod((strAmount != null) ? strAmount.getAsInt() : 0,
+					(intAmount != null) ? intAmount.getAsInt() : 0,
+					(willAmount != null) ? willAmount.getAsInt() : 0,
+					(spiritAmount != null) ? spiritAmount.getAsInt() : 0);
 		}
 	}
 }
