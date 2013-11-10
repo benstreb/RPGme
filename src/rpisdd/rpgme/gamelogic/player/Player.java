@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 public class Player {
 	final static int EXP_PER_LEVEL = 100;
@@ -102,6 +103,9 @@ public class Player {
 	 * Decreases the player's current energy
 	 */
 	public void deductEnergy(int amount) {
+		if (!isConscious()) {
+			Log.w("player", "Player is losing energy while unconscious.");
+		}
 		energy -= amount;
 		if (energy < 0) {
 			energy = 0;
