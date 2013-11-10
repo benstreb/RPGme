@@ -82,6 +82,13 @@ public class Player {
 	}
 
 	/*
+	 * Returns true if the player is unconscious and false otherwise.
+	 */
+	public boolean isConscious() {
+		return energy > 0;
+	}
+
+	/*
 	 * Increases the player's current energy
 	 */
 	public void addEnergy(int amount) {
