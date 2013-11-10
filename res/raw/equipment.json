@@ -12,7 +12,7 @@
 		"price":100,
 		"filename":"armor1.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
-		"type":"weapon",
+		"type":"armor",
 		"description":"Cheap armor that improves all stat types."
 	}
 ]
