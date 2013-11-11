@@ -18,4 +18,21 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="$$$?" />
+	
+    <ScrollView 
+        android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+        <HorizontalScrollView 
+            android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+		    <rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView
+		        android:id="@+id/dungeonSurfaceView"
+		        android:layout_width="1000dp"
+		        android:layout_height="1000dp" />
+    	</HorizontalScrollView>
+	</ScrollView>
+	 
+	
 </RelativeLayout>

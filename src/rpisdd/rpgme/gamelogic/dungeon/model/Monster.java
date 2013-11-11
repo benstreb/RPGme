@@ -1,25 +1,31 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import rpisdd.rpgme.activities.BattleMenu;
+import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.player.StatType;
+import android.app.Activity;
 
 //Each monster is alligned with 1 Stat Type
 //Attacks with that stat type with provided damage
 //Defends against stat type with full defense, half against others
-public class Monster implements RoomContent {
+public class Monster implements RoomContent, HasHealth {
 
-	private String name;
-	private String imagePath;
+	private final String name;
+	private final String imagePath;
 
 	private int health;
-	private int damage;
-	private int defense;
-	private StatType type;
+	private final int maxHealth;
+
+	private final int damage;
+	private final int defense;
+	private final StatType type;
 
 	public Monster(String _name, String _path, int _health, int _damage,
 			int _defense, StatType _type) {
 		name = _name;
 		imagePath = _path;
 		health = _health;
+		maxHealth = _health;
 		damage = _damage;
 		defense = _defense;
 		type = _type;
@@ -30,6 +36,10 @@ public class Monster implements RoomContent {
 	public int[] MakeAttack() {
 		int result[] = { type.getValue(), damage };
 		return result;
+	}
+
+	public String getImagePath() {
+		return imagePath;
 	}
 
 	// TODO reference damage equation so it's constant across all sources
@@ -62,8 +72,28 @@ public class Monster implements RoomContent {
 	}
 
 	@Override
-	public boolean Encounter() {
+	public boolean Encounter(Activity activity) {
+
+		// Switch fragments to Battle fragment
+		BattleMenu battle = new BattleMenu();
+
+		((MainActivity) activity).changeFragment(battle);
+
 		return false;
 	}
 
+	@Override
+	public RoomType getRoomType() {
+		return RoomType.MONSTER;
+	}
+
+	@Override
+	public int getEnergy() {
+		return health;
+	}
+
+	@Override
+	public int getMaxEnergy() {
+		return maxHealth;
+	}
 }

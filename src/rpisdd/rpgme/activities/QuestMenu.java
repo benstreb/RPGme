@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
-import rpisdd.rpgme.gamelogic.quests.DateFormatter;
+import rpisdd.rpgme.gamelogic.quests.DateHelper;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 import android.app.AlertDialog;
@@ -103,28 +103,13 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	// Take a list of quests, and fill up the list view with those entries
 	public void fillListView(QuestManager quests, View v) {
 
+		quests.reRecurQuests();
+
 		adapter = new QuestAdapter(getActivity(), R.layout.quest_list_item,
-				quests.getQuests());
+				quests.getIncompleteQuests());
 
 		setListAdapter(adapter);
 
-		/*
-		 * if(v == null) { return; }
-		 * 
-		 * View list = v.findViewById(android.R.id.list);
-		 * 
-		 * if(list != null) { ListView myList = (ListView) list;
-		 * 
-		 * //All quests whose deadlines have elapsed, put them in red text and
-		 * append (failed) for(int i=0;i<myList.getCount();i++) {
-		 * 
-		 * TextView text = (TextView) myList.getAdapter().getView(i,null,null);
-		 * text.append(" (FAILED"); text.setTextColor(Color.RED);
-		 * 
-		 * }
-		 * 
-		 * } adapter.notifyDataSetChanged();
-		 */
 		updateButtons();
 	}
 
@@ -173,8 +158,8 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 		v.setSelected(true);
 		selectedQuest = v;
-		currentQuest = Player.getPlayer().getQuestManager().getQuests()
-				.get(position);
+		currentQuest = Player.getPlayer().getQuestManager()
+				.getIncompleteQuests().get(position);
 
 		updateButtons();
 	}
@@ -288,8 +273,18 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 				viewQuest.findViewById(R.id.viewQuestDueDate).setVisibility(
 						View.VISIBLE);
 				((TextView) viewQuest.findViewById(R.id.viewQuestDeadline))
-						.setText(DateFormatter.formatDate(currentQuest
+						.setText(DateHelper.formatDate(currentQuest
 								.getDeadline()));
+
+			}
+
+			if (currentQuest.isRecurring()) {
+
+				viewQuest.findViewById(R.id.viewRecLayout).setVisibility(
+						View.VISIBLE);
+				((TextView) viewQuest.findViewById(R.id.viewQuestRecurrence))
+						.setText("Recurs "
+								+ currentQuest.getRecurrence().toString());
 
 			}
 
@@ -391,7 +386,6 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		alert2.show();
 
 		Player player = Player.getPlayer();
-		player.getQuestManager().removeQuest(currentQuest);
 		selectedQuest = null;
 		currentQuest = null;
 		fillListView(player.getQuestManager(), getView());

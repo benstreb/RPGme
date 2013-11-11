@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.DateTime;
 
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
 import rpisdd.rpgme.gamelogic.quests.QuestDatabase.QuestFeedEntry;
@@ -13,7 +14,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import rpisdd.rpgme.gamelogic.player.Reward;
 
 //The QuestManager manages the player's current quests, much like with how
 //the Inventory manages the player's items.
@@ -32,7 +32,7 @@ public class QuestManager {
 	private ArrayList<Quest> quests;
 
 	// The list of completed quests (allows a "Journal" to be kept)
-	private ArrayList<Quest> completedQuests;
+	private final ArrayList<Quest> completedQuests;
 
 	// List of aborted or failed quests
 	// ArrayList<Quest> failedQuests;
@@ -98,12 +98,20 @@ public class QuestManager {
 		quests.remove(quest);
 	}
 
-	//Complete the quest, rewarding the player.
-	public Reward completeQuest(Player player, Quest quest){
+	// Complete the quest, rewarding the player.
+	public Reward completeQuest(Player player, Quest quest) {
 		Reward reward = quest.completeQuest();
-		//Add to completed quests, remove from current quests
-		completedQuests.add(quest);
-		quests.remove(quest);
+
+		if (!quest.isRecurring()) {
+
+			System.out.println("Completing non-temp");
+			// Add to completed quests, remove from current quests
+			completedQuests.add(quest);
+			quests.remove(quest);
+		} else {
+			System.out.println("Completing temp");
+			quest.tempComplete();
+		}
 		return reward;
 	}
 
@@ -125,6 +133,32 @@ public class QuestManager {
 		return names;
 	}
 
+	// Get only the quests that aren't completed yet.
+	public ArrayList<Quest> getIncompleteQuests() {
+
+		ArrayList<Quest> incompletes = new ArrayList<Quest>();
+
+		for (int i = 0; i < quests.size(); i++) {
+			if (!quests.get(i).isTempComplete()) {
+				incompletes.add(quests.get(i));
+			}
+		}
+		return incompletes;
+
+	}
+
+	public void reRecurQuests() {
+		System.out.println("Rerecur the quests");
+		for (int i = 0; i < quests.size(); i++) {
+			System.out.println(quests.get(i).getRecCompDate() != null ? quests
+					.get(i).getRecCompDate().toString() : "No completion date");
+			if (quests.get(i).isTempComplete()) {
+				System.out.println("A quest is temp completed");
+				quests.get(i).updateTempDone();
+			}
+		}
+	}
+
 	// Will extract all the stored quests in sqlite database into an arraylist,
 	// and put them into the quests/
 	// completedQuests/failedQuests arraylist.
@@ -140,10 +174,10 @@ public class QuestManager {
 		SQLiteDatabase db = mDbHelper.getReadableDatabase();
 		Log.i("Debug:", "2");
 
+		mDbHelper.onCreate(db);
+
 		// Make sure current database is up to date by updating the columns.
 		mDbHelper.updateColumns(db);
-
-		mDbHelper.onCreate(db);
 
 		// Define a projection that specifies which columns from the database
 		// you will actually use after this query.
@@ -152,7 +186,10 @@ public class QuestManager {
 				QuestFeedEntry.COLUMN_NAME_QUEST_TYPE,
 				QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY,
 				QuestFeedEntry.COLUMN_NAME_IS_COMPLETED,
-				QuestFeedEntry.COLUMN_NAME_DEADLINE };
+				QuestFeedEntry.COLUMN_NAME_DEADLINE,
+				QuestFeedEntry.COLUMN_NAME_RECURRENCE,
+				QuestFeedEntry.COLUMN_NAME_REC_COMP_DATE };
+
 		Log.i("Debug:", "3");
 		Cursor cursor = db.query(QuestFeedEntry.TABLE_NAME, // The table to
 															// query
@@ -174,9 +211,21 @@ public class QuestManager {
 					.getString(3));
 			int completed = cursor.getInt(4);
 			String deadlineStr = cursor.getString(5);
+			Recurrence rec = Recurrence.NONE;
+			String recStr = cursor.getString(6);
+			if (recStr != null) {
+				rec = Recurrence.stringToRecurrence(cursor.getString(6));
+			}
+
+			String recDateStr = cursor.getString(7);
+
 			DateTime deadline = null;
 			if (deadlineStr != null) {
 				deadline = new DateTime(deadlineStr);
+			}
+			DateTime recCompDate = null;
+			if (recDateStr != null) {
+				recCompDate = new DateTime(recDateStr);
 			}
 
 			Log.i("Debug:", "Loaded quest '" + name + "' from database:");
@@ -185,16 +234,17 @@ public class QuestManager {
 			Log.i("Debug:", "	Quest Type= '" + diff.toString());
 			Log.i("Debug:", "	Difficulty= '" + type.toString());
 			Log.i("Debug:", "	Completed= '" + Integer.toString(completed));
+			Log.i("Debug:", "   Recurrence = " + rec.toString());
 
-			Quest quest;
-
-			if (deadline == null) {
-				quest = new QuestBuilder(name, desc, diff, type).isComplete(
-						completed != 0).build();
+			if (recCompDate != null) {
+				Log.i("Debug:", "   Rec Comp Date = " + recCompDate.toString());
 			} else {
-				quest = new QuestBuilder(name, desc, diff, type)
-						.isComplete(completed != 0).deadline(deadline).build();
+				Log.i("Debug:", "   Rec Comp Date = (NONE)");
 			}
+
+			Quest quest = new QuestBuilder(name, desc, diff, type, rec)
+					.isComplete(completed != 0).deadline(deadline)
+					.recurCompleteDate(recCompDate).build();
 
 			if (completed == 0) {
 				quests.add(quest);
@@ -219,43 +269,68 @@ public class QuestManager {
 		// Gets the data repository in write mode
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-		// Drop the table first so that we can recreate it with all quests
+		// Clear the table first so that we can recreate it with all quests
 		// loaded in the arraylist
-		mDbHelper.dropTable(db);
+		mDbHelper.clearEntries(db);
 
 		ArrayList<Quest> allQuests = getAllQuests();
 
 		for (int i = 0; i < allQuests.size(); i++) {
 
-			// Create a new map of values, where column names are the keys
-			ContentValues values = new ContentValues();
-			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_NAME, allQuests.get(i)
-					.getName());
-			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DESC, allQuests.get(i)
-					.getDescription());
-			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_TYPE, allQuests.get(i)
-					.getStatType().toString());
-			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY, allQuests
-					.get(i).getDifficulty().toString());
-			values.put(QuestFeedEntry.COLUMN_NAME_IS_COMPLETED,
-					(allQuests.get(i).getIsComplete() ? 1 : 0));
+			Quest quest = allQuests.get(i);
 
-			if (allQuests.get(i).isTimed()) {
-				values.put(QuestFeedEntry.COLUMN_NAME_DEADLINE, allQuests
-						.get(i).getDeadline().toString());
+			// For now, don't save completed quests so it doesn't clog up the
+			// database when debugging.
+			if (quest.getIsComplete()) {
+				continue;
 			}
 
-			Log.i("Debug:", "Saved quest '" + allQuests.get(i).getName()
+			// Create a new map of values, where column names are the keys
+			ContentValues values = new ContentValues();
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_NAME, quest.getName());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DESC,
+					quest.getDescription());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_TYPE, quest
+					.getStatType().toString());
+			values.put(QuestFeedEntry.COLUMN_NAME_QUEST_DIFFICULTY, quest
+					.getDifficulty().toString());
+			values.put(QuestFeedEntry.COLUMN_NAME_IS_COMPLETED,
+					(quest.getIsComplete() ? 1 : 0));
+
+			if (quest.isTimed()) {
+				values.put(QuestFeedEntry.COLUMN_NAME_DEADLINE, quest
+						.getDeadline().toString());
+			} else {
+				values.putNull(QuestFeedEntry.COLUMN_NAME_DEADLINE);
+			}
+
+			values.put(QuestFeedEntry.COLUMN_NAME_RECURRENCE, quest
+					.getRecurrence().toString());
+
+			if (quest.isTempComplete()) {
+				values.put(QuestFeedEntry.COLUMN_NAME_REC_COMP_DATE, quest
+						.getRecCompDate().toString());
+			} else {
+				values.putNull(QuestFeedEntry.COLUMN_NAME_REC_COMP_DATE);
+			}
+
+			Log.i("Debug:", "Saved quest '" + quest.getName()
 					+ "' in database:");
-			Log.i("Debug:", "	Name= '" + allQuests.get(i).getName());
-			Log.i("Debug:", "	Description= '"
-					+ allQuests.get(i).getDescription());
-			Log.i("Debug:", "	Quest Type= '"
-					+ allQuests.get(i).getStatType().toString());
-			Log.i("Debug:", "	Difficulty= '"
-					+ allQuests.get(i).getDifficulty().toString());
+			Log.i("Debug:", "	Name= '" + quest.getName());
+			Log.i("Debug:", "	Description= '" + quest.getDescription());
+			Log.i("Debug:", "	Quest Type= '" + quest.getStatType().toString());
+			Log.i("Debug:", "	Difficulty= '" + quest.getDifficulty().toString());
 			Log.i("Debug:", "	Completed= '"
-					+ (allQuests.get(i).getIsComplete() ? "true" : "false"));
+					+ (quest.getIsComplete() ? "true" : "false"));
+			Log.i("Debug:", "   Recurrence= "
+					+ quest.getRecurrence().toString());
+
+			if (quest.getRecCompDate() != null) {
+				Log.i("Debug:", "   Rec Comp Date = "
+						+ quest.getRecCompDate().toString());
+			} else {
+				Log.i("Debug:", "   Rec Comp Date = (NONE)");
+			}
 
 			// Insert the new row, returning the primary key value of the new
 			// row
@@ -267,5 +342,4 @@ public class QuestManager {
 		db.close();
 
 	}
-
 }

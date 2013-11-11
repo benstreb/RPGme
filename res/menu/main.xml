@@ -3,4 +3,10 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item
+        android:id="@+id/actionBarEnergy"
+        android:title="Energy"
+        android:actionLayout="@layout/action_bar_layout"
+        android:showAsAction="always"/>
+    
 </menu>
