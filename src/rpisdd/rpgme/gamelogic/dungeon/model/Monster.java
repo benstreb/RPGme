@@ -2,6 +2,7 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 
@@ -67,8 +68,10 @@ public class Monster implements RoomContent, HasHealth {
 	}
 
 	//
-	public void die() {
+	public Reward die() {
+		Reward reward = new Reward();
 
+		return reward;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,9 +35,9 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 	}
 
 	private Button createQuest;
-	private Button deleteQuest;
-	private Button completeQuest;
-	private Button viewQuest;
+	private ImageButton deleteQuest;
+	private ImageButton completeQuest;
+	private ImageButton viewQuest;
 
 	private View selectedQuest;
 	private Quest currentQuest;
@@ -54,11 +55,11 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 
 		createQuest = (Button) v.findViewById(R.id.createQuestButton);
 		createQuest.setOnClickListener(this);
-		deleteQuest = (Button) v.findViewById(R.id.deleteQuestButton);
+		deleteQuest = (ImageButton) v.findViewById(R.id.deleteQuestButton);
 		deleteQuest.setOnClickListener(this);
-		completeQuest = (Button) v.findViewById(R.id.completeQuestButton);
+		completeQuest = (ImageButton) v.findViewById(R.id.completeQuestButton);
 		completeQuest.setOnClickListener(this);
-		viewQuest = (Button) v.findViewById(R.id.viewQuestButton);
+		viewQuest = (ImageButton) v.findViewById(R.id.viewQuestButton);
 		viewQuest.setOnClickListener(this);
 
 		updateButtons();
