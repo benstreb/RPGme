@@ -13,14 +13,14 @@ public final class Consumable extends Item {
 			return new EnergyHealer(doesWhat.get(1).getAsInt()) {
 				@Override
 				public boolean isUsable(Player p) {
-					return p.getEnergy() > 0;
+					return p.isConscious();
 				}
 			};
 		} else if (doerType.equals("revive")) {
 			return new EnergyHealer(doesWhat.get(1).getAsInt()) {
 				@Override
 				public boolean isUsable(Player p) {
-					return p.getEnergy() <= 0;
+					return !p.isConscious();
 				}
 			};
 		} else {

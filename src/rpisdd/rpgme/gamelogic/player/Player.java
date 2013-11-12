@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 import android.app.Activity;
@@ -8,8 +9,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
-public class Player {
+public class Player implements HasHealth {
 	final static int EXP_PER_LEVEL = 100;
 
 	private static Player player = null;
@@ -23,6 +25,9 @@ public class Player {
 
 	private int gold;
 	private int energy;
+
+	public int roomX;
+	public int roomY;
 
 	public Player(CharSequence name, CharSequence classs, int avatarId) {
 		this.name = name.toString();
@@ -77,8 +82,16 @@ public class Player {
 	/*
 	 * returns the player's current energy
 	 */
+	@Override
 	public int getEnergy() {
 		return stats.getBaseEnergy();
+	}
+
+	/*
+	 * Returns true if the player is unconscious and false otherwise.
+	 */
+	public boolean isConscious() {
+		return energy > 0;
 	}
 
 	/*
@@ -95,6 +108,9 @@ public class Player {
 	 * Decreases the player's current energy
 	 */
 	public void deductEnergy(int amount) {
+		if (!isConscious()) {
+			Log.w("player", "Player is losing energy while unconscious.");
+		}
 		energy -= amount;
 		if (energy < 0) {
 			energy = 0;
@@ -152,6 +168,7 @@ public class Player {
 	/*
 	 * Returns player's max energy
 	 */
+	@Override
 	public int getMaxEnergy() {
 		return stats.getBaseEnergy();
 	}
@@ -297,6 +314,11 @@ public class Player {
 		default:
 			return -1;
 		}
+	}
+
+	public void takeDamage(int[] damagePair) {
+		// For now, just decrement energy by 1
+		deductEnergy(1);
 	}
 
 	// ///////////////////////////////////////////////

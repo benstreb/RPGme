@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 //This is the main activity of the game, that will host the various menus and such.
 public class MainActivity extends FragmentActivity {
@@ -86,6 +87,7 @@ public class MainActivity extends FragmentActivity {
 			selectItem(0);
 		}
 
+		supportInvalidateOptionsMenu();
 	}
 
 	// Save all data here
@@ -105,10 +107,39 @@ public class MainActivity extends FragmentActivity {
 	// Called whenever we call invalidateOptionsMenu()
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// If the nav drawer is open, hide action items related to the content
-		// view
+		// If nav drawer is open, hide action items related to the content view
 		// boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
+		/*
+		 * MenuItem item = menu.findItem(R.id.action_settings);
+		 * item.setTitle("sampleText");
+		 * 
+		 * TextView tv = (TextView) item.getActionView().findViewById(
+		 * R.id.actionBarEnergy); tv.setText("sampleText");
+		 */
+		MenuItem menuItem = menu.findItem(R.id.actionBarEnergy);
+		if (menuItem == null) {
+			System.out.println("menuitem null");
+		}
+
+		View v = menuItem.getActionView();
+		if (v == null) {
+			System.out.println("view null");
+		}
+		TextView textView = (TextView) v.findViewById(R.id.actionBarEnergyText);
+
+		if (textView == null) {
+			System.out.println("text view null");
+		}
+		String energyText = "Energy: "
+				+ Integer.toString(Player.getPlayer().getEnergy());
+
+		// System.out.println(Integer.toString(Player.getPlayer().getEnergy()));
+
+		textView.setText(energyText);
+
 		return super.onPrepareOptionsMenu(menu);
+
 	}
 
 	@Override
@@ -136,6 +167,10 @@ public class MainActivity extends FragmentActivity {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
+	}
+
+	public void blockMenuAccess() {
+
 	}
 
 	// Called when an item was selected in the navigation drawer.

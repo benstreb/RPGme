@@ -1,5 +1,7 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import android.app.Activity;
+
 public class Room {
 	boolean visited;
 	boolean canVisit;
@@ -11,11 +13,11 @@ public class Room {
 		this.content = content_;
 	}
 
-	public boolean visit() {
+	public boolean visit(Activity activity) {
 		this.visited = true;
 
 		if (this.hasContent()) {
-			return this.content.Encounter();
+			return this.content.Encounter(activity);
 		}
 		return true;
 	}

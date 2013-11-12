@@ -1,5 +1,5 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
-public class MapCanvas {
+public class DamageText extends ViewObject {
 
 }

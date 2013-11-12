@@ -1,7 +1,9 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
 import rpisdd.rpgme.gamelogic.dungeon.model.TreasureRoom;
+import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,8 @@ import android.widget.TextView;
 public class DungeonMenu extends Fragment implements OnClickListener {
 
 	private Button enterTreasure;
+	private Dungeon dungeon;
+	private DungeonSurfaceView dungeonView;
 
 	public DungeonMenu() {
 	}
@@ -29,6 +33,14 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 
 		enterTreasure = (Button) v.findViewById(R.id.treasureEnterButton);
 		enterTreasure.setOnClickListener(this);
+
+		// DungeonSurfaceView dv = new DungeonSurfaceView(getActivity());
+
+		dungeon = new Dungeon(0);
+		dungeonView = (DungeonSurfaceView) v
+				.findViewById(R.id.dungeonSurfaceView);
+		dungeonView.setFloorView(dungeon);
+
 		return v;
 	}
 

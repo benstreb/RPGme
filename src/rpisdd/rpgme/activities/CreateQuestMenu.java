@@ -5,10 +5,11 @@ import org.joda.time.DateTime;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
-import rpisdd.rpgme.gamelogic.quests.DateFormatter;
+import rpisdd.rpgme.gamelogic.quests.DateHelper;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.Quest.QuestBuilder;
 import rpisdd.rpgme.gamelogic.quests.QuestDifficulty;
+import rpisdd.rpgme.gamelogic.quests.Recurrence;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -126,7 +127,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 						if (isBadTime(deadline)) {
 							badTimePopup();
 						} else {
-							deadlineView.setText(DateFormatter
+							deadlineView.setText(DateHelper
 									.formatDate(deadline));
 							dialog.cancel();
 						}
@@ -176,14 +177,9 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Spinner tag = (Spinner) getView().findViewById(R.id.statDropDown);
 		Spinner diff = (Spinner) getView()
 				.findViewById(R.id.difficultyDropDown);
+		Spinner recurrence = (Spinner) getView().findViewById(
+				R.id.recurrenceDropDown);
 
-		if( ((String)deadlineView.getText()).equals(noDateSet) ) {
-			Log.i("Debug", "The deadline text eqlas noDateSet.");
-		}
-		else
-			Log.i("Debug","not so");
-		Log.i("Debug", (String)deadlineView.getText() + "=" + noDateSet);
-		
 		if (name.getText().toString().equals("")) {
 			TextView error = (TextView) getView().findViewById(
 					R.id.createQuestError);
@@ -206,18 +202,21 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		StatType type = StatType.stringToType(tag.getSelectedItem().toString());
 		QuestDifficulty quest_diff = QuestDifficulty.stringToDifficulty(diff
 				.getSelectedItem().toString());
+		Recurrence recType = Recurrence.stringToRecurrence(recurrence
+				.getSelectedItem().toString());
+
 		String deadlineStr = (String) deadlineView.getText();
 
 		Quest newQuest = null;
 
 		if (deadlineStr.equals(noDateSet)) {
 			newQuest = new QuestBuilder(name.getText().toString(), desc
-					.getText().toString(), quest_diff, type).build();
+					.getText().toString(), quest_diff, type, recType).build();
 			Log.i("Debug", "Created non-timed quest");
 		} else {
 			newQuest = new QuestBuilder(name.getText().toString(), desc
-					.getText().toString(), quest_diff, type).deadline(deadline)
-					.build();
+					.getText().toString(), quest_diff, type, recType).deadline(
+					deadline).build();
 			Log.i("Debug", "Created timed quest with time " + deadline);
 		}
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<rpisdd.rpgme.gamelogic.dungeon.viewcontrol.BattleSurfaceView
+        android:id="@+id/battleSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6" />
+	
+	<!-- BUttons -->
+	<LinearLayout 
+		android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+		
+	    <!-- Top 2 BUttons -->
+		<LinearLayout 
+			android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_weight="2" >
+		    
+		    <!--  STRENGTH button -->
+			<Button
+			    android:id="@+id/strengthAtkButton"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="Strength Attack" />
+			
+			<!--  INTELLIGENCE button -->
+			<Button
+			    android:id="@+id/intelAtkButton"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="Intel Attack" />
+			
+		</LinearLayout>
+	    	
+		<!-- Bottom 2 BUttons -->
+		<LinearLayout 
+			android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:layout_weight="2" >
+			
+		    <!--  WILL button -->
+			<Button
+			    android:id="@+id/willAtkButton"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="Will Attack" />
+			
+			<!--  SPIRIT button -->
+			<Button
+			    android:id="@+id/spiritAtkButton"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="1"
+			    android:text="Spirit Attack" />
+		    
+		</LinearLayout>
+		
+		<!--  Runaway button -->
+		<Button
+		    android:id="@+id/runAwayButton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:layout_weight="1"
+		    android:text="Run" />
+		
+	</LinearLayout>
+
+</LinearLayout>
