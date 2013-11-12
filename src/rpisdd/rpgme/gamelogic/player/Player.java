@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -316,9 +317,29 @@ public class Player implements HasHealth {
 		}
 	}
 
-	public void takeDamage(int[] damagePair) {
-		// For now, just decrement energy by 1
-		deductEnergy(1);
+	// Receive an attack. Calculate damage based on the
+	// type of attack, the base power of the attack, and
+	// the appropriate defense stat of the player. Then
+	// damage the player's energy by that amount.
+	public void takeDamage(Combat.Attack atk) {
+		int defenseValue;
+		switch (atk.type) {
+		case STRENGTH:
+			defenseValue = this.getStrDef();
+			break;
+		case INTELLIGENCE:
+			defenseValue = this.getIntDef();
+			break;
+		case WILL:
+			defenseValue = this.getWillDef();
+			break;
+		case SPIRIT:
+			defenseValue = this.getSprDef();
+			;
+		default:
+			defenseValue = 0;
+		}
+		deductEnergy(Combat.CalculateAttackDamage(atk.power, defenseValue));
 	}
 
 	// ///////////////////////////////////////////////

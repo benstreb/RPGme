@@ -2,6 +2,7 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 
@@ -33,25 +34,23 @@ public class Monster implements RoomContent, HasHealth {
 
 	// Returns an int pair of the StatType of the attack,
 	// and the base damage this monster deals
-	public int[] MakeAttack() {
-		int result[] = { type.getValue(), damage };
-		return result;
+	public Combat.Attack MakeAttack() {
+		return new Combat.Attack(this.type, this.damage);
 	}
 
 	public String getImagePath() {
 		return imagePath;
 	}
 
-	// TODO reference damage equation so it's constant across all sources
 	// TODO make a class for attacks so we don't have to assume int array
 	// takes an attack, checks it against the monster's defense and returns the
 	// value
-	public int RecieveAttack(int attack[]) {
+	public int RecieveAttack(Combat.Attack atk) {
 		int damage;
-		if (attack[0] == this.type.getValue()) {
-			damage = attack[1] - defense;
+		if (atk.type == this.type) {
+			damage = Combat.CalculateAttackDamage(atk.power, defense);
 		} else {
-			damage = attack[1] - defense / 2;
+			damage = Combat.CalculateAttackDamage(atk.power, defense / 2);
 		}
 		return damage;
 	}
@@ -67,8 +66,10 @@ public class Monster implements RoomContent, HasHealth {
 	}
 
 	//
-	public void die() {
+	public Reward die() {
+		Reward reward = new Reward();
 
+		return reward;
 	}
 
 	@Override

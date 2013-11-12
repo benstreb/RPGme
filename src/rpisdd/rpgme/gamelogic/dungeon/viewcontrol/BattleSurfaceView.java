@@ -5,6 +5,7 @@ import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.DungeonMenu;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.activities.StatsMenu;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
@@ -162,8 +163,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Player attacks");
 		state = State.PLAYER_ATTACK;
 		// Damage the monster here
-		int[] pair = new int[] { type.getValue(), 5 };
-		monsterModel.RecieveDamage(monsterModel.RecieveAttack(pair));
+		Combat.Attack atk = new Combat.Attack(type, 5);
+		monsterModel.RecieveDamage(monsterModel.RecieveAttack(atk));
 	}
 
 	public void monsterTurn() {
