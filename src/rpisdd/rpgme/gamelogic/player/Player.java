@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -316,7 +317,7 @@ public class Player implements HasHealth {
 		}
 	}
 
-	public void takeDamage(int[] damagePair) {
+	public void takeDamage(Combat.Attack atk) {
 		// For now, just decrement energy by 1
 		deductEnergy(1);
 	}
