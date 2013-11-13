@@ -1,7 +1,6 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
-import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;

@@ -169,8 +169,17 @@ public class MainActivity extends FragmentActivity {
 				.replace(R.id.content_frame, fragment).commit();
 	}
 
-	public void blockMenuAccess() {
+	/*
+	 * public void enterBattle() { enableActionBar(false);
+	 * enableNavigationDrawer(false); changeFragment(new BattleMenu()); }
+	 */
 
+	public void enterBattle() {
+		TransitionFragment trans = new TransitionFragment();
+		trans.showOrHide = false;
+		trans.nextFragment = new BattleMenu();
+
+		changeFragment(trans);
 	}
 
 	// Called when an item was selected in the navigation drawer.
@@ -211,10 +220,6 @@ public class MainActivity extends FragmentActivity {
 		getActionBar().setTitle(mTitle);
 	}
 
-	//
-	// When using the ActionBarDrawerToggle, you must call it during
-	// onPostCreate() and onConfigurationChanged()...
-	//
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -227,6 +232,23 @@ public class MainActivity extends FragmentActivity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	public void enableActionBar(boolean show) {
+		if (!show) {
+			getActionBar().hide();
+		} else {
+			getActionBar().show();
+		}
+	}
+
+	public void enableNavigationDrawer(boolean show) {
+		if (!show) {
+			mDrawerLayout
+					.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		} else {
+			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+		}
 	}
 
 }
