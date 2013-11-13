@@ -26,23 +26,30 @@ public class ViewThread extends Thread {
 	// the frame period
 	private final static int FRAME_PERIOD = 1000 / MAX_FPS;
 
+	// Returns the time in seconds it took to complete the last frame.
 	public float deltaTime() {
-		return 1 / 60f;
+		float dt = (frameTime) / 1000f;
+		// System.out.format("Time: %f%n", dt);
+		return dt;
 	}
+
+	long beginTime; // the time when the cycle begun
+	long timeDiff; // the time it took for the cycle to execute
+	int sleepTime; // ms to sleep (<0 if we're behind)
+	int framesSkipped; // number of frames being skipped
+
+	long frameTime;
 
 	@Override
 	public void run() {
 		Canvas canvas;
 		// Log.d(TAG, "Starting game loop");
 
-		long beginTime; // the time when the cycle begun
-		long timeDiff; // the time it took for the cycle to execute
-		int sleepTime; // ms to sleep (<0 if we're behind)
-		int framesSkipped; // number of frames being skipped
-
 		sleepTime = 0;
 
 		while (running) {
+
+			long startTime = System.currentTimeMillis();
 			canvas = null;
 			// try locking the canvas for exclusive pixel editing
 			// in the surface
@@ -91,6 +98,7 @@ public class ViewThread extends Thread {
 					surfaceHolder.unlockCanvasAndPost(canvas);
 				}
 			} // end finally
+			frameTime = System.currentTimeMillis() - startTime;
 		}
 	}
 }

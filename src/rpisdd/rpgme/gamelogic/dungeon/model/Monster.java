@@ -77,7 +77,7 @@ public class Monster implements RoomContent, HasHealth {
 		// Switch fragments to Battle fragment
 		BattleMenu battle = new BattleMenu();
 
-		((MainActivity) activity).changeFragment(battle);
+		((MainActivity) activity).enterBattle();
 
 		return false;
 	}

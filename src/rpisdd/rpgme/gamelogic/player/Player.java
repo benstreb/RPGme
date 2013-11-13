@@ -316,9 +316,11 @@ public class Player implements HasHealth {
 		}
 	}
 
-	public void takeDamage(int[] damagePair) {
+	// The player will take damage. Return the damage dealt.
+	public int takeDamage(int[] damagePair) {
 		// For now, just decrement energy by 1
 		deductEnergy(1);
+		return 1;
 	}
 
 	// ///////////////////////////////////////////////

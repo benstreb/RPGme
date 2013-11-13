@@ -71,7 +71,7 @@ public class DungeonSurfaceView extends SurfaceView implements
 	public void update() {
 
 		floor.update();
-		avatar.update();
+		avatar.update(thread);
 
 		avatar.x = FloorView.indexToCoord(Player.getPlayer().roomX);
 		avatar.y = FloorView.indexToCoord(Player.getPlayer().roomY);
