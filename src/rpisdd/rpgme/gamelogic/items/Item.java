@@ -132,4 +132,10 @@ public abstract class Item {
 	}
 
 	public abstract void useMe(Player p, int index);
+
+	public static void giveMeStuff(Player p, String... stuff) {
+		for (String thing : stuff) {
+			p.getInventory().addItem(createItemFromName(thing));
+		}
+	}
 }

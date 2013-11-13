@@ -317,9 +317,29 @@ public class Player implements HasHealth {
 		}
 	}
 
+	// Receive an attack. Calculate damage based on the
+	// type of attack, the base power of the attack, and
+	// the appropriate defense stat of the player. Then
+	// damage the player's energy by that amount.
 	public void takeDamage(Combat.Attack atk) {
-		// For now, just decrement energy by 1
-		deductEnergy(1);
+		int defenseValue;
+		switch (atk.type) {
+		case STRENGTH:
+			defenseValue = this.getStrDef();
+			break;
+		case INTELLIGENCE:
+			defenseValue = this.getIntDef();
+			break;
+		case WILL:
+			defenseValue = this.getWillDef();
+			break;
+		case SPIRIT:
+			defenseValue = this.getSprDef();
+			;
+		default:
+			defenseValue = 0;
+		}
+		deductEnergy(Combat.CalculateAttackDamage(atk.power, defenseValue));
 	}
 
 	// ///////////////////////////////////////////////

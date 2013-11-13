@@ -1,18 +1,50 @@
 [
 	{
-		"name":"Small Sword",
-		"price":100 ,
-		"filename":"sword1_red.png",
+		"name":"Light Sword",
+		"price":100,
+		"filename":"sword1_yellow.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
 		"type":"weapon",
-		"description":"A cheap sword that improves all stat types."
+		"description":"Is that styrofoam?"
 	},
 	{
-		"name":"Steel Plate",
+		"name":"Cracked Plate",
 		"price":100,
 		"filename":"armor1.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
 		"type":"armor",
-		"description":"Cheap armor that improves all stat types."
+		"description":"It looks like it'll fall apart as soon as something hits it."
+	},
+	{
+		"name":"Small strength Sword",
+		"price":300,
+		"filename":"sword1_red.png",
+		"effect":{"strength":5,"intelligence":2,"spirit":2,"will":2},
+		"type":"weapon",
+		"description":"A cheap sword that improves strength."
+	},
+	{
+		"name":"Small intelligence Sword",
+		"price":300,
+		"filename":"sword1_purple.png",
+		"effect":{"strength":2,"intelligence":5,"spirit":2,"will":2},
+		"type":"weapon",
+		"description":"A cheap sword that improves intelligence."
+	},
+	{
+		"name":"Small spirit Sword",
+		"price":300,
+		"filename":"sword1_green.png",
+		"effect":{"strength":2,"intelligence":2,"spirit":5,"will":2},
+		"type":"weapon",
+		"description":"A cheap sword that improves spirit."
+	},
+	{
+		"name":"Small will Sword",
+		"price":300,
+		"filename":"sword1_blue.png",
+		"effect":{"strength":2,"intelligence":2,"spirit":2,"will":5},
+		"type":"weapon",
+		"description":"A cheap sword that improves will."
 	}
 ]
