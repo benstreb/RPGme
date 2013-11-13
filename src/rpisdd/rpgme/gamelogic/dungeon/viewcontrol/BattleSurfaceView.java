@@ -186,7 +186,7 @@ public class BattleSurfaceView extends SurfaceView implements
 		} else {
 			attackPlayer(monsterModel.MakeAttack());
 		}
-		state = State.DONE;
+		// state = State.DONE;
 	}
 
 	private void attackPlayer(Combat.Attack atk) {
