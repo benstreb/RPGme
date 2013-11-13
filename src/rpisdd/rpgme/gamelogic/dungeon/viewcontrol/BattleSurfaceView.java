@@ -27,7 +27,7 @@ public class BattleSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, ThreadedSurfaceView {
 
 	enum State {
-		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD
+		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, DONE
 	}
 
 	State state = State.CHOOSE;
@@ -163,7 +163,25 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Player attacks");
 		state = State.PLAYER_ATTACK;
 		// Damage the monster here
-		Combat.Attack atk = new Combat.Attack(type, 5);
+		int powerValue;
+		switch (type) {
+		case STRENGTH:
+			powerValue = Player.getPlayer().getStrAtk();
+			break;
+		case INTELLIGENCE:
+			powerValue = Player.getPlayer().getIntAtk();
+			break;
+		case WILL:
+			powerValue = Player.getPlayer().getWillAtk();
+			break;
+		case SPIRIT:
+			powerValue = Player.getPlayer().getSprAtk();
+			;
+		default:
+			powerValue = 0;
+		}
+
+		Combat.Attack atk = new Combat.Attack(type, powerValue);
 		monsterModel.RecieveDamage(monsterModel.RecieveAttack(atk));
 	}
 
@@ -183,15 +201,19 @@ public class BattleSurfaceView extends SurfaceView implements
 									returnToDungeon();
 								}
 							});
+		} else {
+			attackPlayer(monsterModel.MakeAttack());
 		}
 
-		else {
-			System.out.println("Player's being damaged!");
-			Player.getPlayer().takeDamage(monsterModel.MakeAttack());
+		state = State.DONE;
+	}
 
-			if (Player.getPlayer().getEnergy() <= 0) {
-				redirectToStats();
-			}
+	private void attackPlayer(Combat.Attack atk) {
+		System.out.println("Player's being damaged!");
+		Player.getPlayer().takeDamage(atk);
+		((MainActivity) getContext()).setEnergy(Player.getPlayer().getEnergy());
+		if (Player.getPlayer().getEnergy() <= 0) {
+			redirectToStats();
 		}
 	}
 
@@ -200,6 +222,7 @@ public class BattleSurfaceView extends SurfaceView implements
 	}
 
 	public void redirectToStats() {
+		Log.println(0, "death", "Player was knocked out");
 		((MainActivity) getContext()).changeFragment(new StatsMenu());
 	}
 
