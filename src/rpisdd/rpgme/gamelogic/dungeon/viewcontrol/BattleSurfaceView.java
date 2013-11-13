@@ -144,10 +144,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Player attacks");
 		state = State.PLAYER_ATTACK;
 		// Damage the monster here
-		int[] pair = new int[] { type.getValue(), 5 };
-		int damage = monsterModel.RecieveAttack(pair);
-		monsterModel.RecieveDamage(damage);
-		monster.setDamageText(damage);
+		Combat.Attack atk = new Combat.Attack(type, 5);
+		monsterModel.RecieveDamage(monsterModel.RecieveAttack(atk));
 	}
 
 	public void monsterTurn() {
