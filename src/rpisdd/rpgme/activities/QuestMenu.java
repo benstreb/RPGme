@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -135,6 +136,9 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 			if (q != null) {
 				TextView name = (TextView) v
 						.findViewById(R.id.questListItemName);
+				ImageView statImg = (ImageView) v
+						.findViewById(R.id.statTypeImage);
+				statImg.setImageResource(q.getStatType().getImgPath());
 				if (q.isFailed()) {
 					name.setText(q.getName() + " (FAILED)");
 					name.setTextColor(Color.RED);
