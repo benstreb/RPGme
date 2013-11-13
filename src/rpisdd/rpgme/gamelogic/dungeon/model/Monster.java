@@ -68,7 +68,7 @@ public class Monster implements RoomContent, HasHealth {
 	//
 	public Reward die() {
 		Reward reward = new Reward();
-
+		reward.setGoldIncrease(10);
 		return reward;
 	}
 
