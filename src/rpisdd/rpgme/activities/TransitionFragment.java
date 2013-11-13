@@ -8,10 +8,15 @@ import android.view.ViewGroup;
 
 public class TransitionFragment extends Fragment {
 
-	public Fragment nextFragment;
-	public boolean showOrHide;
+	private Fragment nextFragment;
+	private boolean showOrHide;
 
 	public TransitionFragment() {
+	}
+
+	public void setValues(Fragment nextFragment, boolean showOrHide) {
+		this.nextFragment = nextFragment;
+		this.showOrHide = showOrHide;
 	}
 
 	@Override

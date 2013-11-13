@@ -16,7 +16,8 @@ public class RoomView extends ViewObject {
 	public static final int WIDTH = 50; // Specifies room width in pixels
 	private final Room room; // The room model object of which this view object
 								// uses
-	public boolean isSelected = false;
+
+	private boolean isSelected = false;
 
 	private static Bitmap roomBitmap;
 	private static Bitmap monsterRoomBitmap;
@@ -46,8 +47,15 @@ public class RoomView extends ViewObject {
 				WIDTH, false);
 	}
 
-	public RoomView(Room room, Resources res) {
+	public boolean getIsSelected() {
+		return isSelected;
+	}
 
+	public void setSelected(boolean option) {
+		isSelected = option;
+	}
+
+	public RoomView(Room room, Resources res) {
 		this.room = room;
 	}
 

@@ -2,6 +2,8 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.activities.AnnoyingPopup;
 import rpisdd.rpgme.activities.BattleMenu;
+import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
@@ -21,8 +23,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, ThreadedSurfaceView {
 
 	enum State {
-		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, TRANSITION
-	}
+		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, TRANSITION, DONE
+	};
 
 	State state = State.CHOOSE;
 
@@ -144,8 +146,28 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Player attacks");
 		state = State.PLAYER_ATTACK;
 		// Damage the monster here
-		Combat.Attack atk = new Combat.Attack(type, 5);
-		monsterModel.RecieveDamage(monsterModel.RecieveAttack(atk));
+		int powerValue;
+		switch (type) {
+		case STRENGTH:
+			powerValue = Player.getPlayer().getStrAtk();
+			break;
+		case INTELLIGENCE:
+			powerValue = Player.getPlayer().getIntAtk();
+			break;
+		case WILL:
+			powerValue = Player.getPlayer().getWillAtk();
+			break;
+		case SPIRIT:
+			powerValue = Player.getPlayer().getSprAtk();
+			;
+		default:
+			powerValue = 0;
+		}
+
+		Combat.Attack atk = new Combat.Attack(type, powerValue);
+		int damage = monsterModel.RecieveAttack(atk);
+		monsterModel.RecieveDamage(damage);
+		monster.setDamageText(damage);
 	}
 
 	public void monsterTurn() {
@@ -153,27 +175,42 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Monster's turn");
 
 		if (monsterModel.getEnergy() <= 0) {
-			AnnoyingPopup
-					.notice((Activity) getContext(),
-							"You defeated the monster!\n\nYou gained 0 exp.\nYou found 0 gold.",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									returnToDungeon();
-								}
-							});
+			((Activity) getContext()).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					AnnoyingPopup
+							.notice((Activity) getContext(),
+									"You defeated the monster!\n\nYou gained 0 exp.\nYou found 0 gold.",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(
+												DialogInterface dialog, int id) {
+											dialog.cancel();
+											returnToDungeon();
+										}
+									});
+				}
+
+			});
+		} else {
+			attackPlayer(monsterModel.MakeAttack());
 		}
+	}
 
-		else {
-			System.out.println("Player's being damaged!");
-			Player.getPlayer().takeDamage(monsterModel.MakeAttack());
-			avatar.setDamageText(1);
+	private void attackPlayer(Combat.Attack atk) {
+		System.out.println("Player's being damaged!");
+		int dmg = Player.getPlayer().takeDamage(atk);
 
-			if (Player.getPlayer().getEnergy() <= 0) {
-				knockedUnconscious();
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				((MainActivity) getContext()).updateEnergyBar();
 			}
+		});
+		avatar.setDamageText(dmg);
+
+		if (Player.getPlayer().getEnergy() <= 0) {
+			knockedUnconscious();
 		}
 	}
 

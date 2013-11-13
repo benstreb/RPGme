@@ -32,7 +32,7 @@ public class MonsterView extends ViewObject {
 	public void update(ViewThread thread) {
 		if (damageText != null) {
 			damageText.update(thread);
-			if (damageText.destroySelf) {
+			if (damageText.getDestroySelf()) {
 				damageText = null;
 			}
 		}
