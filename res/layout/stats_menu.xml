@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/avatarView"
             android:layout_alignTop="@id/avatarView"
-            android:src="@drawable/av_amour1" />
+            android:src="@drawable/av_armor1" />
 
         <ImageView
             android:id="@+id/weaponView"

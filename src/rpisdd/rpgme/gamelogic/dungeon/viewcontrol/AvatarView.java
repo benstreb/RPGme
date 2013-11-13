@@ -1,6 +1,5 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
-import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.utils.BitmapUtil;
 import android.app.Activity;
@@ -14,12 +13,14 @@ public class AvatarView extends ViewObject {
 	Bitmap weaponBitmap;
 	Bitmap armorBitmap;
 
+	public DamageText damageText;
+
 	public AvatarView(float x, float y, Activity activity) {
 
 		super(x, y);
 
-		bitmap = BitmapFactory.decodeResource(activity.getResources(),
-				R.drawable.av_f1_avatar);
+		bitmap = BitmapFactory.decodeResource(activity.getResources(), Player
+				.getPlayer().getAvatar());
 
 		if (Player.getPlayer().getInventory().getArmor() != null) {
 			String armorPath = Player.getPlayer().getInventory().getArmor()
@@ -38,9 +39,18 @@ public class AvatarView extends ViewObject {
 		setScale(scaleFactor);
 	}
 
-	@Override
-	public void update() {
+	public void setDamageText(int damage) {
+		damageText = new DamageText(x, y - (getHeight() / 2f), damage, 1, 20);
+	}
 
+	@Override
+	public void update(ViewThread thread) {
+		if (damageText != null) {
+			damageText.update(thread);
+			if (damageText.destroySelf) {
+				damageText = null;
+			}
+		}
 	}
 
 	@Override
@@ -93,6 +103,9 @@ public class AvatarView extends ViewObject {
 		if (armorBitmap != null) {
 			canvas.drawBitmap(armorBitmap, x - (bitmap.getWidth() / 2f), y
 					- (bitmap.getHeight() / 2f), null);
+		}
+		if (damageText != null) {
+			damageText.draw(canvas);
 		}
 	}
 

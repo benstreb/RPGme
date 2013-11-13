@@ -2,18 +2,13 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.activities.AnnoyingPopup;
 import rpisdd.rpgme.activities.BattleMenu;
-import rpisdd.rpgme.activities.DungeonMenu;
-import rpisdd.rpgme.activities.MainActivity;
-import rpisdd.rpgme.activities.StatsMenu;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
-import rpisdd.rpgme.utils.BitmapUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,8 +22,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, ThreadedSurfaceView {
 
 	enum State {
-		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, DONE
-	}
+		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, TRANSITION, DONE
+	};
 
 	State state = State.CHOOSE;
 
@@ -36,8 +31,8 @@ public class BattleSurfaceView extends SurfaceView implements
 	private ViewThread thread;
 
 	private AvatarView avatar;
-	private ViewObject monster;
 	private Monster monsterModel;
+	private MonsterView monster;
 
 	private HealthBar avatarHealth;
 	private HealthBar monsterHealth;
@@ -89,7 +84,7 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		setFocusable(true);
 
-		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight() / 4f,
+		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight() / 3f,
 				(Activity) getContext());
 
 		avatarHealth = new HealthBar(avatar.x, avatar.y - 50, 50, 10,
@@ -100,25 +95,11 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		monsterModel = monster;
 
-		Bitmap mBitmap = BitmapUtil.getBitmapFromAsset(getContext(),
-				monster.getImagePath());
-
-		float scaleFactor = 0.1f;
-
-		int srcWidth = mBitmap.getWidth();
-		int srcHeight = mBitmap.getHeight();
-		int dstWidth = (int) (srcWidth * scaleFactor);
-		int dstHeight = (int) (srcHeight * scaleFactor);
-
-		mBitmap = Bitmap.createScaledBitmap(mBitmap, dstWidth, dstHeight, true);
-
-		this.monster = new ViewObject(mBitmap, getCanvasWidth() * (3 / 4f),
-				getCanvasHeight() / 4f);
-
-		// this.monster = new ViewObject(mBitmap, 1, 2);
+		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f),
+				getCanvasHeight() / 3f, monster, (Activity) getContext());
 
 		monsterHealth = new HealthBar(this.monster.x, this.monster.y - 50, 50,
-				10, monsterModel);
+				10, monster);
 	}
 
 	/**
@@ -147,6 +128,7 @@ public class BattleSurfaceView extends SurfaceView implements
 			if (attackTimer >= attackDelay) {
 				attackTimer = 0;
 				returnToDungeon();
+				state = State.TRANSITION;
 				break;
 			}
 			attackTimer += thread.deltaTime();
@@ -155,8 +137,8 @@ public class BattleSurfaceView extends SurfaceView implements
 			break;
 		}
 
-		avatar.update();
-		monster.update();
+		avatar.update(thread);
+		monster.update(thread);
 	}
 
 	public void setPlayerAttack(StatType type) {
@@ -204,26 +186,35 @@ public class BattleSurfaceView extends SurfaceView implements
 		} else {
 			attackPlayer(monsterModel.MakeAttack());
 		}
-
 		state = State.DONE;
 	}
 
 	private void attackPlayer(Combat.Attack atk) {
 		System.out.println("Player's being damaged!");
-		Player.getPlayer().takeDamage(atk);
-		((MainActivity) getContext()).setEnergy(Player.getPlayer().getEnergy());
+		int resultDamage = Player.getPlayer().takeDamage(atk);
+		avatar.setDamageText(resultDamage);
+
 		if (Player.getPlayer().getEnergy() <= 0) {
-			redirectToStats();
+			knockedUnconscious();
 		}
 	}
 
 	public void returnToDungeon() {
-		((MainActivity) getContext()).changeFragment(new DungeonMenu());
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				battleMenu.returnToDungeon();
+			}
+		});
 	}
 
-	public void redirectToStats() {
-		Log.println(0, "death", "Player was knocked out");
-		((MainActivity) getContext()).changeFragment(new StatsMenu());
+	public void knockedUnconscious() {
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				battleMenu.redirectToStats();
+			}
+		});
 	}
 
 	@Override
@@ -233,11 +224,11 @@ public class BattleSurfaceView extends SurfaceView implements
 		// background.setBounds(new Rect(0, 0, 1000, 1000));
 		// background.draw(canvas);
 
-		monster.draw(canvas);
-		avatar.draw(canvas);
-
 		monsterHealth.draw(canvas);
 		avatarHealth.draw(canvas);
+
+		monster.draw(canvas);
+		avatar.draw(canvas);
 	}
 
 	@Override
@@ -246,6 +237,14 @@ public class BattleSurfaceView extends SurfaceView implements
 		if (changed) {
 			// (this).layout(0, 0, (int) floor.width, (int) floor.height);
 		}
+	}
+
+	@Override
+	protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
+		super.onSizeChanged(xNew, yNew, xOld, yOld);
+		// avatar.y = getCanvasHeight() / 2f;
+		// monster.y = getCanvasHeight() / 2f;
+
 	}
 
 	@Override
@@ -262,6 +261,10 @@ public class BattleSurfaceView extends SurfaceView implements
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d("Debug", "Surface is being destroyed");
+		stopThread();
+	}
+
+	public void stopThread() {
 		// tell the thread to shut down and wait for it to finish
 		// this is a clean shutdown
 		boolean retry = true;
@@ -277,5 +280,4 @@ public class BattleSurfaceView extends SurfaceView implements
 		}
 		Log.d("Debug", "Thread was shut down cleanly");
 	}
-
 }

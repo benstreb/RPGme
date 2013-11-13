@@ -60,6 +60,22 @@ public class ViewObject {
 
 	}
 
+	public float getWidth() {
+		if (bitmap != null) {
+			return bitmap.getWidth();
+		} else {
+			return 0;
+		}
+	}
+
+	public float getHeight() {
+		if (bitmap != null) {
+			return bitmap.getHeight();
+		} else {
+			return 0;
+		}
+	}
+
 	public float getX() {
 		return x;
 	}
@@ -81,7 +97,7 @@ public class ViewObject {
 				y - (bitmap.getHeight() / 2f), null);
 	}
 
-	public void update() {
+	public void update(ViewThread thread) {
 	}
 
 }

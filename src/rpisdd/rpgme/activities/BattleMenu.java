@@ -59,21 +59,27 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.strengthAtkButton: {
 			battleView.setPlayerAttack(StatType.STRENGTH);
+			disableButtons();
+
 			break;
 		}
 		case R.id.spiritAtkButton: {
 			battleView.setPlayerAttack(StatType.SPIRIT);
+			disableButtons();
 			break;
 		}
 		case R.id.willAtkButton: {
 			battleView.setPlayerAttack(StatType.WILL);
+			disableButtons();
 			break;
 		}
 		case R.id.intelAtkButton: {
 			battleView.setPlayerAttack(StatType.SPIRIT);
+			disableButtons();
 			break;
 		}
 		case R.id.runAwayButton: {
+			disableButtons();
 			returnToDungeon();
 			break;
 		}
@@ -91,11 +97,26 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		runAway.setEnabled(false);
 	}
 
+	/*
+	 * public void returnToDungeon() { ((MainActivity)
+	 * getActivity()).enableNavigationDrawer(true); ((MainActivity)
+	 * getActivity()).enableActionBar(true); ((MainActivity)
+	 * getActivity()).changeFragment(new DungeonMenu()); }
+	 */
+
 	public void returnToDungeon() {
-		((MainActivity) getActivity()).changeFragment(new DungeonMenu());
+
+		TransitionFragment trans = new TransitionFragment();
+		trans.showOrHide = true;
+		trans.nextFragment = new DungeonMenu();
+
+		((MainActivity) getActivity()).changeFragment(trans);
 	}
 
-	public void knockedUnconscious() {
+	public void redirectToStats() {
+		((MainActivity) getActivity()).enableNavigationDrawer(true);
+		((MainActivity) getActivity()).enableActionBar(true);
+		((MainActivity) getActivity()).changeFragment(new StatsMenu());
 
 	}
 

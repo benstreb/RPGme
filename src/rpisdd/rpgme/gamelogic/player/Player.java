@@ -321,7 +321,7 @@ public class Player implements HasHealth {
 	// type of attack, the base power of the attack, and
 	// the appropriate defense stat of the player. Then
 	// damage the player's energy by that amount.
-	public void takeDamage(Combat.Attack atk) {
+	public int takeDamage(Combat.Attack atk) {
 		int defenseValue;
 		switch (atk.type) {
 		case STRENGTH:
@@ -339,7 +339,9 @@ public class Player implements HasHealth {
 		default:
 			defenseValue = 0;
 		}
-		deductEnergy(Combat.CalculateAttackDamage(atk.power, defenseValue));
+		int damage = Combat.CalculateAttackDamage(atk.power, defenseValue);
+		deductEnergy(damage);
+		return damage;
 	}
 
 	// ///////////////////////////////////////////////
