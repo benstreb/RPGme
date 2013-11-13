@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -84,7 +85,7 @@ public class Player implements HasHealth {
 	 */
 	@Override
 	public int getEnergy() {
-		return stats.getBaseEnergy();
+		return energy;
 	}
 
 	/*
@@ -320,7 +321,7 @@ public class Player implements HasHealth {
 	// type of attack, the base power of the attack, and
 	// the appropriate defense stat of the player. Then
 	// damage the player's energy by that amount.
-	public void takeDamage(Combat.Attack atk) {
+	public int takeDamage(Combat.Attack atk) {
 		int defenseValue;
 		switch (atk.type) {
 		case STRENGTH:
@@ -338,7 +339,10 @@ public class Player implements HasHealth {
 		default:
 			defenseValue = 0;
 		}
-		deductEnergy(Combat.CalculateAttackDamage(atk.power, defenseValue));
+		int dmg = Combat.CalculateAttackDamage(atk.power, defenseValue);
+		deductEnergy(dmg);
+
+		return dmg;
 	}
 
 	// ///////////////////////////////////////////////
@@ -365,6 +369,7 @@ public class Player implements HasHealth {
 		e.putInt("avatarId", avatarId);
 		e.putBoolean("playerExists", true);
 		e.putInt("gold", gold);
+		e.putInt("energy", energy);
 		e.commit();
 	}
 
@@ -380,6 +385,7 @@ public class Player implements HasHealth {
 		p.inventory.loadItemsFromDatabase(activity);
 		p.stats.load(pref);
 		p.gold = pref.getInt("gold", 100);
+		p.energy = pref.getInt("energy", 1);
 		player = p;
 	}
 

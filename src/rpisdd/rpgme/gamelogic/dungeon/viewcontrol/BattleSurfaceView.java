@@ -2,6 +2,8 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.activities.AnnoyingPopup;
 import rpisdd.rpgme.activities.BattleMenu;
+import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
@@ -145,7 +147,9 @@ public class BattleSurfaceView extends SurfaceView implements
 		state = State.PLAYER_ATTACK;
 		// Damage the monster here
 		Combat.Attack atk = new Combat.Attack(type, 5);
-		monsterModel.RecieveDamage(monsterModel.RecieveAttack(atk));
+		int damage = monsterModel.RecieveAttack(atk);
+		monsterModel.RecieveDamage(damage);
+		monster.setDamageText(damage);
 	}
 
 	public void monsterTurn() {
@@ -153,23 +157,43 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Monster's turn");
 
 		if (monsterModel.getEnergy() <= 0) {
-			AnnoyingPopup
-					.notice((Activity) getContext(),
-							"You defeated the monster!\n\nYou gained 0 exp.\nYou found 0 gold.",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									returnToDungeon();
-								}
-							});
+			((Activity) getContext()).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					AnnoyingPopup
+							.notice((Activity) getContext(),
+									"You defeated the monster!\n\nYou gained 0 exp.\nYou found 0 gold.",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(
+												DialogInterface dialog, int id) {
+											dialog.cancel();
+											returnToDungeon();
+										}
+									});
+				}
+
+			});
 		}
 
 		else {
 			System.out.println("Player's being damaged!");
-			Player.getPlayer().takeDamage(monsterModel.MakeAttack());
-			avatar.setDamageText(1);
+			int dmg = Player.getPlayer().takeDamage(monsterModel.MakeAttack());
+
+			((Activity) getContext()).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					((MainActivity) getContext()).updateEnergyBar();
+				}
+			});
+			avatar.setDamageText(dmg);
+
+			/*
+			 * System.out
+			 * .println(Integer.toString(Player.getPlayer().getEnergy()));
+			 * System.out.println(Integer.toString(Player.getPlayer()
+			 * .getMaxEnergy()));
+			 */
 
 			if (Player.getPlayer().getEnergy() <= 0) {
 				knockedUnconscious();
