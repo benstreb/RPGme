@@ -6,13 +6,17 @@ import android.graphics.Paint;
 
 public class DamageText extends ViewObject {
 
-	public float maxTime;
-	public float timer;
-	public float floatDist;
-	public String damage;
-	public float startY;
-	Paint paint;
-	public boolean destroySelf;
+	private final float maxTime;
+	private float timer;
+	private final float floatDist;
+	private final String damage;
+	private final float startY;
+	private final Paint paint;
+	private boolean destroySelf;
+
+	public boolean getDestroySelf() {
+		return destroySelf;
+	}
 
 	public DamageText(float x, float y, int damage, float maxTime,
 			float floatDist) {

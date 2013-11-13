@@ -104,20 +104,16 @@ public class MainActivity extends FragmentActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	private TextView actionBarEnergyText = null;
+
 	// Called whenever we call invalidateOptionsMenu()
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If nav drawer is open, hide action items related to the content view
 		// boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 
-		/*
-		 * MenuItem item = menu.findItem(R.id.action_settings);
-		 * item.setTitle("sampleText");
-		 * 
-		 * TextView tv = (TextView) item.getActionView().findViewById(
-		 * R.id.actionBarEnergy); tv.setText("sampleText");
-		 */
 		MenuItem menuItem = menu.findItem(R.id.actionBarEnergy);
+
 		if (menuItem == null) {
 			System.out.println("menuitem null");
 		}
@@ -126,20 +122,26 @@ public class MainActivity extends FragmentActivity {
 		if (v == null) {
 			System.out.println("view null");
 		}
-		TextView textView = (TextView) v.findViewById(R.id.actionBarEnergyText);
+		actionBarEnergyText = (TextView) v
+				.findViewById(R.id.actionBarEnergyText);
 
-		if (textView == null) {
+		if (actionBarEnergyText == null) {
 			System.out.println("text view null");
 		}
 		String energyText = "Energy: "
 				+ Integer.toString(Player.getPlayer().getEnergy());
 
-		// System.out.println(Integer.toString(Player.getPlayer().getEnergy()));
-
-		textView.setText(energyText);
+		actionBarEnergyText.setText(energyText);
 
 		return super.onPrepareOptionsMenu(menu);
 
+	}
+
+	public void updateEnergyBar() {
+		if (actionBarEnergyText != null) {
+			actionBarEnergyText.setText("Energy: "
+					+ Integer.toString(Player.getPlayer().getEnergy()));
+		}
 	}
 
 	@Override
@@ -176,9 +178,7 @@ public class MainActivity extends FragmentActivity {
 
 	public void enterBattle() {
 		TransitionFragment trans = new TransitionFragment();
-		trans.showOrHide = false;
-		trans.nextFragment = new BattleMenu();
-
+		trans.setValues(new BattleMenu(), false);
 		changeFragment(trans);
 	}
 

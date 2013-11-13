@@ -107,9 +107,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 	public void returnToDungeon() {
 
 		TransitionFragment trans = new TransitionFragment();
-		trans.showOrHide = true;
-		trans.nextFragment = new DungeonMenu();
-
+		trans.setValues(new DungeonMenu(), true);
 		((MainActivity) getActivity()).changeFragment(trans);
 	}
 

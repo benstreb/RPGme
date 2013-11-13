@@ -50,9 +50,9 @@ public class FloorView {
 				if (rooms[i][j] != null && rooms[i][j].contains(x, y)) {
 
 					if (selectedRoom != null) {
-						selectedRoom.isSelected = false;
+						selectedRoom.setSelected(false);
 					}
-					rooms[i][j].isSelected = true;
+					rooms[i][j].setSelected(true);
 					selectedRoom = rooms[i][j];
 					Player.getPlayer().roomX = j;
 					Player.getPlayer().roomY = i;

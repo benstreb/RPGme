@@ -85,7 +85,7 @@ public class Player implements HasHealth {
 	 */
 	@Override
 	public int getEnergy() {
-		return stats.getBaseEnergy();
+		return energy;
 	}
 
 	/*
@@ -368,6 +368,7 @@ public class Player implements HasHealth {
 		e.putInt("avatarId", avatarId);
 		e.putBoolean("playerExists", true);
 		e.putInt("gold", gold);
+		e.putInt("energy", energy);
 		e.commit();
 	}
 
@@ -383,6 +384,7 @@ public class Player implements HasHealth {
 		p.inventory.loadItemsFromDatabase(activity);
 		p.stats.load(pref);
 		p.gold = pref.getInt("gold", 100);
+		p.energy = pref.getInt("energy", 1);
 		player = p;
 	}
 

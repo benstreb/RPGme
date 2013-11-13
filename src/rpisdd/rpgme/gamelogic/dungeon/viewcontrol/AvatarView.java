@@ -13,7 +13,7 @@ public class AvatarView extends ViewObject {
 	Bitmap weaponBitmap;
 	Bitmap armorBitmap;
 
-	public DamageText damageText;
+	private DamageText damageText;
 
 	public AvatarView(float x, float y, Activity activity) {
 
@@ -47,7 +47,7 @@ public class AvatarView extends ViewObject {
 	public void update(ViewThread thread) {
 		if (damageText != null) {
 			damageText.update(thread);
-			if (damageText.destroySelf) {
+			if (damageText.getDestroySelf()) {
 				damageText = null;
 			}
 		}
