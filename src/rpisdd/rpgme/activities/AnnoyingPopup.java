@@ -46,7 +46,7 @@ public final class AnnoyingPopup {
 			DialogInterface.OnClickListener doit) {
 		AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
 		builder1.setMessage(message);
-		builder1.setCancelable(true);
+		builder1.setCancelable(false);
 		builder1.setNeutralButton("OK", doit);
 
 		AlertDialog alert11 = builder1.create();

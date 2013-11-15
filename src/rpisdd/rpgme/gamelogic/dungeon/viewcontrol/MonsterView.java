@@ -10,6 +10,8 @@ public class MonsterView extends ViewObject {
 	public Monster monster;
 	public DamageText damageText;
 
+	public static float MONSTER_SCALE = 0.15f;
+
 	public MonsterView(float x, float y, Monster monster, Activity activity) {
 
 		super(x, y);
@@ -19,7 +21,7 @@ public class MonsterView extends ViewObject {
 		bitmap = BitmapUtil
 				.getBitmapFromAsset(activity, monster.getImagePath());
 
-		float scaleFactor = 0.1f;
+		float scaleFactor = MONSTER_SCALE * SCALE_FACTOR;
 
 		setScale(scaleFactor);
 	}

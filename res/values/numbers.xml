@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <integer name="monster_hp">10</integer>
+     <integer name="monster_atk">1</integer>
+     <integer name="monster_def">10</integer>
+</resources>

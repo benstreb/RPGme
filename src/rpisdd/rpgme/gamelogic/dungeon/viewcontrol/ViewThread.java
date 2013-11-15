@@ -8,9 +8,18 @@ public class ViewThread extends Thread {
 	private final SurfaceHolder surfaceHolder;
 	private final ThreadedSurfaceView gamePanel;
 	private boolean running;
+	private boolean paused;
 
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 
 	public ViewThread(SurfaceHolder surfaceHolder, ThreadedSurfaceView gamePanel) {
@@ -57,6 +66,10 @@ public class ViewThread extends Thread {
 
 				canvas = this.surfaceHolder.lockCanvas();
 
+				if (canvas == null) {
+					return;
+				}
+
 				synchronized (surfaceHolder) {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0; // resetting the frames skipped
@@ -67,6 +80,7 @@ public class ViewThread extends Thread {
 					if (canvas != null) {
 						this.gamePanel.render(canvas);
 					}
+
 					// calculate how long did the cycle take
 					timeDiff = System.currentTimeMillis() - beginTime;
 					// calculate sleep time
@@ -99,6 +113,8 @@ public class ViewThread extends Thread {
 				}
 			} // end finally
 			frameTime = System.currentTimeMillis() - startTime;
+
 		}
+
 	}
 }

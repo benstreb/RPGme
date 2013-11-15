@@ -25,7 +25,6 @@ public class TransitionFragment extends Fragment {
 
 		((MainActivity) getActivity()).enableNavigationDrawer(showOrHide);
 		((MainActivity) getActivity()).enableActionBar(showOrHide);
-
 		((MainActivity) getActivity()).changeFragment(nextFragment);
 
 		return null;

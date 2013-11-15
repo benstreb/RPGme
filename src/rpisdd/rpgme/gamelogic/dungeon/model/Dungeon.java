@@ -22,9 +22,14 @@ public class Dungeon {
 		map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
 		for (int i = 0; i < DUNGEON_DIMMENSION; i++) {
 			for (int j = 0; j < DUNGEON_DIMMENSION; j++) {
-				map[i][j] = new Room(new Monster("MonsterName",
-						"file:///android_asset/Monsters/monster1.png", 100, 5,
-						5, StatType.WILL));
+				if (i % 2 == 0) {
+					map[i][j] = new Room(new Treasure());
+				} else {
+					map[i][j] = new Room(new Monster("MonsterName",
+							"file:///android_asset/Monsters/monster1.png", 1,
+							1, 1, StatType.WILL));
+				}
+
 			}
 		}
 	}
@@ -37,6 +42,7 @@ public class Dungeon {
 	// then allow the player to visit nearby rooms
 	public void visitRoom(int x, int y, Activity activity) {
 		if (roomExists(x, y)) {
+
 			if (map[y][x].visit(activity)) {
 				if (roomExists(x + 1, y)) {
 					map[y][x + 1].setVisitable();

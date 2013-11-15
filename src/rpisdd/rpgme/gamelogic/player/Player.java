@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
@@ -30,6 +31,8 @@ public class Player implements HasHealth {
 	public int roomX;
 	public int roomY;
 
+	private MainActivity activity;
+
 	public Player(CharSequence name, CharSequence classs, int avatarId) {
 		this.name = name.toString();
 		this.classs = classs.toString();
@@ -39,6 +42,10 @@ public class Player implements HasHealth {
 		this.stats = new Stats();
 		this.gold = 100;
 		this.energy = 10;
+	}
+
+	public void setActivity(MainActivity activity) {
+		this.activity = activity;
 	}
 
 	public int getAvatar() {
@@ -103,6 +110,7 @@ public class Player implements HasHealth {
 		if (energy > getMaxEnergy()) {
 			energy = getMaxEnergy();
 		}
+		activity.updateEnergyBar();
 	}
 
 	/*
@@ -116,6 +124,7 @@ public class Player implements HasHealth {
 		if (energy < 0) {
 			energy = 0;
 		}
+		activity.updateEnergyBar();
 	}
 
 	/*
@@ -335,7 +344,7 @@ public class Player implements HasHealth {
 			break;
 		case SPIRIT:
 			defenseValue = this.getSprDef();
-			;
+			break;
 		default:
 			defenseValue = 0;
 		}

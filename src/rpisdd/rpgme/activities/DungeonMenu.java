@@ -7,13 +7,14 @@ import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class DungeonMenu extends Fragment implements OnClickListener {
@@ -31,30 +32,36 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.dungeon_menu, container, false);
 
-		enterTreasure = (Button) v.findViewById(R.id.treasureEnterButton);
-		enterTreasure.setOnClickListener(this);
+		// enterTreasure = (Button) v.findViewById(R.id.treasureEnterButton);
+		// enterTreasure.setOnClickListener(this);
 
-		// DungeonSurfaceView dv = new DungeonSurfaceView(getActivity());
+		ScrollView scrollV = (ScrollView) v
+				.findViewById(R.id.dungeonVertScroll);
+		HorizontalScrollView scrollH = (HorizontalScrollView) v
+				.findViewById(R.id.dungeonHorizScroll);
 
 		dungeon = new Dungeon(0);
 		dungeonView = (DungeonSurfaceView) v
 				.findViewById(R.id.dungeonSurfaceView);
+
+		// dungeonView.setZOrderOnTop(false); // necessary
+		// SurfaceHolder sfhTrackHolder = dungeonView.getHolder();
+		// sfhTrackHolder.setFormat(PixelFormat.TRANSPARENT);
+
 		dungeonView.setFloorView(dungeon);
+		dungeonView.scrollV = scrollV;
+		dungeonView.scrollH = scrollH;
 
 		return v;
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.treasureEnterButton: {
-			Log.i("my_message", "we entered the treasure!");
-			enterTreasure();
-			break;
-		}
-		default:
-			break;
-		}
+		/*
+		 * switch (v.getId()) { case R.id.treasureEnterButton: {
+		 * Log.i("my_message", "we entered the treasure!"); enterTreasure();
+		 * break; } default: break; }
+		 */
 	}
 
 	public void enterTreasure() {

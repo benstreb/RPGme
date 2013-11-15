@@ -5,13 +5,17 @@ import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
+import android.widget.ScrollView;
 
 public class DungeonSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, ThreadedSurfaceView {
@@ -20,6 +24,9 @@ public class DungeonSurfaceView extends SurfaceView implements
 	private ViewThread thread;
 	private AvatarView avatar;
 	private FloorView floor;
+
+	public ScrollView scrollV;
+	public HorizontalScrollView scrollH;
 
 	public DungeonSurfaceView(Context context) {
 		super(context);
@@ -40,27 +47,18 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 		getHolder().addCallback(this);
 
-		// create the game loop thread
-		if (thread == null) {
-			thread = new ViewThread(getHolder(), this);
-		}
-
-		/*
-		 * background = new BitmapDrawable(getResources(),
-		 * BitmapFactory.decodeResource(getResources(),
-		 * R.drawable.test_dungeon_background));
-		 */
-
 		setFocusable(true);
 	}
 
 	public void setFloorView(Dungeon dungeon) {
 
-		avatar = new AvatarView(0, 0, (Activity) getContext());
+		avatar = new AvatarView(0, 0, true, (Activity) getContext());
 
 		floor = new FloorView(dungeon, getResources());
 
 	}
+
+	boolean snapOnce = false;
 
 	/**
 	 * This is the game update method. It iterates through all the objects and
@@ -69,6 +67,11 @@ public class DungeonSurfaceView extends SurfaceView implements
 	 */
 	@Override
 	public void update() {
+
+		if (!snapOnce) {
+			snapOnce = true;
+			snapScrollPosition();
+		}
 
 		floor.update();
 		avatar.update(thread);
@@ -80,11 +83,9 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 	@Override
 	public void render(Canvas canvas) {
-		canvas.drawColor(Color.BLACK);
 
-		// background.setBounds(new Rect(0, 0, 1000, 1000));
+		// canvas.drawColor(Color.BLACK);
 
-		// background.draw(canvas);
 		floor.draw(canvas);
 		avatar.draw(canvas);
 	}
@@ -101,6 +102,39 @@ public class DungeonSurfaceView extends SurfaceView implements
 		}
 	}
 
+	public void snapScrollPosition() {
+
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				float canvasX = avatar.x;
+				float canvasY = avatar.y;
+
+				float newX = canvasX - (getScreenWidth() / 2f);
+				float newY = canvasY - (getScreenHeight() / 2f);
+
+				scrollH.smoothScrollTo((int) newX, 0);
+				scrollV.smoothScrollTo(0, (int) newY);
+
+			}
+		});
+
+	}
+
+	public int getScreenWidth() {
+		WindowManager wm = (WindowManager) getContext().getSystemService(
+				Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		return size.x;
+	}
+
+	public int getScreenHeight() {
+		return scrollV.getBottom();
+	}
+
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
@@ -108,6 +142,8 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+
+		thread = new ViewThread(getHolder(), this);
 		thread.setRunning(true);
 		thread.start();
 	}
@@ -122,7 +158,6 @@ public class DungeonSurfaceView extends SurfaceView implements
 			try {
 				thread.setRunning(false);
 				thread.join();
-				// ((Activity) getContext()).finish();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -134,15 +169,17 @@ public class DungeonSurfaceView extends SurfaceView implements
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-		if (event.getAction() == MotionEvent.ACTION_DOWN
-				|| event.getAction() == MotionEvent.ACTION_MOVE) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
 			int touchX = (int) event.getX();
 			int touchY = (int) event.getY();
 
 			// System.out.println(Integer.toString(touchX) + ","
 			// + Integer.toString(touchY));
 
-			floor.setRoomTouched(touchX, touchY, (Activity) getContext());
+			if (floor.setRoomTouched(touchX, touchY, avatar,
+					(Activity) getContext())) {
+				snapScrollPosition();
+			}
 
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {

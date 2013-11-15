@@ -37,12 +37,15 @@ public class FloorView {
 			}
 		}
 
-		width = indexToCoord(Dungeon.DUNGEON_DIMMENSION);
-		height = indexToCoord(Dungeon.DUNGEON_DIMMENSION);
+		width = indexToCoord(Dungeon.DUNGEON_DIMMENSION)
+				- (0.5f * RoomView.WIDTH);
+		height = indexToCoord(Dungeon.DUNGEON_DIMMENSION)
+				- (0.5f * RoomView.WIDTH);
 
 	}
 
-	public void setRoomTouched(int x, int y, Activity activity) {
+	public boolean setRoomTouched(int x, int y, AvatarView avatar,
+			Activity activity) {
 		// Right now, loops through entire array.
 		// Could be more efficient
 		for (int i = 0; i < Dungeon.DUNGEON_DIMMENSION; i++) {
@@ -52,15 +55,22 @@ public class FloorView {
 					if (selectedRoom != null) {
 						selectedRoom.setSelected(false);
 					}
+
 					rooms[i][j].setSelected(true);
 					selectedRoom = rooms[i][j];
 					Player.getPlayer().roomX = j;
 					Player.getPlayer().roomY = i;
 
-					dungeon.visitRoom(i, j, activity);
+					avatar.x = indexToCoord(j);
+					avatar.y = indexToCoord(i);
+
+					dungeon.visitRoom(j, i, activity);
+
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	public void update() {

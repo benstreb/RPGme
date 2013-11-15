@@ -2,7 +2,6 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.activities.AnnoyingPopup;
 import rpisdd.rpgme.activities.BattleMenu;
-import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
@@ -78,18 +77,15 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		getHolder().addCallback(this);
 
-		// create the game loop thread
-		if (thread == null) {
-			thread = new ViewThread(getHolder(), this);
-		}
+		thread = new ViewThread(getHolder(), this);
 
 		setFocusable(true);
 
 		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight() / 3f,
-				(Activity) getContext());
+				false, (Activity) getContext());
 
-		avatarHealth = new HealthBar(avatar.x, avatar.y - 50, 50, 10,
-				Player.getPlayer());
+		avatarHealth = new HealthBar(avatar.x, avatar.y
+				- (80 * ViewObject.SCALE_FACTOR), 50, 10, Player.getPlayer());
 	}
 
 	public void setMonster(Monster monster) {
@@ -99,8 +95,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f),
 				getCanvasHeight() / 3f, monster, (Activity) getContext());
 
-		monsterHealth = new HealthBar(this.monster.x, this.monster.y - 50, 50,
-				10, monster);
+		monsterHealth = new HealthBar(this.monster.x, this.monster.y
+				- (80 * ViewObject.SCALE_FACTOR), 50, 10, monster);
 	}
 
 	/**
@@ -125,10 +121,16 @@ public class BattleSurfaceView extends SurfaceView implements
 		case MONSTER_TURN:
 			if (attackTimer == 0) {
 				monsterTurn();
+				attackTimer += thread.deltaTime();
+				break;
 			}
 			if (attackTimer >= attackDelay) {
 				attackTimer = 0;
-				returnToDungeon();
+				if (Player.getPlayer().getEnergy() <= 0) {
+					knockedUnconscious();
+				} else {
+					returnToDungeon();
+				}
 				state = State.TRANSITION;
 				break;
 			}
@@ -175,6 +177,9 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Monster's turn");
 
 		if (monsterModel.getEnergy() <= 0) {
+
+			state = State.TRANSITION;
+
 			((Activity) getContext()).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -201,17 +206,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		System.out.println("Player's being damaged!");
 		int dmg = Player.getPlayer().takeDamage(atk);
 
-		((Activity) getContext()).runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				((MainActivity) getContext()).updateEnergyBar();
-			}
-		});
 		avatar.setDamageText(dmg);
 
-		if (Player.getPlayer().getEnergy() <= 0) {
-			knockedUnconscious();
-		}
 	}
 
 	public void returnToDungeon() {
@@ -224,12 +220,25 @@ public class BattleSurfaceView extends SurfaceView implements
 	}
 
 	public void knockedUnconscious() {
+
 		((Activity) getContext()).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				battleMenu.redirectToStats();
+
+				AnnoyingPopup.notice((Activity) getContext(),
+						"You've been knocked unconscious...",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+
+								battleMenu.redirectToStats();
+							}
+						});
+
 			}
 		});
+
 	}
 
 	@Override
@@ -269,6 +278,7 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		thread = new ViewThread(getHolder(), this);
 		thread.setRunning(true);
 		thread.start();
 	}

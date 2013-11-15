@@ -20,6 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:onClick="onClickCreate"
+        android:visibility="invisible"
         android:text="Create New Quest!" />
 	
     <ListView
@@ -39,10 +40,10 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:gravity="center_horizontal|center_vertical"
-	    android:text="No Quests"
-	    android:layout_weight = "99"
+	    android:text="No Quests In History"
 	    android:textSize="20sp"
 	    android:textColor="#000000"
+	    android:layout_weight = "99"
 	    android:visibility="gone" >
 
     </TextView>
@@ -54,14 +55,6 @@
  	    android:layout_weight="1"
  	    android:gravity="center" >
 		  
-		<ImageButton
- 		    android:id="@+id/completeQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
- 		   	android:onClick="onClickComplete"
- 		    android:src="@drawable/ic_complete" />
-		
  		<ImageButton
  		    android:id="@+id/viewQuestButton"
  		    style="?android:attr/buttonStyleSmall"

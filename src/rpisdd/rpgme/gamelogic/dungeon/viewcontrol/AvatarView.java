@@ -15,7 +15,7 @@ public class AvatarView extends ViewObject {
 
 	private DamageText damageText;
 
-	public AvatarView(float x, float y, Activity activity) {
+	public AvatarView(float x, float y, boolean isMini, Activity activity) {
 
 		super(x, y);
 
@@ -34,7 +34,12 @@ public class AvatarView extends ViewObject {
 			weaponBitmap = BitmapUtil.getBitmapFromAsset(activity, weaponPath);
 		}
 
-		float scaleFactor = (RoomView.WIDTH * 0.8f) / bitmap.getHeight();
+		float scaleFactor = 0;
+		if (isMini) {
+			scaleFactor = (RoomView.WIDTH * 0.8f) / bitmap.getHeight();
+		} else {
+			scaleFactor = 0.5f * SCALE_FACTOR * (200f / bitmap.getHeight());
+		}
 
 		setScale(scaleFactor);
 	}
@@ -56,14 +61,10 @@ public class AvatarView extends ViewObject {
 	@Override
 	public void setScale(float ascale) {
 
-		scale = ascale;
-
 		int srcWidth = bitmap.getWidth();
 		int srcHeight = bitmap.getHeight();
 		int dstWidth = (int) (srcWidth * ascale);
 		int dstHeight = (int) (srcHeight * ascale);
-
-		bitmap = Bitmap.createScaledBitmap(bitmap, dstWidth, dstHeight, true);
 
 		bitmap = Bitmap.createScaledBitmap(bitmap, dstWidth, dstHeight, true);
 

@@ -7,7 +7,7 @@ public class Treasure implements RoomContent {
 	@Override
 	public boolean Encounter(Activity activity) {
 		// TODO this is placeholder
-		System.out.print("Get the treasure");
+		// System.out.print("Get the treasure");
 		return true;
 	}
 

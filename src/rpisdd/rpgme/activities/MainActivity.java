@@ -1,6 +1,8 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.RoomView;
+import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.ViewObject;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
 import android.content.res.Configuration;
@@ -28,8 +30,8 @@ public class MainActivity extends FragmentActivity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private final String[] mMenuTitles = { "Quests", "Inventory", "Stats",
-			"Shop", "Dungeon" };
+	private final String[] mMenuTitles = { "Quests", "Quest History",
+			"Inventory", "Stats", "Shop", "Dungeon" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,10 @@ public class MainActivity extends FragmentActivity {
 
 		Item.load(this);
 		Player.loadPlayer(this);
+		Player.getPlayer().setActivity(this);
+
+		ViewObject.setScaleFactor(this);
+		RoomView.setWidth();
 
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -79,6 +85,14 @@ public class MainActivity extends FragmentActivity {
 				invalidateOptionsMenu(); // creates call to
 											// onPrepareOptionsMenu()
 			}
+
+			@Override
+			public void onDrawerSlide(View drawerView, float slideOffset) {
+				super.onDrawerSlide(drawerView, slideOffset);
+				mDrawerLayout.bringChildToFront(drawerView);
+				mDrawerLayout.requestLayout();
+			}
+
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
@@ -138,10 +152,16 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void updateEnergyBar() {
-		if (actionBarEnergyText != null) {
-			actionBarEnergyText.setText("Energy: "
-					+ Integer.toString(Player.getPlayer().getEnergy()));
-		}
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (actionBarEnergyText != null) {
+					actionBarEnergyText.setText("Energy: "
+							+ Integer.toString(Player.getPlayer().getEnergy()));
+				}
+			}
+		});
 	}
 
 	@Override
@@ -166,6 +186,12 @@ public class MainActivity extends FragmentActivity {
 
 	// Change the current fragment, or menu.
 	public void changeFragment(Fragment fragment) {
+
+		if (fragment instanceof StatsMenu) {
+			mDrawerList.setItemChecked(3, true);
+			setTitle(mMenuTitles[3]);
+		}
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
@@ -197,6 +223,8 @@ public class MainActivity extends FragmentActivity {
 			fragment = new ShopMenu();
 		} else if (mMenuTitles[position].equals("Dungeon")) {
 			fragment = new DungeonMenu();
+		} else if (mMenuTitles[position].equals("Quest History")) {
+			fragment = new QuestHistoryMenu();
 		} else {
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
@@ -235,6 +263,13 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void enableActionBar(boolean show) {
+
+		if (show) {
+			System.out.println("We are showing the action bar");
+		} else {
+			System.out.println("We are hiding the action bar");
+		}
+
 		if (!show) {
 			getActionBar().hide();
 		} else {

@@ -98,6 +98,10 @@ public class QuestManager {
 		quests.remove(quest);
 	}
 
+	public void removeCompleteQuest(Quest quest) {
+		completedQuests.remove(quest);
+	}
+
 	// Complete the quest, rewarding the player.
 	public Reward completeQuest(Player player, Quest quest) {
 		Reward reward = quest.completeQuest();
@@ -148,10 +152,11 @@ public class QuestManager {
 	}
 
 	public void reRecurQuests() {
-		System.out.println("Rerecur the quests");
+		// System.out.println("Rerecur the quests");
 		for (int i = 0; i < quests.size(); i++) {
-			System.out.println(quests.get(i).getRecCompDate() != null ? quests
-					.get(i).getRecCompDate().toString() : "No completion date");
+			// System.out.println(quests.get(i).getRecCompDate() != null ?
+			// quests
+			// .get(i).getRecCompDate().toString() : "No completion date");
 			if (quests.get(i).isTempComplete()) {
 				System.out.println("A quest is temp completed");
 				quests.get(i).updateTempDone();
@@ -279,10 +284,9 @@ public class QuestManager {
 
 			Quest quest = allQuests.get(i);
 
-			// For now, don't save completed quests so it doesn't clog up the
-			// database when debugging.
+			// Uncomment/comment for storing completed quests
 			if (quest.getIsComplete()) {
-				continue;
+				// continue;
 			}
 
 			// Create a new map of values, where column names are the keys
