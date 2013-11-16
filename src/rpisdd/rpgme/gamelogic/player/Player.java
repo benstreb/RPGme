@@ -3,6 +3,7 @@ package rpisdd.rpgme.gamelogic.player;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
+import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -24,6 +25,7 @@ public class Player implements HasHealth {
 	private final QuestManager questManager;
 	private final Stats stats;
 	private final Inventory inventory;
+	private Dungeon dungeon;
 
 	private int gold;
 	private int energy;
@@ -40,6 +42,7 @@ public class Player implements HasHealth {
 		this.questManager = new QuestManager();
 		this.inventory = new Inventory();
 		this.stats = new Stats();
+		this.dungeon = new Dungeon(1);
 		this.gold = 100;
 		this.energy = 10;
 	}
@@ -62,6 +65,10 @@ public class Player implements HasHealth {
 
 	public Inventory getInventory() {
 		return inventory;
+	}
+
+	public Dungeon getDungeon() {
+		return dungeon;
 	}
 
 	public String getName() {

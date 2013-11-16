@@ -5,11 +5,13 @@ import java.util.Random;
 
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 public class Dungeon {
 	public static final int DUNGEON_DIMMENSION = 5;
 
+	boolean generated;
 	int level;
 	public int start_x;
 	public int start_y;
@@ -17,14 +19,14 @@ public class Dungeon {
 
 	public Dungeon(int _level) {
 		this.level = _level;
-		GenerateMap();
+		this.generated = false;
 	}
 
 	public Room[][] getMap() {
 		return map;
 	}
 
-	private void GenerateMap() {
+	public void GenerateMap() {
 		map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
 		boolean setStairs = false;
 
@@ -140,6 +142,7 @@ public class Dungeon {
 				Log.d("Debug", "FAILURE: didn't make any rooms, trying again");
 			}
 		}
+		this.generated = true;
 	}
 
 	private Room generateRoom(int x_, int y_) {
@@ -168,13 +171,19 @@ public class Dungeon {
 		} else if (contentNum < 30) {
 			content = new Treasure();
 		} else if (contentNum < 80) {
+			// TODO Generate monster from file here
 			content = new Monster("MonsterName",
-					"file:///android_asset/Monsters/monster1.png", 1, 1, 1,
+					"file:///android_asset/Monsters/monster1.png", 3, 1, 1,
 					StatType.WILL);
 		} else {
 			content = null;
 		}
 		return content;
+	}
+
+	// Load the saved dungeon
+	public void load(SharedPreferences p) {
+
 	}
 
 	public Room getRoom(int x, int y) {
@@ -209,6 +218,10 @@ public class Dungeon {
 
 	public boolean roomExists(int x, int y) {
 		return inBounds(y, x) && map[y][x] != null;
+	}
+
+	public boolean isGenerated() {
+		return generated;
 	}
 
 	public static boolean inBounds(int x, int y) {
