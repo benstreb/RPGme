@@ -75,7 +75,7 @@ public class RoomView extends ViewObject {
 
 		canvas.drawBitmap(roomBitmap, sx, sy, null);
 
-		if (room.getContent().getRoomType() != null) {
+		if (room.getContent() != null) {
 
 			switch (room.getContent().getRoomType()) {
 			case MONSTER:
