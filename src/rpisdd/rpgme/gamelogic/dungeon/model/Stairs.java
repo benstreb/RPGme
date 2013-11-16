@@ -14,4 +14,9 @@ public class Stairs implements RoomContent {
 	public RoomType getRoomType() {
 		return RoomType.STAIRS;
 	}
+
+	@Override
+	public String getStringRepresentation() {
+		return "STAIRS";
+	}
 }

@@ -9,4 +9,9 @@ public interface RoomContent {
 	public boolean Encounter(Activity activity);
 
 	public RoomType getRoomType();
+
+	// comma delimited representation
+	// first entry is the type of contents
+	// the rest is the data
+	public String getStringRepresentation();
 }

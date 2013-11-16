@@ -16,4 +16,9 @@ public class Treasure implements RoomContent {
 		return RoomType.TREASURE;
 	}
 
+	@Override
+	public String getStringRepresentation() {
+		return "TREASURE";
+	}
+
 }

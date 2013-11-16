@@ -379,6 +379,7 @@ public class Player implements HasHealth {
 				Context.MODE_PRIVATE);
 		Editor e = p.edit();
 		stats.save(e);
+		dungeon.save(e);
 		e.putString("name", name);
 		e.putString("class", classs);
 		e.putInt("avatarId", avatarId);
@@ -399,6 +400,7 @@ public class Player implements HasHealth {
 		p.questManager.loadQuestsFromDatabase(activity);
 		p.inventory.loadItemsFromDatabase(activity);
 		p.stats.load(pref);
+		p.dungeon.load(pref);
 		p.gold = pref.getInt("gold", 100);
 		p.energy = pref.getInt("energy", 1);
 		player = p;
