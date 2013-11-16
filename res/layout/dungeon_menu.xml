@@ -14,10 +14,12 @@
 		    android:id="@+id/dungeonHorizScroll"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
+
 			<rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView
-				android:id="@+id/dungeonSurfaceView"
-				android:layout_width="1000dp"
-				android:layout_height="1000dp" />
+			    android:id="@+id/dungeonSurfaceView"
+			    android:layout_width="1000dp"
+			    android:layout_height="1000dp" />
+
 		</HorizontalScrollView>
 	</ScrollView>
 	 
