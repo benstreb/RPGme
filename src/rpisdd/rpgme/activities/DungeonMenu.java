@@ -4,6 +4,7 @@ import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
 import rpisdd.rpgme.gamelogic.dungeon.model.TreasureRoom;
 import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView;
+import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,9 +41,12 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 		HorizontalScrollView scrollH = (HorizontalScrollView) v
 				.findViewById(R.id.dungeonHorizScroll);
 
-		dungeon = new Dungeon(0);
-		// Player.getPlayer().roomX = dungeon.start_x;
-		// Player.getPlayer().roomY = dungeon.start_y;
+		dungeon = Player.getPlayer().getDungeon();
+		if (!dungeon.isGenerated()) {
+			dungeon.GenerateMap();
+		}
+		Player.getPlayer().roomX = dungeon.start_x;
+		Player.getPlayer().roomY = dungeon.start_y;
 
 		dungeonView = (DungeonSurfaceView) v
 				.findViewById(R.id.dungeonSurfaceView);

@@ -55,4 +55,15 @@ public class Room {
 		return y;
 	}
 
+	public String getStringRepresentation() {
+		String contentRep;
+		if (this.content == null) {
+			contentRep = "NONE";
+		} else {
+			contentRep = this.content.getStringRepresentation();
+		}
+		return "ROOM" + "#" + this.visited + "#" + this.canVisit + "#" + this.x
+				+ "#" + this.y + "#" + contentRep;
+	}
+
 }
