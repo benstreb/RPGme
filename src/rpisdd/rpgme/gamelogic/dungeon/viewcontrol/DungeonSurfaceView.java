@@ -13,6 +13,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -48,6 +49,7 @@ public class DungeonSurfaceView extends SurfaceView implements
 		getHolder().addCallback(this);
 
 		setFocusable(true);
+
 	}
 
 	public void setFloorView(Dungeon dungeon) {
@@ -67,6 +69,13 @@ public class DungeonSurfaceView extends SurfaceView implements
 	 */
 	@Override
 	public void update() {
+
+		/*
+		 * ((Activity) getContext()).runOnUiThread(new Runnable() {
+		 * 
+		 * @Override public void run() { ((MainActivity)
+		 * getContext()).getActionBar(); } });
+		 */
 
 		if (!snapOnce) {
 			snapOnce = true;
@@ -146,6 +155,18 @@ public class DungeonSurfaceView extends SurfaceView implements
 		thread = new ViewThread(getHolder(), this);
 		thread.setRunning(true);
 		thread.start();
+
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				LayoutParams lp = getLayoutParams();
+				lp.height = (int) floor.height;
+				setLayoutParams(lp);
+
+			}
+		});
+
 	}
 
 	@Override
