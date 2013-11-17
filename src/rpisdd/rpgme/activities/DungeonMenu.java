@@ -44,9 +44,9 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 		dungeon = Player.getPlayer().getDungeon();
 		if (!dungeon.isGenerated()) {
 			dungeon.GenerateMap();
+			Player.getPlayer().roomX = dungeon.start_x;
+			Player.getPlayer().roomY = dungeon.start_y;
 		}
-		Player.getPlayer().roomX = dungeon.start_x;
-		Player.getPlayer().roomY = dungeon.start_y;
 
 		dungeonView = (DungeonSurfaceView) v
 				.findViewById(R.id.dungeonSurfaceView);
