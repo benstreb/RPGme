@@ -1,139 +1,161 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/stats_menu_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/quest_text_color"
+    android:gravity="center"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity" >
+    
+    <!-- Name Display -->
+    <TextView
+        android:id="@+id/nameDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Name: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <!-- Equipment Display -->
+    <ImageView
+        android:id="@+id/icSword"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/armorView"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/ic_sword" />
+    
+    <TextView
+        android:id="@+id/weaponDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/icSword"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="15dp"
+        android:text="+w"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <ImageView
+        android:id="@+id/icShield"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/icSword"
+        android:layout_marginTop="31dp"
+        android:src="@drawable/ic_sheild" />
+        
+    <TextView
+        android:id="@+id/armorDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/icShield"
+        android:layout_alignTop="@+id/icShield"
+        android:layout_marginTop="11dp"
+        android:layout_marginLeft="15dp"
+        android:text="+a"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <!-- Avatar Display -->
+    <ImageView
+        android:id="@+id/avatarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/nameDisplay"
+        android:contentDescription="image of avatar"
+        android:src="@drawable/av_m1_avatar" />
+        
+    <ImageView
+        android:id="@+id/weaponView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatarView"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/av_weapon1" />
+
+    <ImageView
+        android:id="@+id/armorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/avatarView"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/av_armor1" />
+
+    <!-- Level Display -->
+    <TextView
+        android:id="@+id/expDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/levelDisplay"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Total: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/levelDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="175dp"
+        android:layout_below="@+id/avatarView"
+        android:layout_centerHorizontal="true"
         android:text="Lv: "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <!-- Stat Type Display -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignLeft="@+id/icShield"
+        android:layout_alignRight="@+id/avatarView"
+        android:layout_below="@+id/expDisplay"
+        android:orientation="horizontal" >
+        
         <TextView
-            android:id="@+id/nameDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="66dp"
-            android:text="Name: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+	        android:id="@+id/strengthDisplay"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/expDisplay"
+	        android:text="St"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	
+	    <TextView
+	        android:id="@+id/intDisplay"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/expDisplay"
+	        android:text="In"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/strengthDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
-            android:text="Strength:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+	    <TextView
+	        android:id="@+id/willDisplay"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:text="Wi"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/intDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/strengthDisplay"
-            android:layout_below="@id/strengthDisplay"
-            android:text="Int:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+	    <TextView
+	        android:id="@+id/spiritDisplay"
+	        android:layout_width="50dp"
+	        android:layout_height="wrap_content"
+	        android:text="Sp"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/willDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/intDisplay"
-            android:layout_below="@id/intDisplay"
-            android:text="Will:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/statPageGoldDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Gold: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/spiritDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/willDisplay"
-            android:layout_below="@+id/willDisplay"
-            android:text="Spirit:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/weaponDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/spiritDisplay"
-            android:layout_marginTop="20dp"
-            android:maxWidth="300dp"
-            android:minWidth="300dp"
-            android:text="Weapon:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/armorDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/weaponDisplay"
-            android:maxWidth="300dp"
-            android:minWidth="300dp"
-            android:text="Armor:"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/nextExpDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/armorDisplay"
-            android:layout_marginTop="20dp"
-            android:text="next: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/totalExpDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nextExpDisplay"
-            android:text="Total: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <ImageView
-            android:id="@+id/avatarView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/levelDisplay"
-            android:layout_below="@id/levelDisplay"
-            android:contentDescription="image of avatar"
-            android:src="@drawable/av_m1_avatar" />
-
-        <ImageView
-            android:id="@+id/armorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/avatarView"
-            android:layout_alignTop="@id/avatarView"
-            android:src="@drawable/av_armor1" />
-
-        <ImageView
-            android:id="@+id/weaponView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/avatarView"
-            android:layout_alignTop="@id/avatarView"
-            android:layout_below="@id/levelDisplay"
-            android:src="@drawable/av_weapon1" />
-
-        <TextView
-            android:id="@+id/statPageGoldDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/avatarView"
-            android:layout_alignTop="@id/totalExpDisplay"
-            android:text="Gold: "
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
+    
 </RelativeLayout>

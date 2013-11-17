@@ -31,8 +31,7 @@ public class StatsMenu extends Fragment {
 
 	TextView nameWidget;
 	TextView levelWidget;
-	TextView toNextWidget;
-	TextView totalExpWidget;
+	TextView expWidget;
 
 	TextView goldWidget;
 
@@ -50,7 +49,7 @@ public class StatsMenu extends Fragment {
 		int currentSpr = thePlayer.getSpirit();
 
 		int level = thePlayer.getLevel();
-		int toNext = thePlayer.getNextExp();// playerStats.toNextExp;
+		int toNext = thePlayer.getExpForLevel(level);// playerStats.toNextExp;
 		int total = thePlayer.getTotalExp();
 
 		int gold = thePlayer.getGold();
@@ -88,39 +87,36 @@ public class StatsMenu extends Fragment {
 			weaponName = thePlayer.getInventory().getWeapon().getName();
 		}
 		weaponWidget = (TextView) v.findViewById(R.id.weaponDisplay);
-		weaponWidget.setText("Weapon: " + weaponName);
+		weaponWidget.setText(weaponName);
 
 		String armorName = "None";
 		if (thePlayer.getInventory().getArmor() != null) {
 			armorName = thePlayer.getInventory().getArmor().getName();
 		}
 		armorWidget = (TextView) v.findViewById(R.id.armorDisplay);
-		armorWidget.setText("Armor: " + armorName);
+		armorWidget.setText(armorName);
 
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
-		strengthWidget.setText("Strength: " + currentStr);
+		strengthWidget.setText("St: " + currentStr);
 
 		intWidget = (TextView) v.findViewById(R.id.intDisplay);
-		intWidget.setText("Int: " + currentInt);
+		intWidget.setText("In: " + currentInt);
 
 		willWidget = (TextView) v.findViewById(R.id.willDisplay);
-		willWidget.setText("Will: " + currentWill);
+		willWidget.setText("Wi: " + currentWill);
 
 		spiritWidget = (TextView) v.findViewById(R.id.spiritDisplay);
-		spiritWidget.setText("Spirit: " + currentSpr);
+		spiritWidget.setText("Sp: " + currentSpr);
 
 		nameWidget = (TextView) v.findViewById(R.id.nameDisplay);
-		nameWidget.setText("Name: " + playerName);
+		nameWidget.setText(playerName);
 
 		levelWidget = (TextView) v.findViewById(R.id.levelDisplay);
-		levelWidget.setText("Lv: " + level);
+		levelWidget.setText("Level: " + level);
 
-		toNextWidget = (TextView) v.findViewById(R.id.nextExpDisplay);
-		toNextWidget.setText("To Next: " + toNext);
-
-		totalExpWidget = (TextView) v.findViewById(R.id.totalExpDisplay);
-		totalExpWidget.setText("Total exp: " + total);
+		expWidget = (TextView) v.findViewById(R.id.expDisplay);
+		expWidget.setText(total + " / " + toNext + " exp");
 
 		goldWidget = (TextView) v.findViewById(R.id.statPageGoldDisplay);
 		goldWidget.setText("Gold: " + gold);
