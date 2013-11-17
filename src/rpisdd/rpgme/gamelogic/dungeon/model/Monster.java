@@ -2,6 +2,8 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.activities.TransitionFragment;
+import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
@@ -70,6 +72,7 @@ public class Monster implements RoomContent, HasHealth {
 	public boolean RecieveDamage(int damage) {
 		this.health -= damage;
 		if (health < 1) {
+			health = 0;
 			die();
 			return true;
 		}
@@ -78,6 +81,9 @@ public class Monster implements RoomContent, HasHealth {
 
 	//
 	public Reward die() {
+
+		Player.getPlayer().clearCurrentRoom();
+
 		Reward reward = new Reward();
 		reward.setGoldIncrease(10);
 		return reward;
@@ -86,10 +92,12 @@ public class Monster implements RoomContent, HasHealth {
 	@Override
 	public boolean Encounter(Activity activity) {
 
-		// Switch fragments to Battle fragment
-		BattleMenu battle = new BattleMenu();
+		BattleMenu battleMenu = new BattleMenu();
+		battleMenu.setMonster(this);
 
-		((MainActivity) activity).enterBattle();
+		TransitionFragment trans = new TransitionFragment();
+		trans.setValues(battleMenu, false);
+		((MainActivity) activity).changeFragment(trans);
 
 		return false;
 	}

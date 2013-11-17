@@ -41,12 +41,14 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 		HorizontalScrollView scrollH = (HorizontalScrollView) v
 				.findViewById(R.id.dungeonHorizScroll);
 
+		dungeon = new Dungeon(1);
+
 		dungeon = Player.getPlayer().getDungeon();
+
 		if (!dungeon.isGenerated()) {
 			dungeon.GenerateMap();
+			Player.getPlayer().setRoomPos(dungeon.start_x, dungeon.start_y);
 		}
-		Player.getPlayer().roomX = dungeon.start_x;
-		Player.getPlayer().roomY = dungeon.start_y;
 
 		dungeonView = (DungeonSurfaceView) v
 				.findViewById(R.id.dungeonSurfaceView);
@@ -72,6 +74,7 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 	}
 
 	public void enterTreasure() {
+
 		TreasureRoom tr = new TreasureRoom();
 
 		View popup = LayoutInflater.from(getActivity()).inflate(

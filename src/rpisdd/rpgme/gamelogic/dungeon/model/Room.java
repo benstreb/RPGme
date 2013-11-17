@@ -1,5 +1,6 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.Activity;
 
 public class Room {
@@ -7,8 +8,8 @@ public class Room {
 	boolean canVisit;
 	RoomContent content;
 
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	public Room(RoomContent content_, int x_, int y_) {
 		this.visited = false;
@@ -23,7 +24,10 @@ public class Room {
 	}
 
 	public boolean visit(Activity activity) {
+
+		this.setVisitable();
 		this.visited = true;
+		Player.getPlayer().setRoomPos(x, y);
 
 		if (this.hasContent()) {
 			return this.content.Encounter(activity);
@@ -64,6 +68,10 @@ public class Room {
 		}
 		return "ROOM" + "#" + this.visited + "#" + this.canVisit + "#" + this.x
 				+ "#" + this.y + "#" + contentRep;
+	}
+
+	public boolean getCanVisit() {
+		return this.canVisit;
 	}
 
 }

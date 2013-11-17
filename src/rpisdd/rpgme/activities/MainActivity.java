@@ -197,17 +197,6 @@ public class MainActivity extends FragmentActivity {
 				.replace(R.id.content_frame, fragment).commit();
 	}
 
-	/*
-	 * public void enterBattle() { enableActionBar(false);
-	 * enableNavigationDrawer(false); changeFragment(new BattleMenu()); }
-	 */
-
-	public void enterBattle() {
-		TransitionFragment trans = new TransitionFragment();
-		trans.setValues(new BattleMenu(), false);
-		changeFragment(trans);
-	}
-
 	// Called when an item was selected in the navigation drawer.
 	private void selectItem(int position) {
 

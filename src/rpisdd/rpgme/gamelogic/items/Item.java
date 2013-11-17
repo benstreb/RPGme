@@ -29,6 +29,7 @@ public abstract class Item {
 	private final String name;
 	private final int price;
 	private final String imagePath;
+	private final String offsetImagePath;
 	private final String description;
 
 	protected interface Factory {
@@ -90,6 +91,7 @@ public abstract class Item {
 		this.name = name;
 		this.price = price;
 		this.imagePath = "file:///android_asset/Items/" + imageName;
+		this.offsetImagePath = "file:///android_asset/Items/av_" + imageName;
 		this.description = description;
 	}
 
@@ -112,6 +114,10 @@ public abstract class Item {
 
 	public String getImagePath() {
 		return imagePath;
+	}
+
+	public String getOffsetImagePath() {
+		return offsetImagePath;
 	}
 
 	public String getDescription() {

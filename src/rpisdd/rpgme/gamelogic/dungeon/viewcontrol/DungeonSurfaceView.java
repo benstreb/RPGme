@@ -79,14 +79,14 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 		if (!snapOnce) {
 			snapOnce = true;
-			snapScrollPosition();
+			jumpScrollPosition();
 		}
 
 		floor.update();
 		avatar.update(thread);
 
-		avatar.x = FloorView.indexToCoord(Player.getPlayer().roomX);
-		avatar.y = FloorView.indexToCoord(Player.getPlayer().roomY);
+		avatar.x = FloorView.indexToCoord(Player.getPlayer().getRoomX());
+		avatar.y = FloorView.indexToCoord(Player.getPlayer().getRoomY());
 
 	}
 
@@ -125,6 +125,26 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 				scrollH.smoothScrollTo((int) newX, 0);
 				scrollV.smoothScrollTo(0, (int) newY);
+
+			}
+		});
+
+	}
+
+	public void jumpScrollPosition() {
+
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				float canvasX = avatar.x;
+				float canvasY = avatar.y;
+
+				float newX = canvasX - (getScreenWidth() / 2f);
+				float newY = canvasY - (getScreenHeight() / 2f);
+
+				scrollH.scrollTo((int) newX, 0);
+				scrollV.scrollTo(0, (int) newY);
 
 			}
 		});
