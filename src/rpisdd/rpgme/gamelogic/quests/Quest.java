@@ -2,7 +2,6 @@ package rpisdd.rpgme.gamelogic.quests;
 
 import org.joda.time.DateTime;
 
-import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 
@@ -161,58 +160,7 @@ public class Quest {
 
 	public Reward completeQuest() {
 		isComplete = true;
-		Player thePlayer = Player.getPlayer();
-		int increaseGoldBy = 0;
-		int increaseStatBy;
-		int increaseExpBy;
-		switch (this.difficulty) {
-		case EASY:
-			increaseGoldBy = 25;
-			increaseStatBy = 1;
-			increaseExpBy = 10;
-			break;
-		case NORMAL:
-			increaseGoldBy = 60;
-			increaseStatBy = 2;
-			increaseExpBy = 20;
-			break;
-		case HARD:
-			increaseGoldBy = 150;
-			increaseStatBy = 5;
-			increaseExpBy = 50;
-			break;
-		default:
-			increaseStatBy = 0;
-			increaseExpBy = 0;
-		}
-
-		switch (this.statType) {
-		case STRENGTH:
-			thePlayer.incStrength(increaseStatBy);
-			break;
-		case INTELLIGENCE:
-			thePlayer.incInt(increaseStatBy);
-			break;
-		case WILL:
-			thePlayer.incWill(increaseStatBy);
-			break;
-		case SPIRIT:
-			thePlayer.incSpirit(increaseStatBy);
-			break;
-		default:
-		}
-
-		Reward reward = new Reward();
-
-		reward.setGoldIncrease(increaseGoldBy);
-		reward.setExpIncrease(increaseExpBy);
-		reward.setStatIncrease(increaseStatBy);
-		reward.setStatType(this.statType);
-
-		thePlayer.addGold(increaseGoldBy);
-		thePlayer.addExp(increaseExpBy, reward);
-
-		return reward;
+		return Reward.questReward(this);
 	}
 
 }

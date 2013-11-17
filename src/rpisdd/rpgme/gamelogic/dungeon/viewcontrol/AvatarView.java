@@ -24,13 +24,12 @@ public class AvatarView extends ViewObject {
 
 		if (Player.getPlayer().getInventory().getArmor() != null) {
 			String armorPath = Player.getPlayer().getInventory().getArmor()
-					.getImagePath();
+					.getOffsetImagePath();
 			armorBitmap = BitmapUtil.getBitmapFromAsset(activity, armorPath);
-
 		}
 		if (Player.getPlayer().getInventory().getWeapon() != null) {
 			String weaponPath = Player.getPlayer().getInventory().getWeapon()
-					.getImagePath();
+					.getOffsetImagePath();
 			weaponBitmap = BitmapUtil.getBitmapFromAsset(activity, weaponPath);
 		}
 

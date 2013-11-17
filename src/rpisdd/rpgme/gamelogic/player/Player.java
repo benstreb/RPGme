@@ -5,6 +5,7 @@ import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
+import rpisdd.rpgme.gamelogic.dungeon.model.Room;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
 import android.app.Activity;
@@ -25,13 +26,18 @@ public class Player implements HasHealth {
 	private final QuestManager questManager;
 	private final Stats stats;
 	private final Inventory inventory;
-	private Dungeon dungeon;
+	private final Dungeon dungeon;
 
 	private int gold;
 	private int energy;
 
-	public int roomX;
-	public int roomY;
+	private int roomX;
+	private int roomY;
+
+	// Stores the last room the player was in. Note that this is only a
+	// one-layer deep stack.
+	private int lastRoomX = -1;
+	private int lastRoomY = -1;
 
 	private MainActivity activity;
 
@@ -45,6 +51,42 @@ public class Player implements HasHealth {
 		this.dungeon = new Dungeon(1);
 		this.gold = 100;
 		this.energy = 10;
+	}
+
+	public void setRoomPos(int x, int y) {
+		if (this.roomX == -1) {
+			this.lastRoomX = x;
+			this.lastRoomY = y;
+		} else {
+			this.lastRoomX = this.roomX;
+			this.lastRoomY = this.roomY;
+		}
+		this.roomX = x;
+		this.roomY = y;
+	}
+
+	public int getRoomX() {
+		return roomX;
+	}
+
+	public int getRoomY() {
+		return roomY;
+	}
+
+	public Room getCurrentRoom() {
+		return dungeon.getRoom(roomX, roomY);
+	}
+
+	// Clear the current room and visit it again. This ensures that surrounding
+	// rooms will pop up.
+	public void clearCurrentRoom() {
+		getCurrentRoom().clearContent();
+		dungeon.visitRoom(roomX, roomY, null);
+	}
+
+	public void goToLastRoom() {
+		this.roomX = lastRoomX;
+		this.roomY = lastRoomY;
 	}
 
 	public void setActivity(MainActivity activity) {
@@ -155,10 +197,10 @@ public class Player implements HasHealth {
 	/*
 	 * Increases earned exp
 	 */
-	public void addExp(int amount, Reward reward) {
+	public void addExp(int amount) {
 		stats.incExp(amount);
 		if (stats.getExp() >= getExpForLevel(getLevel())) {
-			levelUp(reward);
+			levelUp();
 		}
 	}
 
@@ -172,12 +214,9 @@ public class Player implements HasHealth {
 	/*
 	 * Levels up the player
 	 */
-	public void levelUp(Reward reward) {
+	public void levelUp() {
 		incMaxEnergy(5);
 		stats.incrementLevel();
-		reward.setEnergyGained(5);
-		reward.setNewLevel(stats.getLevel());
-		reward.setIsLevelUp(true);
 	}
 
 	// Stat functions/////////////////////////////////////////////

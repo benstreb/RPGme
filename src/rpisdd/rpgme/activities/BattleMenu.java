@@ -3,6 +3,7 @@ package rpisdd.rpgme.activities;
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.BattleSurfaceView;
+import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,13 @@ public class BattleMenu extends Fragment implements OnClickListener {
 	Button runAway;
 	BattleSurfaceView battleView;
 
+	Monster monster;
+
 	public BattleMenu() {
+	}
+
+	public void setMonster(Monster monster) {
+		this.monster = monster;
 	}
 
 	@Override
@@ -37,13 +44,9 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		int def = getActivity().getResources()
 				.getInteger(R.integer.monster_def);
 
-		Monster monster = new Monster("MonsterName",
-				"file:///android_asset/Monsters/monster1.png", hp, atk, def,
-				StatType.WILL);
-
 		battleView = (BattleSurfaceView) v.findViewById(R.id.battleSurfaceView);
-		battleView.setMonster(monster);
 		battleView.battleMenu = this;
+		battleView.setMonster(monster);
 
 		strengthAtk = (Button) v.findViewById(R.id.strengthAtkButton);
 		spiritAtk = (Button) v.findViewById(R.id.spiritAtkButton);
@@ -86,7 +89,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		}
 		case R.id.runAwayButton: {
 			disableButtons();
-			returnToDungeon();
+			returnToDungeon(false);
 			break;
 		}
 		default:
@@ -103,13 +106,19 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		runAway.setEnabled(false);
 	}
 
-	public void returnToDungeon() {
+	public void returnToDungeon(boolean isVictory) {
+
+		if (!isVictory) {
+			Player.getPlayer().goToLastRoom();
+		}
+
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(new DungeonMenu(), true);
 		((MainActivity) getActivity()).changeFragment(trans);
 	}
 
 	public void redirectToStats() {
+		Player.getPlayer().goToLastRoom();
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(new StatsMenu(), true);
 		((MainActivity) getActivity()).changeFragment(trans);

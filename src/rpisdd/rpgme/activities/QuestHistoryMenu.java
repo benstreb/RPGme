@@ -141,8 +141,8 @@ public class QuestHistoryMenu extends ListFragment implements OnClickListener {
 
 		v.setSelected(true);
 		selectedQuest = v;
-		currentQuest = Player.getPlayer().getQuestManager()
-				.getIncompleteQuests().get(position);
+		currentQuest = Player.getPlayer().getQuestManager().getCompleteQuests()
+				.get(position);
 
 		updateButtons();
 	}

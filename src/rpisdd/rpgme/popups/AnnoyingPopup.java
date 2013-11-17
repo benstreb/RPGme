@@ -1,4 +1,4 @@
-package rpisdd.rpgme.activities;
+package rpisdd.rpgme.popups;
 
 import android.app.Activity;
 import android.app.AlertDialog;

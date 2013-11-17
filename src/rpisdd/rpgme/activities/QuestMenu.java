@@ -8,6 +8,7 @@ import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.quests.DateHelper;
 import rpisdd.rpgme.gamelogic.quests.Quest;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
+import rpisdd.rpgme.popups.RewardPopup;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,7 +63,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		completeQuest.setOnClickListener(this);
 		viewQuest = (ImageButton) v.findViewById(R.id.viewQuestButton);
 		viewQuest.setOnClickListener(this);
-
+		Player.getPlayer().getDungeon().GenerateMap();
 		updateButtons();
 
 		return v;
@@ -345,50 +346,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		Reward reward = Player.getPlayer().getQuestManager()
 				.completeQuest(Player.getPlayer(), currentQuest);
 
-		AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
-
-		int energyBefore = Player.getPlayer().getEnergy()
-				- reward.getEnergyGained();
-		int energyAfter = Player.getPlayer().getEnergy();
-
-		if (reward.getIsLevelUp() == true) {
-			builder2.setMessage("Level up!\nNew Level: "
-					+ Integer.toString(reward.getNewLevel()) + "\nNew Energy: "
-					+ Integer.toString(energyBefore) + " > "
-					+ Integer.toString(energyAfter));
-		}
-
-		builder2.setCancelable(true);
-		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
-
-		View popup = LayoutInflater.from(getActivity()).inflate(
-				R.layout.complete_quest, null);
-		TextView expGained = (TextView) popup.findViewById(R.id.expGained);
-		TextView goldGained = (TextView) popup.findViewById(R.id.goldGained);
-		TextView statsGained = (TextView) popup.findViewById(R.id.statsGained);
-
-		expGained.setText("You gained " + reward.getExpIncrease()
-				+ " experience points.");
-		goldGained.setText("You gained " + reward.getGoldIncrease() + " gold.");
-
-		int oldStat = Player.getPlayer().getStat(reward.getStatType())
-				- reward.getStatIncrease();
-		int newStat = Player.getPlayer().getStat(reward.getStatType());
-
-		statsGained
-				.setText("New " + reward.getStatType().toString() + ": "
-						+ Integer.toString(oldStat) + " > "
-						+ Integer.toString(newStat));
-
-		builder2.setView(popup);
-
-		AlertDialog alert2 = builder2.create();
-		alert2.show();
+		RewardPopup.show("Quest Complete!", reward, getActivity(), null);
 
 		Player player = Player.getPlayer();
 		selectedQuest = null;

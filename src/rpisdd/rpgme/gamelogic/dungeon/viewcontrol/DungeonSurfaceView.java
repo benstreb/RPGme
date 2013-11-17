@@ -13,6 +13,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
@@ -48,6 +49,7 @@ public class DungeonSurfaceView extends SurfaceView implements
 		getHolder().addCallback(this);
 
 		setFocusable(true);
+
 	}
 
 	public void setFloorView(Dungeon dungeon) {
@@ -68,16 +70,23 @@ public class DungeonSurfaceView extends SurfaceView implements
 	@Override
 	public void update() {
 
+		/*
+		 * ((Activity) getContext()).runOnUiThread(new Runnable() {
+		 * 
+		 * @Override public void run() { ((MainActivity)
+		 * getContext()).getActionBar(); } });
+		 */
+
 		if (!snapOnce) {
 			snapOnce = true;
-			snapScrollPosition();
+			jumpScrollPosition();
 		}
 
 		floor.update();
 		avatar.update(thread);
 
-		avatar.x = FloorView.indexToCoord(Player.getPlayer().roomX);
-		avatar.y = FloorView.indexToCoord(Player.getPlayer().roomY);
+		avatar.x = FloorView.indexToCoord(Player.getPlayer().getRoomX());
+		avatar.y = FloorView.indexToCoord(Player.getPlayer().getRoomY());
 
 	}
 
@@ -122,6 +131,26 @@ public class DungeonSurfaceView extends SurfaceView implements
 
 	}
 
+	public void jumpScrollPosition() {
+
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				float canvasX = avatar.x;
+				float canvasY = avatar.y;
+
+				float newX = canvasX - (getScreenWidth() / 2f);
+				float newY = canvasY - (getScreenHeight() / 2f);
+
+				scrollH.scrollTo((int) newX, 0);
+				scrollV.scrollTo(0, (int) newY);
+
+			}
+		});
+
+	}
+
 	public int getScreenWidth() {
 		WindowManager wm = (WindowManager) getContext().getSystemService(
 				Context.WINDOW_SERVICE);
@@ -146,6 +175,18 @@ public class DungeonSurfaceView extends SurfaceView implements
 		thread = new ViewThread(getHolder(), this);
 		thread.setRunning(true);
 		thread.start();
+
+		((Activity) getContext()).runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				LayoutParams lp = getLayoutParams();
+				lp.height = (int) floor.height;
+				setLayoutParams(lp);
+
+			}
+		});
+
 	}
 
 	@Override

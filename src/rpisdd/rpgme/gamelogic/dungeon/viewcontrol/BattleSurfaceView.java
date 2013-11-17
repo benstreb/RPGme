@@ -1,11 +1,13 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
-import rpisdd.rpgme.activities.AnnoyingPopup;
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
+import rpisdd.rpgme.popups.AnnoyingPopup;
+import rpisdd.rpgme.popups.RewardPopup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -129,7 +131,7 @@ public class BattleSurfaceView extends SurfaceView implements
 				if (Player.getPlayer().getEnergy() <= 0) {
 					knockedUnconscious();
 				} else {
-					returnToDungeon();
+					returnToDungeon(false);
 				}
 				state = State.TRANSITION;
 				break;
@@ -180,20 +182,22 @@ public class BattleSurfaceView extends SurfaceView implements
 
 			state = State.TRANSITION;
 
+			final Reward reward = Reward.monsterReward(monsterModel);
+
 			((Activity) getContext()).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					AnnoyingPopup
-							.notice((Activity) getContext(),
-									"You defeated the monster!\n\nYou gained 0 exp.\nYou found 0 gold.",
-									new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(
-												DialogInterface dialog, int id) {
-											dialog.cancel();
-											returnToDungeon();
-										}
-									});
+
+					RewardPopup.show("You defeated the monster!", reward,
+							(Activity) getContext(),
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									returnToDungeon(true);
+								}
+							});
 				}
 
 			});
@@ -210,11 +214,11 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	}
 
-	public void returnToDungeon() {
+	public void returnToDungeon(final boolean isVictory) {
 		((Activity) getContext()).runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				battleMenu.returnToDungeon();
+				battleMenu.returnToDungeon(isVictory);
 			}
 		});
 	}

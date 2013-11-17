@@ -1,7 +1,6 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
-import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -58,8 +57,6 @@ public class FloorView {
 
 					rooms[i][j].setSelected(true);
 					selectedRoom = rooms[i][j];
-					Player.getPlayer().roomX = j;
-					Player.getPlayer().roomY = i;
 
 					avatar.x = indexToCoord(j);
 					avatar.y = indexToCoord(i);
@@ -80,7 +77,7 @@ public class FloorView {
 	public void draw(Canvas canvas) {
 		for (int i = 0; i < Dungeon.DUNGEON_DIMMENSION; i++) {
 			for (int j = 0; j < Dungeon.DUNGEON_DIMMENSION; j++) {
-				if (rooms[i][j] != null) {
+				if (rooms[i][j] != null && rooms[i][j].getRoom().getCanVisit()) {
 
 					rooms[i][j].draw(canvas);
 
@@ -92,7 +89,8 @@ public class FloorView {
 					// Draw connecting lines
 
 					// Room to the right:
-					if (dungeon.roomExists(i, j + 1)) {
+					if (dungeon.roomExists(j + 1, i)
+							&& rooms[i][j + 1].getRoom().getCanVisit()) {
 						sx = rooms[i][j].x + (RoomView.WIDTH / 2f);
 						sy = indexToCoord(i);
 						ex = indexToCoord(j + 1) - (RoomView.WIDTH / 2f);
@@ -100,7 +98,8 @@ public class FloorView {
 						canvas.drawLine(sx, sy, ex, ey, paint);
 					}
 					// Room to the left:
-					if (dungeon.roomExists(i, j - 1)) {
+					if (dungeon.roomExists(j - 1, i)
+							&& rooms[i][j - 1].getRoom().getCanVisit()) {
 						sx = rooms[i][j].x - (RoomView.WIDTH / 2f);
 						sy = indexToCoord(i);
 						ex = indexToCoord(j - 1) + (RoomView.WIDTH / 2f);
@@ -108,7 +107,8 @@ public class FloorView {
 						canvas.drawLine(sx, sy, ex, ey, paint);
 					}
 					// Room below:
-					if (dungeon.roomExists(i + 1, j)) {
+					if (dungeon.roomExists(j, i + 1)
+							&& rooms[i + 1][j].getRoom().getCanVisit()) {
 						sx = indexToCoord(j);
 						sy = rooms[i][j].y + (RoomView.WIDTH / 2f);
 						ex = indexToCoord(j);
@@ -116,7 +116,8 @@ public class FloorView {
 						canvas.drawLine(sx, sy, ex, ey, paint);
 					}
 					// Room above:
-					if (dungeon.roomExists(i - 1, j)) {
+					if (dungeon.roomExists(j, i - 1)
+							&& rooms[i - 1][j].getRoom().getCanVisit()) {
 						sx = indexToCoord(j);
 						sy = rooms[i][j].y - (RoomView.WIDTH / 2f);
 						ex = indexToCoord(j);
