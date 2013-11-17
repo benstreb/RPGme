@@ -35,8 +35,7 @@ public enum StatType {
 		}
 	}
 
-	// Convert a string to a stat type. Used by Spinners of the CreateQuests
-	// menu.
+	// Convert a string to a stat type.
 	public static StatType stringToType(String string) {
 		if (string.equalsIgnoreCase("STRENGTH")) {
 			return STRENGTH;
