@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/avatarView"
         android:layout_alignRight="@id/avatarView"
-        android:src="@drawable/av_weapon1" />
+        />
     
     <ImageView
         android:id="@+id/armorView"
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/levelDisplay"
         android:layout_alignParentRight="true"
-        android:src="@drawable/av_armor1" />
+        />
 
     <!-- Level Display -->
     <TextView
