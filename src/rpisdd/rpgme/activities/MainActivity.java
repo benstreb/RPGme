@@ -211,7 +211,11 @@ public class MainActivity extends FragmentActivity {
 		} else if (mMenuTitles[position].equals("Shop")) {
 			fragment = new ShopMenu();
 		} else if (mMenuTitles[position].equals("Dungeon")) {
-			fragment = new DungeonMenu();
+			if (Player.getPlayer().isConscious()) {
+				fragment = new DungeonMenu();
+			} else {
+				fragment = new UnconsciousWarning();
+			}
 		} else if (mMenuTitles[position].equals("Quest History")) {
 			fragment = new QuestHistoryMenu();
 		} else {
