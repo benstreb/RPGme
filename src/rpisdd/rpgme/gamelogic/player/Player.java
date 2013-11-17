@@ -386,6 +386,8 @@ public class Player implements HasHealth {
 		e.putBoolean("playerExists", true);
 		e.putInt("gold", gold);
 		e.putInt("energy", energy);
+		e.putInt("roomX", this.roomX);
+		e.putInt("roomY", this.roomY);
 		e.commit();
 	}
 
@@ -403,6 +405,8 @@ public class Player implements HasHealth {
 		p.dungeon.load(pref);
 		p.gold = pref.getInt("gold", 100);
 		p.energy = pref.getInt("energy", 1);
+		p.roomX = pref.getInt("roomX", 0);
+		p.roomY = pref.getInt("roomY", 0);
 		player = p;
 	}
 
