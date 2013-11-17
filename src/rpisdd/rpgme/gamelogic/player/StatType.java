@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import android.util.Log;
 
 //Represents a stat type that the player can have.
 public enum StatType {
@@ -21,16 +22,15 @@ public enum StatType {
 	public int getImgPath() {
 		if (this.value == 0) {
 			return R.drawable.ic_strength;
-		}
-		if (this.value == 1) {
+		} else if (this.value == 1) {
 			return R.drawable.ic_intelligence;
-		}
-		if (this.value == 2) {
+		} else if (this.value == 2) {
 			return R.drawable.ic_will;
-		}
-		if (this.value == 3) {
+		} else if (this.value == 3) {
 			return R.drawable.ic_spirit;
 		} else {
+			Log.wtf("StatType",
+					"Trying to get the image path of an invalid stat type");
 			return -1;
 		}
 	}
@@ -46,8 +46,10 @@ public enum StatType {
 			return WILL;
 		} else if (string.equalsIgnoreCase("SPIRIT")) {
 			return SPIRIT;
+		} else {
+			Log.wtf("StatType", "Loading an invalid stat type");
+			return ERROR;
 		}
-		return ERROR;
 	}
 
 }
