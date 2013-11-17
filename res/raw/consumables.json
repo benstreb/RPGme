@@ -8,7 +8,7 @@
 	},
 	{
 		"name":"Revival Potion",
-		"price":9001,
+		"price":200,
 		"filename":"potion_yellow.png",
 		"effect":["revive", 50],
 		"description":"Revives you at 50% of your max HP"
