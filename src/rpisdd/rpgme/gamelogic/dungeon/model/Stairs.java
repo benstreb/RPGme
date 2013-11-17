@@ -1,5 +1,8 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import rpisdd.rpgme.activities.DescendStairs;
+import rpisdd.rpgme.activities.MainActivity;
+import rpisdd.rpgme.activities.TransitionFragment;
 import android.app.Activity;
 
 public class Stairs implements RoomContent {
@@ -7,6 +10,9 @@ public class Stairs implements RoomContent {
 	@Override
 	public boolean Encounter(Activity activity) {
 		// TODO IMPLEMENT
+		TransitionFragment trans = new TransitionFragment();
+		trans.setValues(new DescendStairs(), true);
+		((MainActivity) activity).changeFragment(trans);
 		return false;
 	}
 
