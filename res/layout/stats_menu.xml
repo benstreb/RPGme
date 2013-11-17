@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/armorView"
+        android:layout_alignTop="@+id/avatarView"
         android:layout_marginTop="31dp"
         android:src="@drawable/ic_sword" />
     
@@ -73,15 +73,15 @@
         android:id="@+id/weaponView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/avatarView"
-        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/avatarView"
+        android:layout_alignRight="@id/avatarView"
         android:src="@drawable/av_weapon1" />
-
+    
     <ImageView
         android:id="@+id/armorView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/avatarView"
+        android:layout_above="@+id/levelDisplay"
         android:layout_alignParentRight="true"
         android:src="@drawable/av_armor1" />
 
@@ -231,5 +231,7 @@
 
 		    </LinearLayout>
     </LinearLayout>
+
+
 
 </RelativeLayout>

@@ -30,8 +30,13 @@ public class MainActivity extends FragmentActivity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
+	private int mDrawerIcon;
+	private int mIcon;
 	private final String[] mMenuTitles = { "Quests", "Quest History",
 			"Inventory", "Stats", "Shop", "Dungeon" };
+	private final int[] mMenuIcons = { R.drawable.ic_quests,
+			R.drawable.ic_quest_history, R.drawable.ic_inventory,
+			R.drawable.ic_stats, R.drawable.ic_shop, R.drawable.ic_dungeon };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class MainActivity extends FragmentActivity {
 		RoomView.setWidth();
 
 		mTitle = mDrawerTitle = getTitle();
+		mIcon = mDrawerIcon = R.drawable.ic_launcher;
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -75,13 +81,16 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
+				getActionBar().setIcon(mIcon);
 				invalidateOptionsMenu(); // creates call to
 											// onPrepareOptionsMenu()
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(mDrawerTitle);
+				// this would set the activity bar to have the default info
+				// when the drawer is open (RPGme and app icon)
+				// getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu(); // creates call to
 											// onPrepareOptionsMenu()
 			}
@@ -222,6 +231,7 @@ public class MainActivity extends FragmentActivity {
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			setTitle(mMenuTitles[position]);
+			setIcon(mMenuIcons[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 			return;
 		}
@@ -231,6 +241,7 @@ public class MainActivity extends FragmentActivity {
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		setTitle(mMenuTitles[position]);
+		setIcon(mMenuIcons[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 
 	}
@@ -239,6 +250,11 @@ public class MainActivity extends FragmentActivity {
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
+	}
+
+	public void setIcon(int iconLocation) {
+		mIcon = iconLocation;
+		getActionBar().setIcon(iconLocation);
 	}
 
 	@Override
