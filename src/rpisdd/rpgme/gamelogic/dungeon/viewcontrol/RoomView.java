@@ -13,7 +13,7 @@ import android.graphics.Rect;
 //Class that represents the image of a room on the canvas
 public class RoomView extends ViewObject {
 
-	public static final int WIDTH = 50; // Specifies room width in pixels
+	public static int WIDTH = 50; // Specifies room width in pixels
 	private final Room room; // The room model object of which this view object
 								// uses
 
@@ -25,6 +25,14 @@ public class RoomView extends ViewObject {
 	private static Bitmap stairRoomBitmap;
 
 	private Bitmap roomIconBitmap;
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public static void setWidth() {
+		WIDTH = (int) (50 * ViewObject.SCALE_FACTOR);
+	}
 
 	public static void setRoomBitmap(Resources res) {
 
@@ -67,7 +75,7 @@ public class RoomView extends ViewObject {
 
 		canvas.drawBitmap(roomBitmap, sx, sy, null);
 
-		if (room.getContent().getRoomType() != null) {
+		if (room.getContent() != null) {
 
 			switch (room.getContent().getRoomType()) {
 			case MONSTER:

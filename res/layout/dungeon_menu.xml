@@ -1,38 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Dungeon"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-	
-    <Button
-        android:id="@+id/treasureEnterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="$$$?" />
-	
-    <ScrollView 
-        android:layout_width="fill_parent"
+	<ScrollView 
+	    android:id="@+id/dungeonVertScroll"
+		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-        <HorizontalScrollView 
-            android:layout_width="fill_parent"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true">
+		<HorizontalScrollView 
+		    android:id="@+id/dungeonHorizScroll"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-		    <rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView
-		        android:id="@+id/dungeonSurfaceView"
-		        android:layout_width="1000dp"
-		        android:layout_height="1000dp" />
-    	</HorizontalScrollView>
+			<rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView
+				android:id="@+id/dungeonSurfaceView"
+				android:layout_width="1000dp"
+				android:layout_height="1000dp" />
+		</HorizontalScrollView>
 	</ScrollView>
 	 
-	
 </RelativeLayout>

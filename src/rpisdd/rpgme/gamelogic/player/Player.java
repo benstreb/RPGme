@@ -1,7 +1,9 @@
 package rpisdd.rpgme.gamelogic.player;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
+import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
 import rpisdd.rpgme.gamelogic.dungeon.model.HasHealth;
 import rpisdd.rpgme.gamelogic.items.Inventory;
 import rpisdd.rpgme.gamelogic.quests.QuestManager;
@@ -23,12 +25,15 @@ public class Player implements HasHealth {
 	private final QuestManager questManager;
 	private final Stats stats;
 	private final Inventory inventory;
+	private Dungeon dungeon;
 
 	private int gold;
 	private int energy;
 
 	public int roomX;
 	public int roomY;
+
+	private MainActivity activity;
 
 	public Player(CharSequence name, CharSequence classs, int avatarId) {
 		this.name = name.toString();
@@ -37,8 +42,13 @@ public class Player implements HasHealth {
 		this.questManager = new QuestManager();
 		this.inventory = new Inventory();
 		this.stats = new Stats();
+		this.dungeon = new Dungeon(1);
 		this.gold = 100;
 		this.energy = 10;
+	}
+
+	public void setActivity(MainActivity activity) {
+		this.activity = activity;
 	}
 
 	public int getAvatar() {
@@ -55,6 +65,10 @@ public class Player implements HasHealth {
 
 	public Inventory getInventory() {
 		return inventory;
+	}
+
+	public Dungeon getDungeon() {
+		return dungeon;
 	}
 
 	public String getName() {
@@ -103,6 +117,7 @@ public class Player implements HasHealth {
 		if (energy > getMaxEnergy()) {
 			energy = getMaxEnergy();
 		}
+		activity.updateEnergyBar();
 	}
 
 	/*
@@ -116,6 +131,7 @@ public class Player implements HasHealth {
 		if (energy < 0) {
 			energy = 0;
 		}
+		activity.updateEnergyBar();
 	}
 
 	/*
@@ -335,7 +351,7 @@ public class Player implements HasHealth {
 			break;
 		case SPIRIT:
 			defenseValue = this.getSprDef();
-			;
+			break;
 		default:
 			defenseValue = 0;
 		}
@@ -363,6 +379,7 @@ public class Player implements HasHealth {
 				Context.MODE_PRIVATE);
 		Editor e = p.edit();
 		stats.save(e);
+		dungeon.save(e);
 		e.putString("name", name);
 		e.putString("class", classs);
 		e.putInt("avatarId", avatarId);
@@ -383,6 +400,7 @@ public class Player implements HasHealth {
 		p.questManager.loadQuestsFromDatabase(activity);
 		p.inventory.loadItemsFromDatabase(activity);
 		p.stats.load(pref);
+		p.dungeon.load(pref);
 		p.gold = pref.getInt("gold", 100);
 		p.energy = pref.getInt("energy", 1);
 		player = p;

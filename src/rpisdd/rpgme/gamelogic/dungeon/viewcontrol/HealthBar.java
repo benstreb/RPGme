@@ -16,8 +16,10 @@ public class HealthBar extends ViewObject {
 	public HealthBar(float x, float y, float width, float height, HasHealth host) {
 		this.x = x;
 		this.y = y;
-		foreRect = new Rect(0, 0, (int) width, (int) height);
-		backRect = new Rect(0, 0, (int) width, (int) height);
+		foreRect = new Rect(0, 0, (int) (width * SCALE_FACTOR),
+				(int) (height * SCALE_FACTOR));
+		backRect = new Rect(0, 0, (int) (width * SCALE_FACTOR),
+				(int) (height * SCALE_FACTOR));
 		this.host = host;
 	}
 

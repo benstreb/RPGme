@@ -32,6 +32,17 @@ public class Monster implements RoomContent, HasHealth {
 		type = _type;
 	}
 
+	public Monster(String _name, String _path, int _health, int _maxHealth,
+			int _damage, int _defense, StatType _type) {
+		name = _name;
+		imagePath = _path;
+		health = _health;
+		maxHealth = _maxHealth;
+		damage = _damage;
+		defense = _defense;
+		type = _type;
+	}
+
 	// Returns an int pair of the StatType of the attack,
 	// and the base damage this monster deals
 	public Combat.Attack MakeAttack() {
@@ -96,5 +107,11 @@ public class Monster implements RoomContent, HasHealth {
 	@Override
 	public int getMaxEnergy() {
 		return maxHealth;
+	}
+
+	@Override
+	public String getStringRepresentation() {
+		return "MONSTER" + "," + this.name + "," + imagePath + "," + health
+				+ "," + maxHealth + "," + damage + "," + defense + "," + type;
 	}
 }

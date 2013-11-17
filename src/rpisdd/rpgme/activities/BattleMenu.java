@@ -31,8 +31,14 @@ public class BattleMenu extends Fragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.battle_menu, container, false);
 
+		int hp = getActivity().getResources().getInteger(R.integer.monster_hp);
+		int atk = getActivity().getResources()
+				.getInteger(R.integer.monster_atk);
+		int def = getActivity().getResources()
+				.getInteger(R.integer.monster_def);
+
 		Monster monster = new Monster("MonsterName",
-				"file:///android_asset/Monsters/monster1.png", 100, 1, 1,
+				"file:///android_asset/Monsters/monster1.png", hp, atk, def,
 				StatType.WILL);
 
 		battleView = (BattleSurfaceView) v.findViewById(R.id.battleSurfaceView);
@@ -97,24 +103,16 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		runAway.setEnabled(false);
 	}
 
-	/*
-	 * public void returnToDungeon() { ((MainActivity)
-	 * getActivity()).enableNavigationDrawer(true); ((MainActivity)
-	 * getActivity()).enableActionBar(true); ((MainActivity)
-	 * getActivity()).changeFragment(new DungeonMenu()); }
-	 */
-
 	public void returnToDungeon() {
-
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(new DungeonMenu(), true);
 		((MainActivity) getActivity()).changeFragment(trans);
 	}
 
 	public void redirectToStats() {
-		((MainActivity) getActivity()).enableNavigationDrawer(true);
-		((MainActivity) getActivity()).enableActionBar(true);
-		((MainActivity) getActivity()).changeFragment(new StatsMenu());
+		TransitionFragment trans = new TransitionFragment();
+		trans.setValues(new StatsMenu(), true);
+		((MainActivity) getActivity()).changeFragment(trans);
 
 	}
 

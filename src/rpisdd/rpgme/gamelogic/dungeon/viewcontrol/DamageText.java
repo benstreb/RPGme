@@ -29,7 +29,7 @@ public class DamageText extends ViewObject {
 
 		paint = new Paint();
 		paint.setColor(Color.RED);
-		paint.setTextSize(12);
+		paint.setTextSize(12 * SCALE_FACTOR);
 	}
 
 	@Override

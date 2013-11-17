@@ -1,7 +1,11 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
 
 //Superclass of all objects drawn on the screen.
 public class ViewObject {
@@ -12,6 +16,19 @@ public class ViewObject {
 
 	protected float scale = 1;
 	protected float angle;
+
+	public static float SCALE_FACTOR = 1;
+
+	public static void setScaleFactor(Context context) {
+
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+
+		SCALE_FACTOR = (size.y / 480f);
+	}
 
 	public ViewObject() {
 	}

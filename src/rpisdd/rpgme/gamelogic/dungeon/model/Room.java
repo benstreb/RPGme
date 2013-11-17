@@ -7,10 +7,19 @@ public class Room {
 	boolean canVisit;
 	RoomContent content;
 
-	public Room(RoomContent content_) {
+	private int x;
+	private int y;
+
+	public Room(RoomContent content_, int x_, int y_) {
 		this.visited = false;
 		this.canVisit = false;
 		this.content = content_;
+		x = x_;
+		y = y_;
+	}
+
+	public Room(RoomContent content_) {
+		this(content_, 0, 0);
 	}
 
 	public boolean visit(Activity activity) {
@@ -36,6 +45,25 @@ public class Room {
 
 	public RoomContent getContent() {
 		return this.content;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public String getStringRepresentation() {
+		String contentRep;
+		if (this.content == null) {
+			contentRep = "NONE";
+		} else {
+			contentRep = this.content.getStringRepresentation();
+		}
+		return "ROOM" + "#" + this.visited + "#" + this.canVisit + "#" + this.x
+				+ "#" + this.y + "#" + contentRep;
 	}
 
 }
