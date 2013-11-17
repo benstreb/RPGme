@@ -1,6 +1,7 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.RoomView;
 import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.ViewObject;
 import rpisdd.rpgme.gamelogic.items.Item;
@@ -44,6 +45,7 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.master_layout);
 
 		Item.load(this);
+		Monster.load(this);
 		Player.loadPlayer(this);
 		Player.getPlayer().setActivity(this);
 

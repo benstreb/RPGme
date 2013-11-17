@@ -1,5 +1,7 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import java.util.ArrayList;
+
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.activities.TransitionFragment;
@@ -7,6 +9,7 @@ import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
+import android.content.Context;
 
 //Each monster is alligned with 1 Stat Type
 //Attacks with that stat type with provided damage
@@ -14,7 +17,7 @@ import android.app.Activity;
 public class Monster implements RoomContent, HasHealth {
 
 	private final String name;
-	private final String imagePath;
+	private final String imageName;
 
 	private int health;
 	private final int maxHealth;
@@ -23,26 +26,27 @@ public class Monster implements RoomContent, HasHealth {
 	private final int defense;
 	private final StatType type;
 
-	public Monster(String _name, String _path, int _health, int _damage,
+	private static final ArrayList<Monster> monsters = new ArrayList<Monster>();
+
+	private Monster(String _name, String _imageName, int _health, int _damage,
 			int _defense, StatType _type) {
-		name = _name;
-		imagePath = _path;
-		health = _health;
-		maxHealth = _health;
-		damage = _damage;
-		defense = _defense;
-		type = _type;
+		this(_name, _imageName, _health, _health, _damage, _defense, _type);
 	}
 
-	public Monster(String _name, String _path, int _health, int _maxHealth,
-			int _damage, int _defense, StatType _type) {
+	public Monster(String _name, String _imageName, int _health,
+			int _maxHealth, int _damage, int _defense, StatType _type) {
 		name = _name;
-		imagePath = _path;
+		imageName = _imageName;
 		health = _health;
 		maxHealth = _maxHealth;
 		damage = _damage;
 		defense = _defense;
 		type = _type;
+	}
+
+	private Monster copy() {
+		return new Monster(name, imageName, health, maxHealth, damage, defense,
+				type);
 	}
 
 	// Returns an int pair of the StatType of the attack,
@@ -52,7 +56,7 @@ public class Monster implements RoomContent, HasHealth {
 	}
 
 	public String getImagePath() {
-		return imagePath;
+		return "file:///android_asset/Monsters/" + imageName;
 	}
 
 	// TODO make a class for attacks so we don't have to assume int array
@@ -91,7 +95,6 @@ public class Monster implements RoomContent, HasHealth {
 
 	@Override
 	public boolean Encounter(Activity activity) {
-
 		BattleMenu battleMenu = new BattleMenu();
 		battleMenu.setMonster(this);
 
@@ -119,7 +122,15 @@ public class Monster implements RoomContent, HasHealth {
 
 	@Override
 	public String getStringRepresentation() {
-		return "MONSTER" + "," + this.name + "," + imagePath + "," + health
+		return "MONSTER" + "," + this.name + "," + imageName + "," + health
 				+ "," + maxHealth + "," + damage + "," + defense + "," + type;
+	}
+
+	public static void load(Context c) {
+		monsters.add(new Monster("Slime", "slime.png", 10, 1, 10, StatType.WILL));
+	}
+
+	public static Monster selectMonster(Dungeon d) {
+		return monsters.get(0).copy();
 	}
 }

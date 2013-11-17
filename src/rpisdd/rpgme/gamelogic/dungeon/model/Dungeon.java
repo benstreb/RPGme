@@ -55,7 +55,6 @@ public class Dungeon {
 
 				// remove the currentlyExpanded room
 				roomsToExpand.remove(roomsToExpand.size() - 1);
-
 				// Generate possible adjacent rooms
 				if (rand.nextInt(3) == 0) {
 					// Up
@@ -173,10 +172,7 @@ public class Dungeon {
 		} else if (contentNum < 30) {
 			content = new Treasure();
 		} else if (contentNum < 80) {
-			// TODO Generate monster from file here
-			content = new Monster("MonsterName",
-					"file:///android_asset/Monsters/monster1.png", 3, 1, 1,
-					StatType.WILL);
+			content = Monster.selectMonster(this);
 		} else {
 			content = null;
 		}

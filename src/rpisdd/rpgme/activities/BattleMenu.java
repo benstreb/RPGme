@@ -38,12 +38,6 @@ public class BattleMenu extends Fragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.battle_menu, container, false);
 
-		int hp = getActivity().getResources().getInteger(R.integer.monster_hp);
-		int atk = getActivity().getResources()
-				.getInteger(R.integer.monster_atk);
-		int def = getActivity().getResources()
-				.getInteger(R.integer.monster_def);
-
 		battleView = (BattleSurfaceView) v.findViewById(R.id.battleSurfaceView);
 		battleView.battleMenu = this;
 		battleView.setMonster(monster);
