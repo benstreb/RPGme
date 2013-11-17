@@ -32,7 +32,6 @@ public class Dungeon {
 		boolean setStairs = false;
 
 		ArrayList<Room> roomsToExpand = new ArrayList<Room>();
-		System.out.println("derpderpderp!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		Random rand = new Random();
 		start_x = rand.nextInt(DUNGEON_DIMMENSION);
 		start_y = rand.nextInt(DUNGEON_DIMMENSION);
@@ -194,7 +193,8 @@ public class Dungeon {
 			for (String rum : stringRep.split("\\|")) {
 				Log.d("Debug", "Room test: " + rum + "\n");
 			}
-			for (int r = 0; r < rooms.length; r++) {
+			this.level = Integer.parseInt(rooms[0]);
+			for (int r = 1; r < rooms.length; r++) {
 				Log.d("Debug", "Room string: " + rooms[r] + "\n");
 				String[] roomArgs = rooms[r].split("#");
 				boolean visited_ = Boolean.parseBoolean(roomArgs[1]);
@@ -244,6 +244,7 @@ public class Dungeon {
 	public void save(Editor e) {
 		if (this.isGenerated()) {
 			String stringRep = "";
+			stringRep += this.level + "|";
 			for (int i = 0; i < DUNGEON_DIMMENSION; ++i) {
 				for (int j = 0; j < DUNGEON_DIMMENSION; ++j) {
 					Room currentRoom = this.getRoom(i, j);
@@ -295,6 +296,14 @@ public class Dungeon {
 
 	public boolean isGenerated() {
 		return generated;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void incLevel() {
+		this.level++;
 	}
 
 	public static boolean inBounds(int x, int y) {
