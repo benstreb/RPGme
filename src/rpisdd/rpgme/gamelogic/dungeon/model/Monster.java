@@ -1,7 +1,11 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.activities.TransitionFragment;
@@ -10,6 +14,12 @@ import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 import android.content.Context;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 //Each monster is alligned with 1 Stat Type
 //Attacks with that stat type with provided damage
@@ -28,9 +38,11 @@ public class Monster implements RoomContent, HasHealth {
 
 	private static final ArrayList<Monster> monsters = new ArrayList<Monster>();
 
-	private Monster(String _name, String _imageName, int _health, int _damage,
-			int _defense, StatType _type) {
-		this(_name, _imageName, _health, _health, _damage, _defense, _type);
+	private Monster(JsonObject o) {
+		this(o.get("name").getAsString(), o.get("imagename").getAsString(), o
+				.get("health").getAsInt(), o.get("health").getAsInt(), o.get(
+				"power").getAsInt(), o.get("defense").getAsInt(), StatType
+				.stringToType(o.get("type").getAsString()));
 	}
 
 	public Monster(String _name, String _imageName, int _health,
@@ -127,7 +139,16 @@ public class Monster implements RoomContent, HasHealth {
 	}
 
 	public static void load(Context c) {
-		monsters.add(new Monster("Slime", "slime.png", 10, 1, 10, StatType.WILL));
+		InputStreamReader r = new InputStreamReader(c.getResources()
+				.openRawResource(R.raw.monsters));
+		JsonReader jr = new JsonReader(new BufferedReader(r));
+		JsonParser jp = new JsonParser();
+		JsonArray jItems = jp.parse(jr).getAsJsonArray();
+		for (Iterator<JsonElement> jIter = jItems.iterator(); jIter.hasNext();) {
+			JsonObject jItem = jIter.next().getAsJsonObject();
+			Monster mon = new Monster(jItem);
+			monsters.add(mon);
+		}
 	}
 
 	public static Monster selectMonster(Dungeon d) {

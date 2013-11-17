@@ -1,0 +1,10 @@
+[
+	{
+		"name": "Slime",
+		"imagename": "slime.png",
+		"health": 10,
+		"power": 1,
+		"defense": 10,
+		"type": "will"
+	}
+]
