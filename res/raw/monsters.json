@@ -6,5 +6,37 @@
 		"power": 1,
 		"defense": 10,
 		"type": "will"
-	}
+	},
+	{
+		"name": "Strength Slime",
+		"imagename": "monster_strength.png",
+		"health": 10,
+		"power": 1,
+		"defense": 10,
+		"type": "strength"
+	},
+	{
+		"name": "Intelligence Slime",
+		"imagename": "monster_intelligence.png",
+		"health": 10,
+		"power": 1,
+		"defense": 10,
+		"type": "intelligence"
+	},
+	{
+		"name": "Spirit Slime",
+		"imagename": "monster_spirit.png",
+		"health": 10,
+		"power": 1,
+		"defense": 10,
+		"type": "spirit"
+	},
+	{
+		"name": "Will Slime",
+		"imagename": "monster_will.png",
+		"health": 10,
+		"power": 1,
+		"defense": 10,
+		"type": "will"
+	},
 ]
