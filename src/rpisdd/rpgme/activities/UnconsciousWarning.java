@@ -18,8 +18,8 @@ public class UnconsciousWarning extends Fragment {
 
 		// TODO Art for warning when player tries to enter dungeon with no
 		// energy
-		View v = inflater.inflate(R.layout.activity_splash_screen, container,
-				false);
+		View v = inflater.inflate(R.layout.unconscious_splash_screen,
+				container, false);
 		return v;
 	}
 }
