@@ -13,7 +13,7 @@ public final class Consumable extends Item {
 			return new EnergyHealer(doesWhat.get(1).getAsInt()) {
 				@Override
 				public boolean isUsable(Player p) {
-					return p.isConscious();
+					return p.isConscious() && p.getEnergy() < p.getMaxEnergy();
 				}
 			};
 		} else if (doerType.equals("revive")) {
