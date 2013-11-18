@@ -13,6 +13,14 @@ public class Treasure implements RoomContent {
 
 	private boolean isOpened;
 
+	public Treasure(boolean opened) {
+		this.isOpened = opened;
+	}
+
+	public Treasure() {
+		this(false);
+	}
+
 	@Override
 	public boolean Encounter(Activity activity) {
 
@@ -31,7 +39,7 @@ public class Treasure implements RoomContent {
 
 	@Override
 	public String getStringRepresentation() {
-		return "TREASURE";
+		return "TREASURE" + "," + this.isOpened;
 	}
 
 	public boolean getIsOpened() {

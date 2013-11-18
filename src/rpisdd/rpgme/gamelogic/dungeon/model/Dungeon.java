@@ -217,7 +217,11 @@ public class Dungeon {
 					Log.d("Debug", "Making Stairs\n");
 					newContent = new Stairs();
 				} else if (type.compareTo("TREASURE") == 0) {
-					newContent = new Treasure();
+					if (contentArgs.length < 2) {
+						Log.wtf("DungeonLoad", "Not enough args for a TREASURE");
+					}
+					boolean isOpened = Boolean.parseBoolean(contentArgs[1]);
+					newContent = new Treasure(isOpened);
 				} else if (type.compareTo("MONSTER") == 0) {
 					/*
 					 * Prints each argument for the monster! for (String
