@@ -36,8 +36,8 @@ public class Player implements HasHealth {
 
 	// Stores the last room the player was in. Note that this is only a
 	// one-layer deep stack.
-	private int lastRoomX = -1;
-	private int lastRoomY = -1;
+	private int lastRoomX;
+	private int lastRoomY;
 
 	private MainActivity activity;
 
@@ -51,6 +51,10 @@ public class Player implements HasHealth {
 		this.dungeon = new Dungeon(1);
 		this.gold = 100000;
 		this.energy = 10;
+		this.roomX = -1;
+		this.roomY = -1;
+		this.lastRoomX = -1;
+		this.lastRoomY = -1;
 	}
 
 	public void setRoomPos(int x, int y) {
@@ -74,14 +78,23 @@ public class Player implements HasHealth {
 	}
 
 	public Room getCurrentRoom() {
-		return dungeon.getRoom(roomX, roomY);
+		if (this.dungeon == null) {
+			Log.wtf("Logic", "called getCurrentRoom, but dungeon is null!");
+			return null;
+		} else {
+			return dungeon.getRoom(roomX, roomY);
+		}
 	}
 
 	// Clear the current room and visit it again. This ensures that surrounding
 	// rooms will pop up.
 	public void clearCurrentRoom() {
-		getCurrentRoom().clearContent();
-		dungeon.visitRoom(roomX, roomY, null);
+		if (dungeon == null) {
+			Log.d("Debug", "Tried to clearCurrentRoom but no dungeon");
+		} else {
+			getCurrentRoom().clearContent();
+			dungeon.visitRoom(roomX, roomY, null);
+		}
 	}
 
 	public void goToLastRoom() {
@@ -446,8 +459,10 @@ public class Player implements HasHealth {
 		p.dungeon.load(pref);
 		p.gold = pref.getInt("gold", 100);
 		p.energy = pref.getInt("energy", 1);
-		p.roomX = pref.getInt("roomX", 0);
-		p.roomY = pref.getInt("roomY", 0);
+		p.roomX = pref.getInt("roomX", -1);
+		p.roomY = pref.getInt("roomY", -1);
+		p.lastRoomX = p.roomX;
+		p.lastRoomY = p.roomY;
 
 		int weaponIndex = pref.getInt("weaponIndex", -1);
 		int armorIndex = pref.getInt("armorIndex", -1);
@@ -460,6 +475,10 @@ public class Player implements HasHealth {
 		}
 
 		player = p;
+	}
+
+	public boolean StartPosSet() {
+		return (!(this.roomX == -1 || this.roomY == -1));
 	}
 
 	public static void createPlayer(CharSequence name, CharSequence classs,

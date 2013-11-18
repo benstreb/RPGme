@@ -21,6 +21,7 @@ public class Dungeon {
 	public Dungeon(int _level) {
 		this.level = _level;
 		this.generated = false;
+		Log.d("Debug", "Dungeon Constructor Called");
 	}
 
 	public Room[][] getMap() {
@@ -142,7 +143,6 @@ public class Dungeon {
 			}
 		}
 		this.generated = true;
-		this.visitRoom(start_x, start_y, null);
 	}
 
 	private Room generateRoom(int x_, int y_) {
@@ -180,7 +180,6 @@ public class Dungeon {
 
 	// Load the saved dungeon
 	public void load(SharedPreferences p) {
-
 		map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
 
 		String stringRep = p.getString("Dungeon", "NOTGENERATED");
@@ -198,6 +197,11 @@ public class Dungeon {
 			for (int r = 1; r < rooms.length; r++) {
 				Log.d("Debug", "Room string: " + rooms[r] + "\n");
 				String[] roomArgs = rooms[r].split("#");
+				if (roomArgs.length < 5) {
+					Log.e("Load", "FAILED DUGEON LOAD. NUM ROOM ARGS: "
+							+ roomArgs.length + "\n");
+					return;
+				}
 				boolean visited_ = Boolean.parseBoolean(roomArgs[1]);
 				boolean canVisit_ = Boolean.parseBoolean(roomArgs[2]);
 				int x_ = Integer.parseInt(roomArgs[3]);
@@ -233,16 +237,15 @@ public class Dungeon {
 				} else {
 					newContent = null;
 				}
-				Room newRoom = new Room(newContent, x_, y_);
+				Room newRoom = new Room(newContent, x_, y_, visited_, canVisit_);
 				this.map[y_][x_] = newRoom;
 				Log.d("Debug", "Done a loop\n");
 			}
 		}
-
+		this.generated = true;
 	}
 
 	public void save(Editor e) {
-
 		if (this.isGenerated()) {
 			String stringRep = "";
 			stringRep += this.level + "|";
@@ -259,7 +262,6 @@ public class Dungeon {
 		} else {
 			Log.d("Debug", "Dungeon not generated yet. Can't save it.\n");
 		}
-
 	}
 
 	public Room getRoom(int x, int y) {

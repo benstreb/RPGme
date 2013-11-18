@@ -31,7 +31,12 @@ public class DescendStairs extends Fragment implements OnTouchListener {
 		Player.getPlayer().getDungeon().GenerateMap();
 		Dungeon newFloor = Player.getPlayer().getDungeon();
 		newFloor.incLevel();
-		Player.getPlayer().setRoomPos(newFloor.start_x, newFloor.start_y);
+
+		// set up in start room
+		int dunStartX = newFloor.start_x;
+		int dunStartY = newFloor.start_y;
+		Player.getPlayer().getDungeon().visitRoom(dunStartX, dunStartY, null);
+		Player.getPlayer().setRoomPos(dunStartX, dunStartY);
 		// finish
 		return v;
 	}

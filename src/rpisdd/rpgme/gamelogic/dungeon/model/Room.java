@@ -11,12 +11,17 @@ public class Room {
 	private final int x;
 	private final int y;
 
-	public Room(RoomContent content_, int x_, int y_) {
-		this.visited = false;
-		this.canVisit = false;
+	public Room(RoomContent content_, int x_, int y_, boolean visited_,
+			boolean canVist_) {
+		this.visited = visited_;
+		this.canVisit = canVist_;
 		this.content = content_;
 		x = x_;
 		y = y_;
+	}
+
+	public Room(RoomContent content_, int x_, int y_) {
+		this(content_, x_, y_, false, false);
 	}
 
 	public Room(RoomContent content_) {
@@ -29,7 +34,7 @@ public class Room {
 		this.visited = true;
 		Player.getPlayer().setRoomPos(x, y);
 
-		if (this.hasContent()) {
+		if (this.hasContent() && activity != null) {
 			return this.content.Encounter(activity);
 		}
 		return true;

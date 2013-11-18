@@ -8,6 +8,7 @@ import rpisdd.rpgme.gamelogic.player.Player;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,22 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
+		dungeon = Player.getPlayer().getDungeon();
+
+		if (dungeon == null) {
+			Log.e("Error",
+					"Dungeon not generated yet. Can't enter dungeon menu!\n");
+		}
+
+		if (!Player.getPlayer().StartPosSet()) {
+			Log.d("Debug", "Player pos not set yet. Setting to start\n");
+			int dunStartX = dungeon.start_x;
+			int dunStartY = dungeon.start_y;
+			Player.getPlayer().getDungeon()
+					.visitRoom(dunStartX, dunStartY, null);
+			Player.getPlayer().setRoomPos(dunStartX, dunStartY);
+		}
+
 		View v = inflater.inflate(R.layout.dungeon_menu, container, false);
 
 		// enterTreasure = (Button) v.findViewById(R.id.treasureEnterButton);
@@ -40,15 +57,6 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 				.findViewById(R.id.dungeonVertScroll);
 		HorizontalScrollView scrollH = (HorizontalScrollView) v
 				.findViewById(R.id.dungeonHorizScroll);
-
-		dungeon = new Dungeon(1);
-
-		dungeon = Player.getPlayer().getDungeon();
-
-		if (!dungeon.isGenerated()) {
-			dungeon.GenerateMap();
-			Player.getPlayer().setRoomPos(dungeon.start_x, dungeon.start_y);
-		}
 
 		dungeonView = (DungeonSurfaceView) v
 				.findViewById(R.id.dungeonSurfaceView);

@@ -63,7 +63,6 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		completeQuest.setOnClickListener(this);
 		viewQuest = (ImageButton) v.findViewById(R.id.viewQuestButton);
 		viewQuest.setOnClickListener(this);
-		Player.getPlayer().getDungeon().GenerateMap();
 		updateButtons();
 
 		return v;
