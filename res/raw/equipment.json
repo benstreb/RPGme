@@ -8,14 +8,6 @@
 		"description":"Is that styrofoam?"
 	},
 	{
-		"name":"Cracked Plate",
-		"price":100,
-		"filename":"armor1.png",
-		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
-		"type":"armor",
-		"description":"It looks like it'll fall apart as soon as something hits it."
-	},
-	{
 		"name":"Small strength Sword",
 		"price":300,
 		"filename":"sword1_red.png",
@@ -46,5 +38,37 @@
 		"effect":{"strength":2,"intelligence":2,"spirit":2,"will":5},
 		"type":"weapon",
 		"description":"A cheap sword that improves will."
+	},
+	{
+		"name":"Cracked Plate",
+		"price":100,
+		"filename":"armor1.png",
+		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
+		"type":"armor",
+		"description":"It looks like it'll fall apart as soon as something hits it."
+	},
+	{
+		"name":"Thin Plate",
+		"price":100,
+		"filename":"armor1.png",
+		"effect":{"strength":10,"intelligence":10,"spirit":10,"will":10},
+		"type":"armor",
+		"description":"Not very strong, but it can at least take a hit."
+	},
+	{
+		"name":"Steel Plate",
+		"price":2500,
+		"filename":"armor1.png",
+		"effect":{"strength":30,"intelligence":30,"spirit":30,"will":30},
+		"type":"armor",
+		"description":"A sturdy design that has kept many people safe."
+	},
+	{
+		"name":"Gold Plate",
+		"price":10000,
+		"filename":"armor3.png",
+		"effect":{"strength":50,"intelligence":50,"spirit":50,"will":50},
+		"type":"armor",
+		"description":"Protection fit for royalty - at least until the gold peels off."
 	}
 ]
