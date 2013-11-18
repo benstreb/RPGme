@@ -32,7 +32,6 @@ public class Dungeon {
 		boolean setStairs = false;
 
 		ArrayList<Room> roomsToExpand = new ArrayList<Room>();
-		System.out.println("derpderpderp!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 		Random rand = new Random();
 		start_x = rand.nextInt(DUNGEON_DIMMENSION);
 		start_y = rand.nextInt(DUNGEON_DIMMENSION);
@@ -299,6 +298,14 @@ public class Dungeon {
 
 	public boolean isGenerated() {
 		return generated;
+	}
+
+	public int getLevel() {
+		return this.level;
+	}
+
+	public void incLevel() {
+		this.level++;
 	}
 
 	public static boolean inBounds(int x, int y) {
