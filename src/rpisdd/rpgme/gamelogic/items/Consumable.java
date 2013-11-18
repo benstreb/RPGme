@@ -59,7 +59,7 @@ abstract class EnergyHealer implements Doer {
 	private final float healFactor;
 
 	public EnergyHealer(int percent) {
-		this.healFactor = ((float) percent) / percent;
+		this.healFactor = percent / 100f;
 	}
 
 	@Override
