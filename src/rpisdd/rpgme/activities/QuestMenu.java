@@ -78,12 +78,18 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		if (selectedQuest != null) {
 			deleteQuest.setEnabled(true);
 			viewQuest.setEnabled(true);
+			deleteQuest.setVisibility(View.VISIBLE);
+			completeQuest.setVisibility(View.VISIBLE);
+			viewQuest.setVisibility(View.VISIBLE);
 			if (currentQuest != null && currentQuest.isFailed()) {
 				completeQuest.setEnabled(false);
 			} else {
 				completeQuest.setEnabled(true);
 			}
 		} else {
+			deleteQuest.setVisibility(View.INVISIBLE);
+			completeQuest.setVisibility(View.INVISIBLE);
+			viewQuest.setVisibility(View.INVISIBLE);
 			deleteQuest.setEnabled(false);
 			completeQuest.setEnabled(false);
 			viewQuest.setEnabled(false);
