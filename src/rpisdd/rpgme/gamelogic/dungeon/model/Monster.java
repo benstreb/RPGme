@@ -26,6 +26,10 @@ import com.google.gson.stream.JsonReader;
 //Defends against stat type with full defense, half against others
 public class Monster implements RoomContent, HasHealth {
 
+	private static final double HP_SCALING = 2.0;
+	private static final double DAMAGE_SCALING = 0.5;
+	private static final double DEFENSE_SCALING = 0.25;
+
 	private final String name;
 	private final String imageName;
 
@@ -35,6 +39,8 @@ public class Monster implements RoomContent, HasHealth {
 	private final int damage;
 	private final int defense;
 	private final StatType type;
+
+	private final int treasureLevel;
 
 	private static final ArrayList<Monster> monsters = new ArrayList<Monster>();
 
@@ -47,6 +53,13 @@ public class Monster implements RoomContent, HasHealth {
 
 	public Monster(String _name, String _imageName, int _health,
 			int _maxHealth, int _damage, int _defense, StatType _type) {
+		this(_name, _imageName, _health, _maxHealth, _damage, _defense, _type,
+				1);
+	}
+
+	public Monster(String _name, String _imageName, int _health,
+			int _maxHealth, int _damage, int _defense, StatType _type,
+			int _treasureLevel) {
 		name = _name;
 		imageName = _imageName;
 		health = _health;
@@ -54,6 +67,7 @@ public class Monster implements RoomContent, HasHealth {
 		damage = _damage;
 		defense = _defense;
 		type = _type;
+		treasureLevel = _treasureLevel;
 	}
 
 	private Monster copy() {
@@ -132,6 +146,10 @@ public class Monster implements RoomContent, HasHealth {
 		return maxHealth;
 	}
 
+	public int getTreasureLevel() {
+		return treasureLevel;
+	}
+
 	@Override
 	public String getStringRepresentation() {
 		return "MONSTER" + "," + this.name + "," + imageName + "," + health
@@ -152,6 +170,31 @@ public class Monster implements RoomContent, HasHealth {
 	}
 
 	public static Monster selectMonster(Dungeon d) {
-		return monsters.get(0).copy();
+		Monster baseMon = null;
+		Monster resultMon = null;
+		// select the monster
+		baseMon = monsters.get(0).copy();
+		// scale it
+		resultMon = scaleMonsterWithLevel(baseMon, d.getLevel());
+		// return it
+		return resultMon;
+	}
+
+	public static Monster scaleMonsterWithLevel(Monster m, int lvl) {
+		// Unchanged by level
+		String name = m.name;
+		String imageName = m.imageName;
+		StatType type = m.type;
+
+		// Scales with level
+		int maxHealth = (int) (m.maxHealth + lvl * HP_SCALING);
+		int health = maxHealth;
+		int damage = (int) (m.damage + lvl * DAMAGE_SCALING);
+		int defense = (int) (m.defense + lvl * DEFENSE_SCALING);
+
+		// Create the result and return it
+		Monster resultMonster = new Monster(name, imageName, health, maxHealth,
+				damage, defense, type, lvl);
+		return resultMonster;
 	}
 }

@@ -3,8 +3,14 @@ package rpisdd.rpgme.gamelogic.player;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.quests.Quest;
+import android.util.Log;
 
 public class Reward {
+
+	private static final int MONSTER_REWARD_BASE_GOLD = 25;
+	private static final int MONSTER_REWARD_BASE_EXP = 5;
+	private static final double MONSTER_REWARD_GOLD_SCALING = 2.0;
+	private static final double MONSTER_REWARD_EXP_SCALING = 1.0;
 
 	private int goldIncrease = 0;
 	private int expIncrease = 0;
@@ -84,9 +90,13 @@ public class Reward {
 
 	// Give a reward after killing a monster based on that monster
 	public static Reward monsterReward(Monster monster) {
+		int tLevel = monster.getTreasureLevel();
 		Reward r = new Reward();
-		r.setExpIncrease(5);
-		r.setGoldIncrease(25);
+		Log.d("RewardDebug", "Monster Reward Lvl: " + tLevel + "\n");
+		r.setExpIncrease(MONSTER_REWARD_BASE_EXP
+				+ (int) (tLevel * MONSTER_REWARD_EXP_SCALING));
+		r.setGoldIncrease(MONSTER_REWARD_BASE_GOLD
+				+ (int) (tLevel * MONSTER_REWARD_GOLD_SCALING));
 		return r;
 	}
 
