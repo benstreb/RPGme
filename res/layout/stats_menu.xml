@@ -83,7 +83,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/levelDisplay"
         android:layout_alignParentRight="true"
-        android:src="@drawable/av_armor1" />
+        android:src="@drawable/av_armor1"
+         />
 
     <!-- Level Display -->
     <TextView
