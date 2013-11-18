@@ -101,6 +101,11 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		updateButtons();
 	}
 
+	public void updateListView(View v) {
+
+		fillListView(v);
+	}
+
 	private class ItemAdapter extends ArrayAdapter<Item> {
 
 		ArrayList<Item> items;
@@ -127,6 +132,12 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 				ImageView image = (ImageView) v
 						.findViewById(R.id.inventoryItemImage);
 				name.setText("Name: " + i.getName());
+
+				if (i == Player.getPlayer().getInventory().getArmor()
+						|| i == Player.getPlayer().getInventory().getWeapon()) {
+					name.setTextColor(Color.GREEN);
+					name.append(" (Equipped)");
+				}
 				Picasso.with(getActivity()).load(i.getImagePath()).into(image);
 			}
 			return v;
@@ -141,6 +152,21 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		if (selectedItemSlot != null) {
 			selectedItemSlot.setBackgroundColor(Color.TRANSPARENT);
+		}
+
+		if (Player.getPlayer().getInventory().getItems().get(position)
+				.isEquipment()) {
+			if (Player.getPlayer().getInventory().getItems().get(position) == Player
+					.getPlayer().getInventory().getWeapon()
+					|| Player.getPlayer().getInventory().getItems()
+							.get(position) == Player.getPlayer().getInventory()
+							.getArmor()) {
+				use.setText("Unequip");
+			} else {
+				use.setText("Equip");
+			}
+		} else {
+			use.setText("Use");
 		}
 
 		v.setBackgroundColor(Color.GRAY);
@@ -158,14 +184,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.useItem:
-			AnnoyingPopup.doDont(getActivity(), "Use this item?", "Use",
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							useItem();
-						}
-					});
+			useItem();
 			break;
 		case R.id.sellItem:
 			AnnoyingPopup.doDont(getActivity(), "Sell this item?", "Sell",
@@ -188,15 +207,21 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	public void sellItemToShop() {
 		Player p = Player.getPlayer();
 		p.addGold(selectedItem.getRefundPrice());
-		p.getInventory().removeAt(selectedItemIndex);
+		p.getInventory().removeItemAt(selectedItemIndex);
 		fillListView(getView());
 	}
 
 	public void useItem() {
+
 		Player p = Player.getPlayer();
 		selectedItem.useMe(p, selectedItemIndex);
 		Log.i("items", String.format("Player has %s and %s equipped", p
 				.getInventory().getWeapon(), p.getInventory().getArmor()));
-		fillListView(getView());
+
+		if (!selectedItem.isEquipment()) {
+			fillListView(getView());
+		} else {
+			updateListView(getView());
+		}
 	}
 }

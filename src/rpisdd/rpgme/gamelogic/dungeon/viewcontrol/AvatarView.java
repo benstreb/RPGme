@@ -34,6 +34,7 @@ public class AvatarView extends ViewObject {
 		}
 
 		float scaleFactor = 0;
+
 		if (isMini) {
 			scaleFactor = (RoomView.WIDTH * 0.8f) / bitmap.getHeight();
 		} else {
@@ -41,6 +42,7 @@ public class AvatarView extends ViewObject {
 		}
 
 		setScale(scaleFactor);
+		setEquipmentScale(isMini);
 	}
 
 	public void setDamageText(int damage) {
@@ -57,17 +59,22 @@ public class AvatarView extends ViewObject {
 		}
 	}
 
-	@Override
-	public void setScale(float ascale) {
+	public void setEquipmentScale(boolean isMini) {
 
-		int srcWidth = bitmap.getWidth();
-		int srcHeight = bitmap.getHeight();
-		int dstWidth = (int) (srcWidth * ascale);
-		int dstHeight = (int) (srcHeight * ascale);
-
-		bitmap = Bitmap.createScaledBitmap(bitmap, dstWidth, dstHeight, true);
+		int srcWidth = 0;
+		int srcHeight = 0;
+		int dstWidth = 0;
+		int dstHeight = 0;
 
 		if (armorBitmap != null) {
+
+			float ascale = 0;
+
+			if (isMini) {
+				ascale = (RoomView.WIDTH * 0.8f) / armorBitmap.getWidth();
+			} else {
+				ascale = 0.5f * SCALE_FACTOR * (200f / armorBitmap.getHeight());
+			}
 
 			srcWidth = armorBitmap.getWidth();
 			srcHeight = armorBitmap.getHeight();
@@ -79,7 +86,14 @@ public class AvatarView extends ViewObject {
 		}
 
 		if (weaponBitmap != null) {
+			float ascale = 0;
 
+			if (isMini) {
+				ascale = (RoomView.WIDTH * 0.8f) / weaponBitmap.getWidth();
+			} else {
+				ascale = 0.5f * SCALE_FACTOR
+						* (200f / weaponBitmap.getHeight());
+			}
 			srcWidth = weaponBitmap.getWidth();
 			srcHeight = weaponBitmap.getHeight();
 			dstWidth = (int) (srcWidth * ascale);
@@ -88,6 +102,17 @@ public class AvatarView extends ViewObject {
 			weaponBitmap = Bitmap.createScaledBitmap(weaponBitmap, dstWidth,
 					dstHeight, false);
 		}
+	}
+
+	@Override
+	public void setScale(float ascale) {
+
+		int srcWidth = bitmap.getWidth();
+		int srcHeight = bitmap.getHeight();
+		int dstWidth = (int) (srcWidth * ascale);
+		int dstHeight = (int) (srcHeight * ascale);
+
+		bitmap = Bitmap.createScaledBitmap(bitmap, dstWidth, dstHeight, true);
 
 	}
 

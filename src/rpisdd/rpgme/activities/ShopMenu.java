@@ -162,20 +162,26 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 		case R.id.shopBuyButton:
 			boolean wasSold = sellItemToPlayer();
 
-			if (wasSold && selected.isEquipment()) {
-				AnnoyingPopup.doDont(getActivity(), "Equip this item?",
-						"Equip", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-								selected.useMe(Player.getPlayer(), Player
-										.getPlayer().getInventory().getItems()
-										.size() - 1);
-							}
-						});
-			} else if (wasSold) {
-				AnnoyingPopup.notice(getActivity(),
-						"You purchased " + selected.getName());
+			AnnoyingPopup.notice(getActivity(),
+					"You purchased " + selected.getName());
+
+			if (false) {
+				if (wasSold && selected.isEquipment()) {
+					AnnoyingPopup.doDont(getActivity(), "Equip this item?",
+							"Equip", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+									selected.useMe(Player.getPlayer(), Player
+											.getPlayer().getInventory()
+											.getItems().size() - 1);
+								}
+							});
+				} else if (wasSold) {
+					AnnoyingPopup.notice(getActivity(), "You purchased "
+							+ selected.getName());
+				}
 			}
 
 			break;
@@ -198,7 +204,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 			return false;
 		}
 
-		p.getInventory().addItem(i);
+		p.getInventory().addNewItem(i);
 		p.deductGold(i.getPrice());
 		goldWidget.setText("Gold: " + p.getGold());
 		return true;

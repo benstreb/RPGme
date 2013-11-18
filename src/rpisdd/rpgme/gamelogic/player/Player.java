@@ -49,7 +49,7 @@ public class Player implements HasHealth {
 		this.inventory = new Inventory();
 		this.stats = new Stats();
 		this.dungeon = new Dungeon(1);
-		this.gold = 100;
+		this.gold = 100000;
 		this.energy = 10;
 	}
 
@@ -427,6 +427,8 @@ public class Player implements HasHealth {
 		e.putInt("energy", energy);
 		e.putInt("roomX", this.roomX);
 		e.putInt("roomY", this.roomY);
+		e.putInt("weaponIndex", inventory.getWeaponIndex());
+		e.putInt("armorIndex", inventory.getArmorIndex());
 		e.commit();
 	}
 
@@ -446,6 +448,17 @@ public class Player implements HasHealth {
 		p.energy = pref.getInt("energy", 1);
 		p.roomX = pref.getInt("roomX", 0);
 		p.roomY = pref.getInt("roomY", 0);
+
+		int weaponIndex = pref.getInt("weaponIndex", -1);
+		int armorIndex = pref.getInt("armorIndex", -1);
+
+		if (weaponIndex != -1) {
+			p.inventory.equipWeapon(weaponIndex);
+		}
+		if (armorIndex != -1) {
+			p.inventory.equipArmor(armorIndex);
+		}
+
 		player = p;
 	}
 

@@ -134,7 +134,10 @@ public class Reward {
 
 		Player.getPlayer().addGold(goldIncrease);
 		Player.getPlayer().addExp(expIncrease);
-		Player.getPlayer().getInventory().addItem(rewardItem);
+
+		if (rewardItem != null) {
+			Player.getPlayer().getInventory().addNewItem(rewardItem);
+		}
 
 		switch (statType) {
 		case STRENGTH:

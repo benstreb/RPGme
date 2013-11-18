@@ -35,18 +35,22 @@ public final class Equipment extends Item {
 		if (p.getInventory().getItems().get(index) != this) {
 			Log.wtf("items", "Item not in inventory before using it.");
 		}
-		if (type == Type.WEAPON) {
-			Equipment oldWeapon = p.getInventory().equipWeapon(this);
-			if (oldWeapon != null) {
-				p.getInventory().addItem(oldWeapon);
-			}
-		} else if (type == Type.ARMOR) {
-			Equipment oldArmor = p.getInventory().equipArmor(this);
-			if (oldArmor != null) {
-				p.getInventory().addItem(oldArmor);
-			}
+
+		if (p.getInventory().getItems().get(index) == p.getInventory()
+				.getWeapon()) {
+			p.getInventory().unEquipWeapon();
+			return;
+		} else if (p.getInventory().getItems().get(index) == p.getInventory()
+				.getArmor()) {
+			p.getInventory().unEquipArmor();
+			return;
 		}
-		p.getInventory().removeAt(index);
+
+		if (type == Type.WEAPON) {
+			p.getInventory().equipWeapon(index);
+		} else if (type == Type.ARMOR) {
+			p.getInventory().equipArmor(index);
+		}
 	}
 
 	@Override

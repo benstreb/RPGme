@@ -18,10 +18,51 @@ public class Inventory {
 	// still avaiable to complete)
 	// Unless specified, all method will refer to these quests.
 	private ArrayList<Item> items;
-	private Equipment weapon, armor;
+	private int weaponIndex = -1;
+	private int armorIndex = -1;
 
 	public Inventory() {
 		items = new ArrayList<Item>();
+	}
+
+	public int getWeaponIndex() {
+		return weaponIndex;
+	}
+
+	public int getArmorIndex() {
+		return armorIndex;
+	}
+
+	public void unEquipWeapon() {
+		weaponIndex = -1;
+	}
+
+	public void unEquipArmor() {
+		armorIndex = -1;
+	}
+
+	public Equipment getWeapon() {
+		if (weaponIndex == -1) {
+			return null;
+		} else if (weaponIndex >= items.size()) {
+			Log.w("Warning",
+					"Warning: equipment index wasn't updated. >= size of items");
+			return null;
+		} else {
+			return (Equipment) items.get(weaponIndex);
+		}
+	}
+
+	public Equipment getArmor() {
+		if (armorIndex == -1) {
+			return null;
+		} else if (armorIndex >= items.size()) {
+			Log.w("Warning",
+					"Warning: equipment index wasn't updated. >= size of items");
+			return null;
+		} else {
+			return (Equipment) items.get(armorIndex);
+		}
 	}
 
 	public ArrayList<Item> getItems() {
@@ -32,36 +73,27 @@ public class Inventory {
 		return items.size();
 	}
 
-	public void addItem(Item item) {
+	public void addNewItem(Item item) {
+		System.out.println("Adding item " + item.getName());
 		items.add(item);
 	}
 
-	public void removeItem(Item item) {
-		items.remove(item);
-	}
-
-	public void removeAt(int at) {
+	public void removeItemAt(int at) {
+		System.out.println("Removing item");
+		if (items.get(at) == getWeapon()) {
+			weaponIndex = -1;
+		} else if (items.get(at) == getArmor()) {
+			armorIndex = -1;
+		}
 		items.remove(at);
 	}
 
-	public Equipment equipWeapon(Equipment e) {
-		Equipment old = weapon;
-		this.weapon = e;
-		return old;
+	public void equipWeapon(int index) {
+		weaponIndex = index;
 	}
 
-	public Equipment getWeapon() {
-		return this.weapon;
-	}
-
-	public Equipment equipArmor(Equipment e) {
-		Equipment old = armor;
-		this.armor = e;
-		return old;
-	}
-
-	public Equipment getArmor() {
-		return this.armor;
+	public void equipArmor(int index) {
+		armorIndex = index;
 	}
 
 	public boolean isInventoryFull() {

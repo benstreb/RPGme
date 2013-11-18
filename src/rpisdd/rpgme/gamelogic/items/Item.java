@@ -141,7 +141,7 @@ public abstract class Item {
 
 	public static void giveMeStuff(Player p, String... stuff) {
 		for (String thing : stuff) {
-			p.getInventory().addItem(createItemFromName(thing));
+			p.getInventory().addNewItem(createItemFromName(thing));
 		}
 	}
 }

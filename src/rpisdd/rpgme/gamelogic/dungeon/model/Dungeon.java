@@ -180,6 +180,7 @@ public class Dungeon {
 
 	// Load the saved dungeon
 	public void load(SharedPreferences p) {
+
 		map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
 
 		String stringRep = p.getString("Dungeon", "NOTGENERATED");
@@ -238,10 +239,10 @@ public class Dungeon {
 			}
 		}
 
-		this.generated = true;
 	}
 
 	public void save(Editor e) {
+
 		if (this.isGenerated()) {
 			String stringRep = "";
 			stringRep += this.level + "|";
@@ -258,6 +259,7 @@ public class Dungeon {
 		} else {
 			Log.d("Debug", "Dungeon not generated yet. Can't save it.\n");
 		}
+
 	}
 
 	public Room getRoom(int x, int y) {

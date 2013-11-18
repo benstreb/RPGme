@@ -45,7 +45,7 @@ public final class Consumable extends Item {
 	public void useMe(Player p, int index) {
 		assert p.getInventory().getItems().get(index) == this;
 		action.doIt(p);
-		p.getInventory().removeAt(index);
+		p.getInventory().removeItemAt(index);
 	}
 }
 
