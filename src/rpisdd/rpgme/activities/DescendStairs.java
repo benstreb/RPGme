@@ -28,9 +28,10 @@ public class DescendStairs extends Fragment implements OnTouchListener {
 
 		// setup next floor
 		Log.d("Debug", "Making new floor, plan for transition");
+		Player.getPlayer().getDungeon().incLevel();
+
 		Player.getPlayer().getDungeon().GenerateMap();
 		Dungeon newFloor = Player.getPlayer().getDungeon();
-		newFloor.incLevel();
 
 		// set up in start room
 		int dunStartX = newFloor.start_x;

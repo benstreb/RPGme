@@ -14,6 +14,7 @@ import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -111,7 +112,8 @@ public class Monster implements RoomContent, HasHealth {
 
 	//
 	public Reward die() {
-
+		// Fairly certain this is never called
+		Log.d("MonsterDebug", "Monster.die was called");
 		Player.getPlayer().clearCurrentRoom();
 
 		Reward reward = new Reward();
@@ -153,7 +155,8 @@ public class Monster implements RoomContent, HasHealth {
 	@Override
 	public String getStringRepresentation() {
 		return "MONSTER" + "," + this.name + "," + imageName + "," + health
-				+ "," + maxHealth + "," + damage + "," + defense + "," + type;
+				+ "," + maxHealth + "," + damage + "," + defense + "," + type
+				+ "," + treasureLevel;
 	}
 
 	public static void load(Context c) {
@@ -180,7 +183,13 @@ public class Monster implements RoomContent, HasHealth {
 		return resultMon;
 	}
 
-	public static Monster scaleMonsterWithLevel(Monster m, int lvl) {
+	public static Monster scaleMonsterWithLevel(Monster m, int nLvl) {
+		if (nLvl < 1) {
+			Log.wtf("MonsterDebug", "Somehow, level is under 1...");
+		}
+		Log.d("MonsterDebug", "Generating monster level: " + nLvl);
+		// level 1 is base
+		int lvl = nLvl - 1;
 		// Unchanged by level
 		String name = m.name;
 		String imageName = m.imageName;
@@ -194,7 +203,7 @@ public class Monster implements RoomContent, HasHealth {
 
 		// Create the result and return it
 		Monster resultMonster = new Monster(name, imageName, health, maxHealth,
-				damage, defense, type, lvl);
+				damage, defense, type, nLvl);
 		return resultMonster;
 	}
 }

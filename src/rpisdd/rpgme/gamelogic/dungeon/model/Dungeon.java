@@ -184,6 +184,7 @@ public class Dungeon {
 
 		String stringRep = p.getString("Dungeon", "NOTGENERATED");
 		if (stringRep.compareTo("NOTGENERATED") == 0) {
+			this.level = 1;
 			this.GenerateMap();
 		} else {
 			Log.d("Debug", "Dungeon string: " + stringRep);
@@ -228,6 +229,9 @@ public class Dungeon {
 					 * debugMon : roomArgs[5].split(",")) { Log.d("Debug",
 					 * "\tMonster string: " + debugMon + "\n"); }
 					 */
+					if (contentArgs.length < 9) {
+						Log.wtf("DungeonLoad", "Not enough args for a MONSTER");
+					}
 					String name = contentArgs[1];
 					String imagePath = contentArgs[2];
 					int health = Integer.parseInt(contentArgs[3]);
@@ -236,8 +240,9 @@ public class Dungeon {
 					int defense = Integer.parseInt(contentArgs[6]);
 					StatType monTypeResult = StatType
 							.stringToType(contentArgs[7]);
+					int tLevel = Integer.parseInt(contentArgs[8]);
 					newContent = new Monster(name, imagePath, health,
-							maxHealth, damage, defense, monTypeResult);
+							maxHealth, damage, defense, monTypeResult, tLevel);
 				} else {
 					newContent = null;
 				}

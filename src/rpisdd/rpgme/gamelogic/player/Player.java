@@ -48,7 +48,7 @@ public class Player implements HasHealth {
 		this.questManager = new QuestManager();
 		this.inventory = new Inventory();
 		this.stats = new Stats();
-		this.dungeon = new Dungeon(1);
+		this.dungeon = new Dungeon(0);
 		this.gold = 100000;
 		this.energy = 10;
 		this.roomX = -1;
