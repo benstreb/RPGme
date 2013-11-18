@@ -197,7 +197,8 @@ public class Dungeon {
 			for (String rum : stringRep.split("\\|")) {
 				Log.d("Debug", "Room test: " + rum + "\n");
 			}
-			for (int r = 0; r < rooms.length; r++) {
+			this.level = Integer.parseInt(rooms[0]);
+			for (int r = 1; r < rooms.length; r++) {
 				Log.d("Debug", "Room string: " + rooms[r] + "\n");
 				String[] roomArgs = rooms[r].split("#");
 				boolean visited_ = Boolean.parseBoolean(roomArgs[1]);
@@ -247,6 +248,7 @@ public class Dungeon {
 	public void save(Editor e) {
 		if (this.isGenerated()) {
 			String stringRep = "";
+			stringRep += this.level + "|";
 			for (int i = 0; i < DUNGEON_DIMMENSION; ++i) {
 				for (int j = 0; j < DUNGEON_DIMMENSION; ++j) {
 					Room currentRoom = this.getRoom(i, j);
