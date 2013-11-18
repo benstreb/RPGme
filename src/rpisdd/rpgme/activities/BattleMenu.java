@@ -77,7 +77,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 			break;
 		}
 		case R.id.intelAtkButton: {
-			battleView.setPlayerAttack(StatType.SPIRIT);
+			battleView.setPlayerAttack(StatType.INTELLIGENCE);
 			disableButtons();
 			break;
 		}

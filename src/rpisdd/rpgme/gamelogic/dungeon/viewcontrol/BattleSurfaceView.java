@@ -163,7 +163,7 @@ public class BattleSurfaceView extends SurfaceView implements
 			break;
 		case SPIRIT:
 			powerValue = Player.getPlayer().getSprAtk();
-			;
+			break;
 		default:
 			powerValue = 0;
 		}

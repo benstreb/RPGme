@@ -348,9 +348,11 @@ public class Player implements HasHealth {
 
 	public int getSprAtk() {
 		int total = stats.getBaseSpr();
+		Log.d("PlayerDebug", "getSprAtk base: " + total + "\n");
 		if (inventory.getWeapon() != null) {
 			total += inventory.getWeapon().getMod().spirit;
 		}
+		Log.d("PlayerDebug", "getSprAtk post weapon: " + total + "\n");
 		return total;
 	}
 
