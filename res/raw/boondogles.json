@@ -1,9 +1,23 @@
 [
 	{
 		"name":"Valuable Potion",
-		"price":2000,
+		"price":500,
 		"filename":"potion_purple.png",
 		"description":"Sell it for a lot of money",
+		"quality":5
+	},
+	{
+		"name":"Ceremonial Dagger",
+		"price":2000,
+		"filename":"sword1_yellow.png",
+		"description":"An old, worn blade inlaid with gold. Unfit for use in battle.",
 		"quality":10
+	},
+	{
+		"name":"Alchemist Gold",
+		"price":8000,
+		"filename":"potion_yellow.png",
+		"description":"A mystical form of gold that is liquid at room temperature.",
+		"quality":20
 	}
 ]
