@@ -51,7 +51,7 @@ public class Inventory {
 			return null;
 		} else {
 			Item currentWeapon = items.get(weaponIndex);
-			Log.d("InventoryDebug", "Weapon is: " + currentWeapon.getName());
+			// Log.d("InventoryDebug", "Weapon is: " + currentWeapon.getName());
 			return (Equipment) currentWeapon;
 		}
 	}
@@ -65,7 +65,7 @@ public class Inventory {
 			return null;
 		} else {
 			Item currentArmor = items.get(armorIndex);
-			Log.d("InventoryDebug", "Armor is: " + currentArmor.getName());
+			// Log.d("InventoryDebug", "Armor is: " + currentArmor.getName());
 			return (Equipment) currentArmor;
 		}
 	}

@@ -18,6 +18,24 @@
 		"quality":5
 	},
 	{
+		"name":"Big strength Sword",
+		"price":1000,
+		"filename":"sword2_red.png",
+		"effect":{"strength":25,"intelligence":10,"spirit":4,"will":10},
+		"type":"weapon",
+		"description":"A large sword that improves strength.",
+		"quality":10
+	},
+	{
+		"name":"Earth Breaker",
+		"price":5000,
+		"filename":"sword3_red.png",
+		"effect":{"strength":60,"intelligence":20,"spirit":8,"will":20},
+		"type":"weapon",
+		"description":"A legendary sword that improves strength.",
+		"quality":20
+	},
+	{
 		"name":"Small intelligence Sword",
 		"price":300,
 		"filename":"sword1_purple.png",
@@ -25,6 +43,24 @@
 		"type":"weapon",
 		"description":"A cheap sword that improves intelligence.",
 		"quality":5
+	},
+	{
+		"name":"Elegant intelligence Sword",
+		"price":1000,
+		"filename":"sword2_purple.png",
+		"effect":{"strength":10,"intelligence":25,"spirit":10,"will":4},
+		"type":"weapon",
+		"description":"A high quality sword that improves intelligence.",
+		"quality":10
+	},
+	{
+		"name":"Arcane Blade",
+		"price":5000,
+		"filename":"sword3_purple.png",
+		"effect":{"strength":20,"intelligence":60,"spirit":20,"will":8},
+		"type":"weapon",
+		"description":"A legendary sword that improves intelligence.",
+		"quality":20
 	},
 	{
 		"name":"Small spirit Sword",
@@ -36,6 +72,24 @@
 		"quality":5
 	},
 	{
+		"name":"Glowing spirit Sword",
+		"price":1000,
+		"filename":"sword2_green.png",
+		"effect":{"strength":10,"intelligence":10,"spirit":25,"will":10},
+		"type":"weapon",
+		"description":"A shining sword that improves spirit.",
+		"quality":10
+	},
+	{
+		"name":"Justice",
+		"price":5000,
+		"filename":"sword3_yellow.png",
+		"effect":{"strength":20,"intelligence":20,"spirit":60,"will":20},
+		"type":"weapon",
+		"description":"A legendary sword that improves spirit.",
+		"quality":20
+	},
+	{
 		"name":"Small will Sword",
 		"price":300,
 		"filename":"sword1_blue.png",
@@ -43,6 +97,24 @@
 		"type":"weapon",
 		"description":"A cheap sword that improves will.",
 		"quality":5
+	},
+	{
+		"name":"Sharp will Sword",
+		"price":1000,
+		"filename":"sword2_blue.png",
+		"effect":{"strength":10,"intelligence":4,"spirit":10,"will":25},
+		"type":"weapon",
+		"description":"A sturdy sword that improves will.",
+		"quality":10
+	},
+	{
+		"name":"Eternity",
+		"price":5000,
+		"filename":"sword3_blue.png",
+		"effect":{"strength":20,"intelligence":8,"spirit":20,"will":60},
+		"type":"weapon",
+		"description":"A legendary sword that improves will.",
+		"quality":20
 	},
 	{
 		"name":"Cracked Plate",

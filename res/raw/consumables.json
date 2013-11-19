@@ -4,7 +4,7 @@
 		"price":50,
 		"filename":"potion_green.png",
 		"effect":["heal energy", 25],
-		"description":"Restores 25% of your max HP",
+		"description":"Restores 25% of your max Energy",
 		"quality":1
 	},
 	{
@@ -12,7 +12,39 @@
 		"price":200,
 		"filename":"potion_yellow.png",
 		"effect":["revive", 50],
-		"description":"Revives you at 50% of your max HP",
+		"description":"Revives you at 50% of your max Energy",
 		"quality":1
+	},
+	{
+		"name":"Big Energy Potion",
+		"price":150,
+		"filename":"potion_green.png",
+		"effect":["heal energy", 50],
+		"description":"Restores 50% of your max Energy",
+		"quality":5
+	},
+	{
+		"name":"Big Energy Potion",
+		"price":400,
+		"filename":"potion_green.png",
+		"effect":["heal energy", 50],
+		"description":"Restores 75% of your max Energy",
+		"quality":8
+	},
+	{
+		"name":"Perfect Energy Potion",
+		"price":1000,
+		"filename":"potion_green.png",
+		"effect":["heal energy", 100],
+		"description":"Brewed with water from the Fountain of Youth. Restores your energy completely!",
+		"quality": 10
+	},
+	{
+		"name":"Phoenix Juice",
+		"price":5000,
+		"filename":"potion_red.png",
+		"effect":["revive", 100],
+		"description":"This potion is brewed from ashes of a reborn pheonix. Revives you back to full Energy!",
+		"quality":12
 	}
 ]
