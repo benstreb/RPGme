@@ -54,15 +54,16 @@ public class Treasure implements RoomContent {
 
 	@Override
 	public String getStringRepresentation() {
-		return "TREASURE" + "," + this.isOpened;
+		return "TREASURE" + "," + this.isOpened + "," + this.treasureLevel;
 	}
 
 	public static Treasure getFromStringRepresentation(String[] contentArgs) {
-		if (contentArgs.length < 2) {
-			Log.wtf("DungeonLoad", "Not enough args for a TREASURE");
+		if (contentArgs.length != 3) {
+			Log.wtf("DungeonLoad", "Not proper number of args for a TREASURE");
 		}
 		boolean isOpened = Boolean.parseBoolean(contentArgs[1]);
-		Treasure newTreasure = new Treasure(isOpened);
+		int tLevel = Integer.parseInt(contentArgs[2]);
+		Treasure newTreasure = new Treasure(isOpened, tLevel);
 		return newTreasure;
 	}
 

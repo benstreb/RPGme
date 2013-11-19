@@ -99,7 +99,6 @@ public class Room {
 			newContent = Stairs.getFromStringRepresentation(contentArgs);
 		} else if (type.compareTo("TREASURE") == 0) {
 			Treasure newT = Treasure.getFromStringRepresentation(contentArgs);
-			newT.setTreasureLevel(Player.getPlayer().getDungeon().getLevel());
 			newContent = newT;
 		} else if (type.compareTo("MONSTER") == 0) {
 			newContent = Monster.getFromStringRepresentation(contentArgs);
