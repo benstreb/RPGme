@@ -24,7 +24,7 @@
 		"quality":5
 	},
 	{
-		"name":"Big Energy Potion",
+		"name":"Huge Energy Potion",
 		"price":400,
 		"filename":"potion_green.png",
 		"effect":["heal energy", 75],
