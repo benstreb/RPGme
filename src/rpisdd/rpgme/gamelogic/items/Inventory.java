@@ -15,11 +15,12 @@ public class Inventory {
 	public final static int maxInventorySlots = 8;
 
 	// The list of quests that the user has open (i.e. not yet completed but
-	// still avaiable to complete)
+	// still available to complete)
 	// Unless specified, all method will refer to these quests.
 	private ArrayList<Item> items;
-	private int weaponIndex = -1;
-	private int armorIndex = -1;
+
+	private int weaponIndex = -1; // Index of equipped weapon
+	private int armorIndex = -1; // Index of equipped armor
 
 	public Inventory() {
 		items = new ArrayList<Item>();
@@ -84,11 +85,21 @@ public class Inventory {
 
 	public void removeItemAt(int at) {
 		System.out.println("Removing item");
-		if (items.get(at) == getWeapon()) {
+		if (at == weaponIndex) {
 			weaponIndex = -1;
-		} else if (items.get(at) == getArmor()) {
+		} else if (at == armorIndex) {
 			armorIndex = -1;
 		}
+
+		// When an item's deleted that comes before weapon/armor index, need to
+		// shift the index down
+		if (weaponIndex > at && weaponIndex > 0) {
+			weaponIndex--;
+		}
+		if (armorIndex > at && armorIndex > 0) {
+			armorIndex--;
+		}
+
 		items.remove(at);
 	}
 

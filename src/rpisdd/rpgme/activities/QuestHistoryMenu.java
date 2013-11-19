@@ -117,12 +117,8 @@ public class QuestHistoryMenu extends ListFragment implements OnClickListener {
 				ImageView statImg = (ImageView) v
 						.findViewById(R.id.statTypeImage);
 				statImg.setImageResource(q.getStatType().getImgPath());
-				if (q.isFailed()) {
-					name.setText(q.getName() + " (FAILED)");
-					name.setTextColor(Color.RED);
-				} else {
-					name.setText(q.getName());
-				}
+
+				name.setText(q.getName());
 			}
 			return v;
 		}

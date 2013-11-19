@@ -172,8 +172,9 @@ public class MainActivity extends FragmentActivity {
 		if (actionBarEnergyText == null) {
 			System.out.println("text view null");
 		}
-		String energyText = "Energy: "
-				+ Integer.toString(Player.getPlayer().getEnergy());
+
+		String energyText = Integer.toString(Player.getPlayer().getEnergy())
+				+ "/" + Integer.toString(Player.getPlayer().getMaxEnergy());
 
 		actionBarEnergyText.setText(energyText);
 
@@ -187,8 +188,12 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void run() {
 				if (actionBarEnergyText != null) {
-					actionBarEnergyText.setText("Energy: "
-							+ Integer.toString(Player.getPlayer().getEnergy()));
+					String energyText = Integer.toString(Player.getPlayer()
+							.getEnergy())
+							+ "/"
+							+ Integer.toString(Player.getPlayer()
+									.getMaxEnergy());
+					actionBarEnergyText.setText(energyText);
 				}
 			}
 		});

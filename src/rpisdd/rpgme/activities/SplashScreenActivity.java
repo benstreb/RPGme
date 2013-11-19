@@ -17,7 +17,14 @@ public class SplashScreenActivity extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash_screen);
-		goToNextActivity();
+
+		SharedPreferences pref = this.getSharedPreferences("player",
+				Context.MODE_PRIVATE);
+		if (!pref.getBoolean("playerExists", false)) {
+		} else {
+			startActivity(new Intent(this, MainActivity.class));
+		}
+
 	}
 
 	@Override
@@ -29,16 +36,7 @@ public class SplashScreenActivity extends Activity implements OnTouchListener {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent arg1) {
-		goToNextActivity();
-		return true;
-	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		return false;
-	}
-
-	public void goToNextActivity() {
 		SharedPreferences pref = this.getSharedPreferences("player",
 				Context.MODE_PRIVATE);
 		if (!pref.getBoolean("playerExists", false)) {
@@ -46,6 +44,13 @@ public class SplashScreenActivity extends Activity implements OnTouchListener {
 		} else {
 			startActivity(new Intent(this, MainActivity.class));
 		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		return false;
 	}
 
 }
