@@ -50,7 +50,7 @@
 		"filename":"armor1.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
 		"type":"armor",
-		"description":"It looks like it'll fall apart as soon as something hits it.",
+		"description":"It looks like it will fall apart as soon as something hits it.",
 		"quality":1
 	},
 	{
