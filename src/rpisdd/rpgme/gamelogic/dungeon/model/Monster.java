@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.BattleMenu;
@@ -190,7 +191,9 @@ public class Monster implements RoomContent, HasHealth {
 		Monster baseMon = null;
 		Monster resultMon = null;
 		// select the monster
-		baseMon = monsters.get(0).copy();
+		Random monPicker = new Random();
+		int monIndex = monPicker.nextInt(monsters.size());
+		baseMon = monsters.get(monIndex).copy();
 		// scale it
 		resultMon = scaleMonsterWithLevel(baseMon, d.getLevel());
 		// return it
