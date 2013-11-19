@@ -230,6 +230,9 @@ public class Player implements HasHealth {
 	public void levelUp() {
 		incMaxEnergy(5);
 		stats.incrementLevel();
+
+		// recover energy on level up
+		this.addEnergy(stats.getBaseEnergy());
 	}
 
 	// Stat functions/////////////////////////////////////////////
