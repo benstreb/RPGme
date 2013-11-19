@@ -88,6 +88,13 @@ public class Inventory {
 		items.remove(at);
 	}
 
+	public Item getItemAt(int at) {
+		if (at < 0 || at >= items.size()) {
+			return null;
+		}
+		return items.get(at);
+	}
+
 	public void equipWeapon(int index) {
 		weaponIndex = index;
 	}

@@ -62,27 +62,26 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.strengthAtkButton: {
 			battleView.setPlayerAttack(StatType.STRENGTH);
-			disableButtons();
-
+			setButtonsEnabled(false);
 			break;
 		}
 		case R.id.spiritAtkButton: {
 			battleView.setPlayerAttack(StatType.SPIRIT);
-			disableButtons();
+			setButtonsEnabled(false);
 			break;
 		}
 		case R.id.willAtkButton: {
 			battleView.setPlayerAttack(StatType.WILL);
-			disableButtons();
+			setButtonsEnabled(false);
 			break;
 		}
 		case R.id.intelAtkButton: {
 			battleView.setPlayerAttack(StatType.INTELLIGENCE);
-			disableButtons();
+			setButtonsEnabled(false);
 			break;
 		}
 		case R.id.runAwayButton: {
-			disableButtons();
+			setButtonsEnabled(false);
 			returnToDungeon(false);
 			break;
 		}
@@ -91,13 +90,13 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		}
 	}
 
-	public void disableButtons() {
+	public void setButtonsEnabled(boolean enable) {
 		// ((MainActivity)getActivity()).blockMenuAccess();
-		strengthAtk.setEnabled(false);
-		spiritAtk.setEnabled(false);
-		willAtk.setEnabled(false);
-		intelAtk.setEnabled(false);
-		runAway.setEnabled(false);
+		strengthAtk.setEnabled(enable);
+		spiritAtk.setEnabled(enable);
+		willAtk.setEnabled(enable);
+		intelAtk.setEnabled(enable);
+		runAway.setEnabled(enable);
 	}
 
 	public void returnToDungeon(boolean isVictory) {

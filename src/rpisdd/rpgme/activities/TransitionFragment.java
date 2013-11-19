@@ -23,8 +23,10 @@ public class TransitionFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		// ((MainActivity) getActivity()).enableNavigationDrawer(showOrHide);
 		// ((MainActivity) getActivity()).enableActionBar(showOrHide);
+		((MainActivity) getActivity()).enableNavigationDrawer(showOrHide);
+		((MainActivity) getActivity()).enableHomeButton(showOrHide);
+
 		((MainActivity) getActivity()).changeFragment(nextFragment);
 
 		return null;

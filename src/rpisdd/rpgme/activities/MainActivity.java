@@ -122,6 +122,12 @@ public class MainActivity extends FragmentActivity {
 		Player.getPlayer().savePlayer(this);
 	}
 
+	// Back button pressed: emulate home button
+	@Override
+	public void onBackPressed() {
+		moveTaskToBack(true);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -295,6 +301,10 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 		}
+	}
+
+	public void enableHomeButton(boolean isEnabled) {
+		getActionBar().setHomeButtonEnabled(isEnabled);
 	}
 
 }

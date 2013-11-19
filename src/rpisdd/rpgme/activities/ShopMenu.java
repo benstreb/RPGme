@@ -125,7 +125,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 				TextView price = (TextView) v.findViewById(R.id.shopItemPrice);
 				ImageView image = (ImageView) v
 						.findViewById(R.id.shopItemImage);
-				name.setText("Name: " + i.getName());
+				name.setText(i.getName());
 				price.setText("Price: " + Integer.toString(i.getPrice()));
 				Picasso.with(getActivity())
 						.load(items.get(position).getImagePath()).into(image);
@@ -162,9 +162,13 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 		case R.id.shopBuyButton:
 			boolean wasSold = sellItemToPlayer();
 
-			AnnoyingPopup.notice(getActivity(),
-					"You purchased " + selected.getName());
+			if (wasSold) {
+				AnnoyingPopup.notice(getActivity(),
+						"You purchased " + selected.getName());
+			}
 
+			// Using if false as a way to "comment" code, auto-format wrecks the
+			// code format of multi-line commented code
 			if (false) {
 				if (wasSold && selected.isEquipment()) {
 					AnnoyingPopup.doDont(getActivity(), "Equip this item?",

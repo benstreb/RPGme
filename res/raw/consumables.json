@@ -2,7 +2,7 @@
 	{
 		"name":"Energy Potion",
 		"price":50,
-		"filename":"potion_energy.gif",
+		"filename":"potion_green.png",
 		"effect":["heal energy", 25],
 		"description":"Restores 25% of your max HP"
 	},

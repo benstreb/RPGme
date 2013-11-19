@@ -130,10 +130,16 @@ public class BattleSurfaceView extends SurfaceView implements
 				attackTimer = 0;
 				if (Player.getPlayer().getEnergy() <= 0) {
 					knockedUnconscious();
+					state = State.TRANSITION;
 				} else {
-					returnToDungeon(false);
+					state = State.CHOOSE;
+					((Activity) getContext()).runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							battleMenu.setButtonsEnabled(true);
+						}
+					});
 				}
-				state = State.TRANSITION;
 				break;
 			}
 			attackTimer += thread.deltaTime();
