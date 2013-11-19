@@ -2,7 +2,6 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.dungeon.model.Room;
-import rpisdd.rpgme.gamelogic.dungeon.model.RoomType;
 import rpisdd.rpgme.gamelogic.dungeon.model.Treasure;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -94,13 +93,21 @@ public class RoomView extends ViewObject {
 			}
 
 			if (room.getContent() != null) {
-
-				if (room.getContent().getRoomType() == RoomType.STAIRS) {
-					canvas.drawBitmap(stairRoomBitmap, sx, sy, null);
-				} else if (!room.isVisited()) {
+				/*
+				 * Stairs now ask if you want to take them. No longer need to
+				 * show them before visiting.
+				 */
+				/*
+				 * if (room.getContent().getRoomType() == RoomType.STAIRS) {
+				 * canvas.drawBitmap(stairRoomBitmap, sx, sy, null); } else
+				 */
+				if (!room.isVisited()) {
 					canvas.drawBitmap(unknownRoomBitmap, sx, sy, null);
 				} else {
 					switch (room.getContent().getRoomType()) {
+					case STAIRS:
+						canvas.drawBitmap(stairRoomBitmap, sx, sy, null);
+						break;
 					case MONSTER:
 						canvas.drawBitmap(monsterRoomBitmap, sx, sy, null);
 						break;
