@@ -41,7 +41,7 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	// Delay in seconds between attacks
 	private final float attackDelay = 1;
-	private final float deathDelay = 1;
+	private final float deathDelay = 0;
 	private float attackTimer = 0;
 	private float deathTimer = 0;
 
@@ -167,7 +167,13 @@ public class BattleSurfaceView extends SurfaceView implements
 				if (Player.getPlayer().getEnergy() <= 0) {
 					state = State.PLAYER_DEAD;
 				} else {
-					state = State.DONE;
+					state = State.CHOOSE;
+					((Activity) getContext()).runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							battleMenu.setButtonsEnabled(true);
+						}
+					});
 				}
 			} else {
 				attackTimer += thread.deltaTime();

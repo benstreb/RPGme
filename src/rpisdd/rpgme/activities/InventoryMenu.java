@@ -33,6 +33,8 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	View selectedItemSlot;
 	int selectedItemIndex;
 
+	ItemAdapter itemAdapter;
+
 	public InventoryMenu() {
 	}
 
@@ -77,33 +79,55 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 				use.setEnabled(false);
 			}
 		}
+
+		Item item = Player.getPlayer().getInventory()
+				.getItemAt(selectedItemIndex);
+
+		if (item != null) {
+			if (item.isEquipment()) {
+				if (item == Player.getPlayer().getInventory().getWeapon()
+						|| item == Player.getPlayer().getInventory().getArmor()) {
+					use.setText("Unequip");
+				} else {
+					use.setText("Equip");
+				}
+			} else {
+				use.setText("Use");
+			}
+		}
 	}
 
 	@Override
 	public void onResume() {
-		fillListView(getView());
+		updateListView(false);
 		super.onResume();
 	}
 
-	// Take a list of items, and fill up the list view with those entries
-	public void fillListView(View v) {
+	// Update the list view adapter. Also can choose to unselect current
+	// selection
+	public void updateListView(boolean unselectAll) {
 
 		Player p = Player.getPlayer();
-		ItemAdapter adapter = new ItemAdapter(getActivity(),
-				R.layout.shop_item, p.getInventory().getItems());
 
-		setListAdapter(adapter);
+		if (unselectAll) {
+			selectedItem = null;
+			selectedItemSlot = null;
+			selectedItemIndex = -1;
+			itemAdapter = new ItemAdapter(getActivity(), R.layout.shop_item, p
+					.getInventory().getItems());
+			setListAdapter(itemAdapter);
+		} else {
+			if (itemAdapter == null) {
+				itemAdapter = new ItemAdapter(getActivity(),
+						R.layout.shop_item, p.getInventory().getItems());
+				setListAdapter(itemAdapter);
+			} else {
+				itemAdapter.notifyDataSetChanged();
+			}
 
-		selectedItem = null;
-		selectedItemSlot = null;
-		selectedItemIndex = -1;
+		}
 
 		updateButtons();
-	}
-
-	public void updateListView(View v) {
-
-		fillListView(v);
 	}
 
 	private class ItemAdapter extends ArrayAdapter<Item> {
@@ -123,6 +147,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 				v = LayoutInflater.from(getActivity()).inflate(
 						R.layout.inventory_item, null);
 			}
+			if (position == selectedItemIndex) {
+				v.setSelected(true);
+			}
 			Item i = items.get(position);
 			if (i != null) {
 				TextView name = (TextView) v
@@ -131,7 +158,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 				ImageView image = (ImageView) v
 						.findViewById(R.id.inventoryItemImage);
-				name.setText("Name: " + i.getName());
+				name.setText(i.getName());
+
+				name.setTextColor(Color.WHITE);
 
 				if (i == Player.getPlayer().getInventory().getArmor()
 						|| i == Player.getPlayer().getInventory().getWeapon()) {
@@ -152,21 +181,6 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		if (selectedItemSlot != null) {
 			selectedItemSlot.setBackgroundColor(Color.TRANSPARENT);
-		}
-
-		if (Player.getPlayer().getInventory().getItems().get(position)
-				.isEquipment()) {
-			if (Player.getPlayer().getInventory().getItems().get(position) == Player
-					.getPlayer().getInventory().getWeapon()
-					|| Player.getPlayer().getInventory().getItems()
-							.get(position) == Player.getPlayer().getInventory()
-							.getArmor()) {
-				use.setText("Unequip");
-			} else {
-				use.setText("Equip");
-			}
-		} else {
-			use.setText("Use");
 		}
 
 		v.setBackgroundColor(Color.GRAY);
@@ -208,7 +222,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		Player p = Player.getPlayer();
 		p.addGold(selectedItem.getRefundPrice());
 		p.getInventory().removeItemAt(selectedItemIndex);
-		fillListView(getView());
+		updateListView(true);
 	}
 
 	public void useItem() {
@@ -219,9 +233,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 				.getInventory().getWeapon(), p.getInventory().getArmor()));
 
 		if (!selectedItem.isEquipment()) {
-			fillListView(getView());
+			updateListView(true);
 		} else {
-			updateListView(getView());
+			updateListView(false);
 		}
 	}
 }

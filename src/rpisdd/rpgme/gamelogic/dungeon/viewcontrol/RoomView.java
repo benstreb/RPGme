@@ -2,6 +2,7 @@ package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.dungeon.model.Room;
+import rpisdd.rpgme.gamelogic.dungeon.model.RoomType;
 import rpisdd.rpgme.gamelogic.dungeon.model.Treasure;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -25,8 +26,7 @@ public class RoomView extends ViewObject {
 	private static Bitmap treasureRoomBitmap;
 	private static Bitmap stairRoomBitmap;
 	private static Bitmap openedTreasureBitmap;
-
-	private Bitmap roomIconBitmap;
+	private static Bitmap unknownRoomBitmap;
 
 	public Room getRoom() {
 		return room;
@@ -60,6 +60,11 @@ public class RoomView extends ViewObject {
 				R.drawable.stairs_img);
 		stairRoomBitmap = Bitmap.createScaledBitmap(stairRoomBitmap, WIDTH,
 				WIDTH, false);
+
+		unknownRoomBitmap = BitmapFactory.decodeResource(res,
+				R.drawable.ic_mystery);
+		unknownRoomBitmap = Bitmap.createScaledBitmap(unknownRoomBitmap, WIDTH,
+				WIDTH, false);
 	}
 
 	public boolean getIsSelected() {
@@ -84,26 +89,33 @@ public class RoomView extends ViewObject {
 
 			canvas.drawBitmap(roomBitmap, sx, sy, null);
 
+			if (room.getContent() == null && !room.isVisited()) {
+				canvas.drawBitmap(unknownRoomBitmap, sx, sy, null);
+			}
+
 			if (room.getContent() != null) {
 
-				switch (room.getContent().getRoomType()) {
-				case MONSTER:
-					canvas.drawBitmap(monsterRoomBitmap, sx, sy, null);
-					break;
-				case TREASURE:
-					if (!((Treasure) room.getContent()).getIsOpened()) {
-						canvas.drawBitmap(treasureRoomBitmap, sx, sy, null);
-					} else {
-						canvas.drawBitmap(openedTreasureBitmap, sx, sy, null);
-					}
-					break;
-				case STAIRS:
+				if (room.getContent().getRoomType() == RoomType.STAIRS) {
 					canvas.drawBitmap(stairRoomBitmap, sx, sy, null);
-					break;
-				default:
-					break;
+				} else if (!room.isVisited()) {
+					canvas.drawBitmap(unknownRoomBitmap, sx, sy, null);
+				} else {
+					switch (room.getContent().getRoomType()) {
+					case MONSTER:
+						canvas.drawBitmap(monsterRoomBitmap, sx, sy, null);
+						break;
+					case TREASURE:
+						if (!((Treasure) room.getContent()).getIsOpened()) {
+							canvas.drawBitmap(treasureRoomBitmap, sx, sy, null);
+						} else {
+							canvas.drawBitmap(openedTreasureBitmap, sx, sy,
+									null);
+						}
+						break;
+					default:
+						break;
+					}
 				}
-
 			}
 			if (isSelected) {
 				Paint paint = new Paint();

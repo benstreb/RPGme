@@ -116,4 +116,7 @@ public class Room {
 		return this.canVisit;
 	}
 
+	public boolean isVisited() {
+		return this.visited;
+	}
 }

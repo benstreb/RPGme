@@ -71,7 +71,7 @@ public class AvatarView extends ViewObject {
 			float ascale = 0;
 
 			if (isMini) {
-				ascale = (RoomView.WIDTH * 0.8f) / armorBitmap.getWidth();
+				ascale = (RoomView.WIDTH * 0.8f) / armorBitmap.getHeight();
 			} else {
 				ascale = 0.5f * SCALE_FACTOR * (200f / armorBitmap.getHeight());
 			}
@@ -89,7 +89,7 @@ public class AvatarView extends ViewObject {
 			float ascale = 0;
 
 			if (isMini) {
-				ascale = (RoomView.WIDTH * 0.8f) / weaponBitmap.getWidth();
+				ascale = (RoomView.WIDTH * 0.8f) / weaponBitmap.getHeight();
 			} else {
 				ascale = 0.5f * SCALE_FACTOR
 						* (200f / weaponBitmap.getHeight());
