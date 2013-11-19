@@ -3,10 +3,28 @@
 		"name":"Light Sword",
 		"price":100,
 		"filename":"sword1_yellow.png",
-		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
+		"effect":{"strength":4,"intelligence":4,"spirit":4,"will":4},
 		"type":"weapon",
 		"description":"Is that styrofoam?",
 		"quality":1
+	},
+	{
+		"name":"Mithril Sword",
+		"price":100,
+		"filename":"sword2_yellow.png",
+		"effect":{"strength":18,"intelligence":18,"spirit":18,"will":18},
+		"type":"weapon",
+		"description":"A sword forged of magical silver, that is both light and sturdy.",
+		"quality":12
+	},
+	{
+		"name":"Sandy's Sword",
+		"price":100,
+		"filename":"sword3_yellow.png",
+		"effect":{"strength":48,"intelligence":48,"spirit":48,"will":48},
+		"type":"weapon",
+		"description":"A blade belonging to a woman warrior who is said to be the only one ever to reach the bottom of the Dungeon.",
+		"quality":22
 	},
 	{
 		"name":"Small strength Sword",
@@ -83,7 +101,7 @@
 	{
 		"name":"Justice",
 		"price":5000,
-		"filename":"sword3_yellow.png",
+		"filename":"sword3_green.png",
 		"effect":{"strength":20,"intelligence":20,"spirit":60,"will":20},
 		"type":"weapon",
 		"description":"A legendary sword that improves spirit.",
