@@ -10,6 +10,7 @@ import android.util.Log;
 
 public class Dungeon {
 	public static final int DUNGEON_DIMMENSION = 5;
+	public static final int MIN_NUM_ROOMS = 4;
 
 	boolean generated;
 	int level;
@@ -28,22 +29,25 @@ public class Dungeon {
 	}
 
 	public void GenerateMap() {
-		map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
 		boolean setStairs = false;
-
-		ArrayList<Room> roomsToExpand = new ArrayList<Room>();
-		Random rand = new Random();
-		start_x = rand.nextInt(DUNGEON_DIMMENSION);
-		start_y = rand.nextInt(DUNGEON_DIMMENSION);
-
-		Room startRoom = new Room(null, start_x, start_y);
-		map[start_y][start_x] = startRoom;
-
 		int roomCount = 0;
 
-		// Expand on rooms until no new rooms have been added.
-		while (roomCount == 0) {
+		ArrayList<Room> roomsToExpand;
+		Random rand = new Random();
+		// Keep trying until an adequate dungeon is generated
+		while (roomCount < MIN_NUM_ROOMS) {
+			map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
+			setStairs = false;
+			roomCount = 0;
+
+			start_x = rand.nextInt(DUNGEON_DIMMENSION);
+			start_y = rand.nextInt(DUNGEON_DIMMENSION);
+			Room startRoom = new Room(null, start_x, start_y);
+			map[start_y][start_x] = startRoom;
+
+			roomsToExpand = new ArrayList<Room>();
 			roomsToExpand.add(startRoom);
+			// Expand on rooms until no new rooms have been added.
 			while (!roomsToExpand.isEmpty()) {
 				// Pick the next room to expand on
 				Room currentRoom = roomsToExpand.get(roomsToExpand.size() - 1);
@@ -120,10 +124,11 @@ public class Dungeon {
 					}
 				}
 			}
-			// If stairs have not been set yet, pick any room
-			// excluding the start room and change it into a stairs room
-			if (roomCount > 0) {
-				Log.d("Debug", "Generated at least 1 room");
+			// Check to make sure enough rooms have been made
+			if (roomCount >= MIN_NUM_ROOMS) {
+				Log.d("Debug", "Generated at least " + MIN_NUM_ROOMS + "rooms");
+				// If stairs have not been set yet, pick any room
+				// excluding the start room and change it into a stairs room
 				while (!setStairs) {
 					Log.d("Debug", "Trying to place stairs");
 					int stairs_x = rand.nextInt(DUNGEON_DIMMENSION);
@@ -138,7 +143,8 @@ public class Dungeon {
 					}
 				}
 			} else {
-				Log.d("Debug", "FAILURE: didn't make any rooms, trying again");
+				Log.d("Debug",
+						"FAILURE: didn't make enough rooms, trying again");
 			}
 		}
 		this.generated = true;
