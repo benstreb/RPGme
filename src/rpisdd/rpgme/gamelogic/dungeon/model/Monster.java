@@ -157,6 +157,23 @@ public class Monster implements RoomContent, HasHealth {
 				+ "," + treasureLevel;
 	}
 
+	public static Monster getFromStringRepresentation(String[] contentArgs) {
+		if (contentArgs.length < 9) {
+			Log.wtf("DungeonLoad", "Not enough args for a MONSTER");
+		}
+		String name = contentArgs[1];
+		String imagePath = contentArgs[2];
+		int health = Integer.parseInt(contentArgs[3]);
+		int maxHealth = Integer.parseInt(contentArgs[4]);
+		int damage = Integer.parseInt(contentArgs[5]);
+		int defense = Integer.parseInt(contentArgs[6]);
+		StatType monTypeResult = StatType.stringToType(contentArgs[7]);
+		int tLevel = Integer.parseInt(contentArgs[8]);
+		Monster newMon = new Monster(name, imagePath, health, maxHealth,
+				damage, defense, monTypeResult, tLevel);
+		return newMon;
+	}
+
 	public static void load(Context c) {
 		InputStreamReader r = new InputStreamReader(c.getResources()
 				.openRawResource(R.raw.monsters));

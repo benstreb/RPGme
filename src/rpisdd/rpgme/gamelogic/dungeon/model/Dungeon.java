@@ -3,7 +3,6 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -198,56 +197,8 @@ public class Dungeon {
 			for (int r = 1; r < rooms.length; r++) {
 				Log.d("Debug", "Room string: " + rooms[r] + "\n");
 				String[] roomArgs = rooms[r].split("#");
-				if (roomArgs.length < 5) {
-					Log.e("Load", "FAILED DUGEON LOAD. NUM ROOM ARGS: "
-							+ roomArgs.length + "\n");
-					return;
-				}
-				boolean visited_ = Boolean.parseBoolean(roomArgs[1]);
-				boolean canVisit_ = Boolean.parseBoolean(roomArgs[2]);
-				int x_ = Integer.parseInt(roomArgs[3]);
-				int y_ = Integer.parseInt(roomArgs[4]);
-				RoomContent newContent = null;
-				Log.d("Debug", "Content string: " + roomArgs[5] + "\n");
-				String[] contentArgs = roomArgs[5].split(",");
-				String type = contentArgs[0];
-				Log.d("Debug", "Content Type: " + type + "\n");
-				if (type.compareTo("NONE") == 0) {
-					newContent = null;
-				} else if (type.compareTo("STAIRS") == 0) {
-					Log.d("Debug", "Making Stairs\n");
-					newContent = new Stairs();
-				} else if (type.compareTo("TREASURE") == 0) {
-					if (contentArgs.length < 2) {
-						Log.wtf("DungeonLoad", "Not enough args for a TREASURE");
-					}
-					boolean isOpened = Boolean.parseBoolean(contentArgs[1]);
-					newContent = new Treasure(isOpened);
-				} else if (type.compareTo("MONSTER") == 0) {
-					/*
-					 * Prints each argument for the monster! for (String
-					 * debugMon : roomArgs[5].split(",")) { Log.d("Debug",
-					 * "\tMonster string: " + debugMon + "\n"); }
-					 */
-					if (contentArgs.length < 9) {
-						Log.wtf("DungeonLoad", "Not enough args for a MONSTER");
-					}
-					String name = contentArgs[1];
-					String imagePath = contentArgs[2];
-					int health = Integer.parseInt(contentArgs[3]);
-					int maxHealth = Integer.parseInt(contentArgs[4]);
-					int damage = Integer.parseInt(contentArgs[5]);
-					int defense = Integer.parseInt(contentArgs[6]);
-					StatType monTypeResult = StatType
-							.stringToType(contentArgs[7]);
-					int tLevel = Integer.parseInt(contentArgs[8]);
-					newContent = new Monster(name, imagePath, health,
-							maxHealth, damage, defense, monTypeResult, tLevel);
-				} else {
-					newContent = null;
-				}
-				Room newRoom = new Room(newContent, x_, y_, visited_, canVisit_);
-				this.map[y_][x_] = newRoom;
+				Room newRoom = Room.getFromStringRepresentation(roomArgs);
+				this.map[newRoom.getY()][newRoom.getX()] = newRoom;
 				Log.d("Debug", "Done a loop\n");
 			}
 		}

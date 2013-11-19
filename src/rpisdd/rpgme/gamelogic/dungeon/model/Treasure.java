@@ -4,6 +4,7 @@ import rpisdd.rpgme.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,6 +41,15 @@ public class Treasure implements RoomContent {
 	@Override
 	public String getStringRepresentation() {
 		return "TREASURE" + "," + this.isOpened;
+	}
+
+	public static Treasure getFromStringRepresentation(String[] contentArgs) {
+		if (contentArgs.length < 2) {
+			Log.wtf("DungeonLoad", "Not enough args for a TREASURE");
+		}
+		boolean isOpened = Boolean.parseBoolean(contentArgs[1]);
+		Treasure newTreasure = new Treasure(isOpened);
+		return newTreasure;
 	}
 
 	public boolean getIsOpened() {
