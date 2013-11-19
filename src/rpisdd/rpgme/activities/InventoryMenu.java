@@ -217,7 +217,8 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 					});
 			break;
 		case R.id.detailsItem:
-			AnnoyingPopup.notice(getActivity(), selectedItem.getDescription());
+			AnnoyingPopup.notice(getActivity(), selectedItem.getDescription()
+					+ "\n\n" + "Sell Value: " + selectedItem.getRefundPrice());
 			break;
 		default:
 			break;
