@@ -17,9 +17,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -115,6 +120,13 @@ public class MainActivity extends FragmentActivity {
 		supportInvalidateOptionsMenu();
 	}
 
+	public Fragment getCurrentFragment() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment currentFragment = fragmentManager
+				.findFragmentByTag("fragmentTag");
+		return currentFragment;
+	}
+
 	// Save all data here
 	@Override
 	public void onPause() {
@@ -125,10 +137,8 @@ public class MainActivity extends FragmentActivity {
 
 		// If the player is in a battle, save their last position instead
 		// so that they don't end up in the monster room when the app reloads
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		Fragment currentFragment = fragmentManager
-				.findFragmentByTag("fragmentTag");
-		if (currentFragment instanceof BattleMenu) {
+
+		if (getCurrentFragment() instanceof BattleMenu) {
 			System.out.println("We're in battle");
 			Player.getPlayer().saveRoomAsPrev(this);
 		}
@@ -138,7 +148,11 @@ public class MainActivity extends FragmentActivity {
 	// Back button pressed: emulate home button
 	@Override
 	public void onBackPressed() {
-		moveTaskToBack(true);
+		if (getCurrentFragment() instanceof CreateQuestMenu) {
+			changeFragment(new QuestMenu());
+		} else {
+			moveTaskToBack(true);
+		}
 	}
 
 	@Override
@@ -222,6 +236,13 @@ public class MainActivity extends FragmentActivity {
 	// Change the current fragment, or menu.
 	public void changeFragment(Fragment fragment) {
 
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		try {
+			inputMethodManager.hideSoftInputFromWindow(getCurrentFocus()
+					.getWindowToken(), 0);
+		} catch (Exception e) {
+
+		}
 		// Need to change title to "Stats Menu" if we get kicked out of dungeon
 		if (fragment instanceof StatsMenu) {
 			mDrawerList.setItemChecked(3, true);
@@ -325,6 +346,40 @@ public class MainActivity extends FragmentActivity {
 
 	public void enableHomeButton(boolean isEnabled) {
 		getActionBar().setHomeButtonEnabled(isEnabled);
+	}
+
+	public void hideSoftKeyboard() {
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(getCurrentFocus()
+				.getWindowToken(), 0);
+	}
+
+	public void setupUI(View view) {
+
+		// Set up touch listener for non-text box views to hide keyboard.
+		if (!(view instanceof EditText)) {
+
+			view.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					hideSoftKeyboard();
+					return false;
+				}
+
+			});
+		}
+
+		// If a layout container, iterate over children and seed recursion.
+		if (view instanceof ViewGroup) {
+
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+				View innerView = ((ViewGroup) view).getChildAt(i);
+
+				setupUI(innerView);
+			}
+		}
 	}
 
 }
