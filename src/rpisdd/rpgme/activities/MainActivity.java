@@ -119,7 +119,20 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
+		System.out.println("Onpause");
+
 		Player.getPlayer().savePlayer(this);
+
+		// If the player is in a battle, save their last position instead
+		// so that they don't end up in the monster room when the app reloads
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment currentFragment = fragmentManager
+				.findFragmentByTag("fragmentTag");
+		if (currentFragment instanceof BattleMenu) {
+			System.out.println("We're in battle");
+			Player.getPlayer().saveRoomAsPrev(this);
+		}
+
 	}
 
 	// Back button pressed: emulate home button
@@ -204,6 +217,7 @@ public class MainActivity extends FragmentActivity {
 	// Change the current fragment, or menu.
 	public void changeFragment(Fragment fragment) {
 
+		// Need to change title to "Stats Menu" if we get kicked out of dungeon
 		if (fragment instanceof StatsMenu) {
 			mDrawerList.setItemChecked(3, true);
 			setTitle(mMenuTitles[3]);
@@ -211,7 +225,7 @@ public class MainActivity extends FragmentActivity {
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+				.replace(R.id.content_frame, fragment, "fragmentTag").commit();
 	}
 
 	// Called when an item was selected in the navigation drawer.

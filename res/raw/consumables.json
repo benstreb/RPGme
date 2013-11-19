@@ -4,13 +4,15 @@
 		"price":50,
 		"filename":"potion_green.png",
 		"effect":["heal energy", 25],
-		"description":"Restores 25% of your max HP"
+		"description":"Restores 25% of your max HP",
+		"quality":1
 	},
 	{
 		"name":"Revival Potion",
 		"price":200,
 		"filename":"potion_yellow.png",
 		"effect":["revive", 50],
-		"description":"Revives you at 50% of your max HP"
+		"description":"Revives you at 50% of your max HP",
+		"quality":1
 	}
 ]

@@ -5,39 +5,44 @@
 		"filename":"sword1_yellow.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
 		"type":"weapon",
-		"description":"Is that styrofoam?"
+		"description":"Is that styrofoam?",
+		"quality":1
 	},
 	{
 		"name":"Small strength Sword",
 		"price":300,
 		"filename":"sword1_red.png",
-		"effect":{"strength":5,"intelligence":2,"spirit":2,"will":2},
+		"effect":{"strength":10,"intelligence":5,"spirit":2,"will":5},
 		"type":"weapon",
-		"description":"A cheap sword that improves strength."
+		"description":"A cheap sword that improves strength.",
+		"quality":5
 	},
 	{
 		"name":"Small intelligence Sword",
 		"price":300,
 		"filename":"sword1_purple.png",
-		"effect":{"strength":2,"intelligence":5,"spirit":2,"will":2},
+		"effect":{"strength":5,"intelligence":10,"spirit":5,"will":2},
 		"type":"weapon",
-		"description":"A cheap sword that improves intelligence."
+		"description":"A cheap sword that improves intelligence.",
+		"quality":5
 	},
 	{
 		"name":"Small spirit Sword",
 		"price":300,
 		"filename":"sword1_green.png",
-		"effect":{"strength":2,"intelligence":2,"spirit":5,"will":2},
+		"effect":{"strength":2,"intelligence":5,"spirit":10,"will":5},
 		"type":"weapon",
-		"description":"A cheap sword that improves spirit."
+		"description":"A cheap sword that improves spirit.",
+		"quality":5
 	},
 	{
 		"name":"Small will Sword",
 		"price":300,
 		"filename":"sword1_blue.png",
-		"effect":{"strength":2,"intelligence":2,"spirit":2,"will":5},
+		"effect":{"strength":5,"intelligence":2,"spirit":5,"will":10},
 		"type":"weapon",
-		"description":"A cheap sword that improves will."
+		"description":"A cheap sword that improves will.",
+		"quality":5
 	},
 	{
 		"name":"Cracked Plate",
@@ -45,15 +50,17 @@
 		"filename":"armor1.png",
 		"effect":{"strength":1,"intelligence":1,"spirit":1,"will":1},
 		"type":"armor",
-		"description":"It looks like it'll fall apart as soon as something hits it."
+		"description":"It looks like it will fall apart as soon as something hits it.",
+		"quality":1
 	},
 	{
 		"name":"Thin Plate",
-		"price":100,
+		"price":500,
 		"filename":"armor1.png",
 		"effect":{"strength":10,"intelligence":10,"spirit":10,"will":10},
 		"type":"armor",
-		"description":"Not very strong, but it can at least take a hit."
+		"description":"Not very strong, but it can at least take a hit.",
+		"quality":5
 	},
 	{
 		"name":"Steel Plate",
@@ -61,7 +68,8 @@
 		"filename":"armor1.png",
 		"effect":{"strength":30,"intelligence":30,"spirit":30,"will":30},
 		"type":"armor",
-		"description":"A sturdy design that has kept many people safe."
+		"description":"A sturdy design that has kept many people safe.",
+		"quality":15
 	},
 	{
 		"name":"Gold Plate",
@@ -69,6 +77,7 @@
 		"filename":"armor3.png",
 		"effect":{"strength":50,"intelligence":50,"spirit":50,"will":50},
 		"type":"armor",
-		"description":"Protection fit for royalty - at least until the gold peels off."
+		"description":"Protection fit for royalty - at least until the gold peels off.",
+		"quality":25
 	}
 ]

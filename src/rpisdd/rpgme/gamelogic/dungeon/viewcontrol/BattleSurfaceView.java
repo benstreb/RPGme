@@ -24,7 +24,7 @@ public class BattleSurfaceView extends SurfaceView implements
 		SurfaceHolder.Callback, ThreadedSurfaceView {
 
 	enum State {
-		CHOOSE, PLAYER_ATTACK, MONSTER_TURN, PLAYER_DEAD, TRANSITION, DONE
+		CHOOSE, PLAYER_ATTACK, MONSTER_DEAD, MONSTER_TURN, PLAYER_DEAD, TRANSITION, DONE, NUM_BATTLE_STATES
 	};
 
 	State state = State.CHOOSE;
@@ -41,7 +41,9 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	// Delay in seconds between attacks
 	private final float attackDelay = 1;
+	private final float deathDelay = 0;
 	private float attackTimer = 0;
+	private float deathTimer = 0;
 
 	public BattleMenu battleMenu;
 
@@ -114,23 +116,56 @@ public class BattleSurfaceView extends SurfaceView implements
 			break;
 		case PLAYER_ATTACK:
 			if (attackTimer >= attackDelay) {
-				attackTimer = 0;
-				state = State.MONSTER_TURN;
-				break;
+				// check if monster is dead
+				if (monsterModel.isDead()) {
+					state = State.MONSTER_DEAD;
+				} else {
+					attackTimer = 0;
+					state = State.MONSTER_TURN;
+				}
+			} else {
+				attackTimer += thread.deltaTime();
 			}
-			attackTimer += thread.deltaTime();
+			break;
+		case MONSTER_DEAD:
+			if (deathTimer >= deathDelay) {
+				state = State.TRANSITION;
+
+				// remove monster from map
+				monsterModel.die();
+
+				// Determine the reward
+				final Reward reward = Reward.monsterReward(monsterModel);
+
+				// Show popup for player's victory + reward
+				((Activity) getContext()).runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+
+						RewardPopup.show("You defeated the monster!", reward,
+								(Activity) getContext(),
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int id) {
+										dialog.cancel();
+										returnToDungeon(true);
+									}
+								});
+					}
+				});
+			} else {
+				deathTimer += thread.deltaTime();
+			}
 			break;
 		case MONSTER_TURN:
 			if (attackTimer == 0) {
 				monsterTurn();
 				attackTimer += thread.deltaTime();
-				break;
-			}
-			if (attackTimer >= attackDelay) {
+			} else if (attackTimer >= attackDelay) {
 				attackTimer = 0;
 				if (Player.getPlayer().getEnergy() <= 0) {
-					knockedUnconscious();
-					state = State.TRANSITION;
+					state = State.PLAYER_DEAD;
 				} else {
 					state = State.CHOOSE;
 					((Activity) getContext()).runOnUiThread(new Runnable() {
@@ -140,9 +175,21 @@ public class BattleSurfaceView extends SurfaceView implements
 						}
 					});
 				}
-				break;
+			} else {
+				attackTimer += thread.deltaTime();
 			}
-			attackTimer += thread.deltaTime();
+			break;
+		case PLAYER_DEAD:
+			if (deathTimer > deathDelay) {
+				state = State.TRANSITION;
+				knockedUnconscious();
+			} else {
+				deathTimer += thread.deltaTime();
+			}
+			break;
+		case DONE:
+			state = State.TRANSITION;
+			returnToDungeon(false);
 			break;
 		default:
 			break;
@@ -155,7 +202,8 @@ public class BattleSurfaceView extends SurfaceView implements
 	public void setPlayerAttack(StatType type) {
 		System.out.println("Player attacks");
 		state = State.PLAYER_ATTACK;
-		// Damage the monster here
+
+		// Determine base damage
 		int powerValue;
 		switch (type) {
 		case STRENGTH:
@@ -174,42 +222,20 @@ public class BattleSurfaceView extends SurfaceView implements
 			powerValue = 0;
 		}
 
+		// calculate damage to monster
 		Combat.Attack atk = new Combat.Attack(type, powerValue);
 		int damage = monsterModel.RecieveAttack(atk);
-		monsterModel.RecieveDamage(damage);
+
+		// animate damage to monster
 		monster.setDamageText(damage);
+
+		// deal damage to monster
+		monsterModel.RecieveDamage(damage);
 	}
 
 	public void monsterTurn() {
-
 		System.out.println("Monster's turn");
-
-		if (monsterModel.getEnergy() <= 0) {
-
-			state = State.TRANSITION;
-
-			final Reward reward = Reward.monsterReward(monsterModel);
-
-			((Activity) getContext()).runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-
-					RewardPopup.show("You defeated the monster!", reward,
-							(Activity) getContext(),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									returnToDungeon(true);
-								}
-							});
-				}
-
-			});
-		} else {
-			attackPlayer(monsterModel.MakeAttack());
-		}
+		attackPlayer(monsterModel.MakeAttack());
 	}
 
 	private void attackPlayer(Combat.Attack atk) {
@@ -217,7 +243,6 @@ public class BattleSurfaceView extends SurfaceView implements
 		int dmg = Player.getPlayer().takeDamage(atk);
 
 		avatar.setDamageText(dmg);
-
 	}
 
 	public void returnToDungeon(final boolean isVictory) {

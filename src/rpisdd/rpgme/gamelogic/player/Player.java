@@ -447,6 +447,19 @@ public class Player implements HasHealth {
 		e.commit();
 	}
 
+	// This save is necessary if the app exists in a battle.
+	// It moves the player's room to the previous room.
+	// Otherwise when they restart, they'll end up in the same room as the
+	// monster, but without initiating a battle scene.
+	public void saveRoomAsPrev(Activity activity) {
+		SharedPreferences p = activity.getSharedPreferences("player",
+				Context.MODE_PRIVATE);
+		Editor e = p.edit();
+		e.putInt("roomX", lastRoomX);
+		e.putInt("roomY", lastRoomY);
+		e.commit();
+	}
+
 	public static void loadPlayer(Activity activity) {
 
 		SharedPreferences pref = activity.getSharedPreferences("player",

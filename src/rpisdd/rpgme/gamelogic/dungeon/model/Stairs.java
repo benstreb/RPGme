@@ -25,4 +25,8 @@ public class Stairs implements RoomContent {
 	public String getStringRepresentation() {
 		return "STAIRS";
 	}
+
+	public static Stairs getFromStringRepresentation(String[] contentArgs) {
+		return new Stairs();
+	}
 }
