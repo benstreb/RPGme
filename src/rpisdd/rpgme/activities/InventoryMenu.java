@@ -207,7 +207,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 			useItem();
 			break;
 		case R.id.sellItem:
-			AnnoyingPopup.doDont(getActivity(), "Sell this item?", "Sell",
+			AnnoyingPopup.doDont(getActivity(),
+					"Sell this " + selectedItem.getName() + " for "
+							+ selectedItem.getRefundPrice() + " gold?", "Sell",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int id) {
