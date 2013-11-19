@@ -22,7 +22,7 @@ public class DescendStairs extends Fragment implements OnTouchListener {
 			Bundle savedInstanceState) {
 
 		// TODO Art for stairs down screen
-		View v = inflater.inflate(R.layout.activity_splash_screen, container,
+		View v = inflater.inflate(R.layout.stairs_splash_screen, container,
 				false);
 		v.setOnTouchListener(this);
 
