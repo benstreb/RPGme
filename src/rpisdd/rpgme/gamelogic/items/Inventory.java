@@ -49,7 +49,9 @@ public class Inventory {
 					"Warning: equipment index wasn't updated. >= size of items");
 			return null;
 		} else {
-			return (Equipment) items.get(weaponIndex);
+			Item currentWeapon = items.get(weaponIndex);
+			Log.d("InventoryDebug", "Weapon is: " + currentWeapon.getName());
+			return (Equipment) currentWeapon;
 		}
 	}
 
@@ -61,7 +63,9 @@ public class Inventory {
 					"Warning: equipment index wasn't updated. >= size of items");
 			return null;
 		} else {
-			return (Equipment) items.get(armorIndex);
+			Item currentArmor = items.get(armorIndex);
+			Log.d("InventoryDebug", "Armor is: " + currentArmor.getName());
+			return (Equipment) currentArmor;
 		}
 	}
 

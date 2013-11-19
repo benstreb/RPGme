@@ -119,10 +119,11 @@ public abstract class Item {
 				break;
 			}
 		}
+
 		ArrayList<Item> qualityItems = new ArrayList<Item>();
 		// TODO: Make this distribute items with the same qualities more evenly.
-		for (int j = Math.min(0, start - 2); j < Math.max(end + 2,
-				sortedItems.size()); j++) {
+		for (int j = Math.max(0, start - 2); j < Math.min(end + 2,
+				sortedItems.size() - 1); j++) {
 			qualityItems.add(sortedItems.get(j));
 		}
 		return qualityItems;

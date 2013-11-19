@@ -1,5 +1,8 @@
 package rpisdd.rpgme.gamelogic.player;
 
+import java.util.List;
+import java.util.Random;
+
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
 import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.quests.Quest;
@@ -103,8 +106,13 @@ public class Reward {
 	public static Reward chestReward(int treasureLevel) {
 		Reward newReward = new Reward();
 		// TODO grab based on level
-		Item rewardItem = Item.createItemFromName("Light Sword");
+		List<Item> possibleRewards = Item.getQualityItems(treasureLevel);
+		Random itemPicker = new Random();
+		int itemIndex = itemPicker.nextInt(possibleRewards.size());
 
+		Item rewardItem = possibleRewards.get(itemIndex);
+
+		Log.d("RewardDebug", "Chest level awarded: " + treasureLevel);
 		newReward.setRewardItem(rewardItem);
 		return newReward;
 	}

@@ -2,7 +2,9 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.items.Item;
+import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.gamelogic.player.Reward;
+import rpisdd.rpgme.popups.AnnoyingPopup;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,10 +38,8 @@ public class Treasure implements RoomContent {
 	public boolean Encounter(Activity activity) {
 
 		if (!isOpened) {
-			isOpened = true;
 			treasurePopup(activity);
 		}
-
 		return true;
 	}
 
@@ -74,44 +74,51 @@ public class Treasure implements RoomContent {
 	public void treasurePopup(Activity activity) {
 		// TODO
 		// what happens if inventory is full
+		if (Player.getPlayer().getInventory().isInventoryFull()) {
+			AnnoyingPopup.notice(activity, "Your inventory is full!\n"
+					+ "You need to make room before you can open this chest.");
+		} else {
+			isOpened = true;
 
-		// figure out what the chest has
-		Reward tReward = Reward.chestReward(this.treasureLevel);
-		Item rewardItem = tReward.getRewardItem();
+			// figure out what the chest has
+			Reward tReward = Reward.chestReward(this.treasureLevel);
+			Item rewardItem = tReward.getRewardItem();
 
-		// give the award to the player
-		tReward.applyReward();
+			// give the award to the player
+			tReward.applyReward();
 
-		// display the award to the player;
-		View popup = LayoutInflater.from(activity).inflate(
-				R.layout.treasure_room, null);
+			// display the award to the player;
+			View popup = LayoutInflater.from(activity).inflate(
+					R.layout.treasure_room, null);
 
-		TextView treasureText = (TextView) popup
-				.findViewById(R.id.treasureText);
+			TextView treasureText = (TextView) popup
+					.findViewById(R.id.treasureText);
 
-		treasureText.setText("You found a " + rewardItem.getName() + "!");
+			treasureText.setText("You found a " + rewardItem.getName() + "!");
 
-		ImageView treasureImg = (ImageView) popup
-				.findViewById(R.id.treasureImg);
+			ImageView treasureImg = (ImageView) popup
+					.findViewById(R.id.treasureImg);
 
-		// Load the image
-		String tImagePath = "";
-		tImagePath = rewardItem.getImagePath();
-		Picasso.with(activity).load(tImagePath).into(treasureImg);
+			// Load the image
+			String tImagePath = "";
+			tImagePath = rewardItem.getImagePath();
+			Picasso.with(activity).load(tImagePath).into(treasureImg);
 
-		// Display the popup
-		AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
-		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
+			// Display the popup
+			AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
+			builder2.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
 
-			}
-		});
-		builder2.setCancelable(true);
-		builder2.setView(popup);
+						}
+					});
+			builder2.setCancelable(true);
+			builder2.setView(popup);
 
-		AlertDialog alert2 = builder2.create();
-		alert2.show();
+			AlertDialog alert2 = builder2.create();
+			alert2.show();
+		}
 	}
 }
