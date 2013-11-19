@@ -1,6 +1,7 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class ViewThread extends Thread {
@@ -56,6 +57,14 @@ public class ViewThread extends Thread {
 
 		sleepTime = 0;
 
+		try {
+			// send the thread to sleep for a short period
+			// very useful for battery saving
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			Log.d("ViewThread", "Interrupted.", e);
+		}
+
 		while (running) {
 
 			long startTime = System.currentTimeMillis();
@@ -93,6 +102,7 @@ public class ViewThread extends Thread {
 							// very useful for battery saving
 							Thread.sleep(sleepTime);
 						} catch (InterruptedException e) {
+							Log.d("ViewThread", "Interrupted.", e);
 						}
 					}
 
