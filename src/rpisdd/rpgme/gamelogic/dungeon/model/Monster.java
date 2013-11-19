@@ -28,8 +28,8 @@ import com.google.gson.stream.JsonReader;
 public class Monster implements RoomContent, HasHealth {
 
 	private static final double HP_SCALING = 2.0;
-	private static final double DAMAGE_SCALING = 0.5;
-	private static final double DEFENSE_SCALING = 0.25;
+	private static final double DAMAGE_SCALING = 1.0;
+	private static final double DEFENSE_SCALING = 1.0;
 
 	private final String name;
 	private final String imageName;
@@ -69,6 +69,17 @@ public class Monster implements RoomContent, HasHealth {
 		defense = _defense;
 		type = _type;
 		treasureLevel = _treasureLevel;
+	}
+
+	public Monster(Monster otherMon) {
+		name = otherMon.name;
+		imageName = otherMon.imageName;
+		health = otherMon.health;
+		maxHealth = otherMon.maxHealth;
+		damage = otherMon.damage;
+		defense = otherMon.defense;
+		type = otherMon.type;
+		treasureLevel = otherMon.treasureLevel;
 	}
 
 	private Monster copy() {

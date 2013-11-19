@@ -23,13 +23,15 @@ public class BattleMenu extends Fragment implements OnClickListener {
 	Button runAway;
 	BattleSurfaceView battleView;
 
-	Monster monster;
+	Monster realMonster;
+	Monster battleMonster;
 
 	public BattleMenu() {
 	}
 
 	public void setMonster(Monster monster) {
-		this.monster = monster;
+		this.realMonster = monster;
+		this.battleMonster = new Monster(realMonster);
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 
 		battleView = (BattleSurfaceView) v.findViewById(R.id.battleSurfaceView);
 		battleView.battleMenu = this;
-		battleView.setMonster(monster);
+		battleView.setMonster(battleMonster);
 
 		strengthAtk = (Button) v.findViewById(R.id.strengthAtkButton);
 		spiritAtk = (Button) v.findViewById(R.id.spiritAtkButton);
@@ -99,7 +101,21 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		runAway.setEnabled(enable);
 	}
 
+	// Updates the monster in the dungeon to keep damage dealt,
+	// even if player is knocked unconscious or runs
+	public void updateMonsterDamage() {
+		int damageDone = realMonster.getEnergy() - battleMonster.getEnergy();
+		realMonster.RecieveDamage(damageDone);
+
+		if (realMonster.isDead()) {
+			// remove monster from map
+			realMonster.die();
+		}
+	}
+
 	public void returnToDungeon(boolean isVictory) {
+		// update damage even if player runs away
+		updateMonsterDamage();
 
 		if (!isVictory) {
 			Player.getPlayer().goToLastRoom();
@@ -111,6 +127,9 @@ public class BattleMenu extends Fragment implements OnClickListener {
 	}
 
 	public void redirectToStats() {
+		// update damage even if player died
+		updateMonsterDamage();
+
 		Player.getPlayer().goToLastRoom();
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(new StatsMenu(), true);

@@ -101,6 +101,7 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		monsterHealth = new HealthBar(this.monster.x, this.monster.y
 				- (80 * ViewObject.SCALE_FACTOR), 50, 10, monster);
+
 	}
 
 	/**
@@ -130,9 +131,6 @@ public class BattleSurfaceView extends SurfaceView implements
 		case MONSTER_DEAD:
 			if (deathTimer >= deathDelay) {
 				state = State.TRANSITION;
-
-				// remove monster from map
-				monsterModel.die();
 
 				// Determine the reward
 				final Reward reward = Reward.monsterReward(monsterModel);
@@ -266,7 +264,6 @@ public class BattleSurfaceView extends SurfaceView implements
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
-
 								battleMenu.redirectToStats();
 							}
 						});
