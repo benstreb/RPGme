@@ -115,7 +115,7 @@ public abstract class Item {
 		}
 		int end = 0;
 		for (end = start; end < sortedItems.size(); end++) {
-			if (sortedItems.get(start).getQuality() > quality) {
+			if (sortedItems.get(end).getQuality() > quality) {
 				break;
 			}
 		}
