@@ -28,20 +28,35 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		dungeon = Player.getPlayer().getDungeon();
+		Player p = Player.getPlayer();
+		dungeon = p.getDungeon();
 
 		if (dungeon == null) {
 			Log.e("Error",
 					"Dungeon not generated yet. Can't enter dungeon menu!\n");
 		}
 
-		if (!Player.getPlayer().StartPosSet()) {
-			Log.d("Debug", "Player pos not set yet. Setting to start\n");
+		boolean movedPlayer = false;
+		if (!p.StartPosSet() || !dungeon.roomExists(p.getRoomX(), p.getRoomY())) {
+			if (!p.StartPosSet()) {
+				Log.d("DungeonMenu",
+						"Player pos not set yet. Setting to start\n");
+			} else {
+				Log.e("DungeonMenu",
+						"Player in an invalid room. Setting to start");
+			}
 			int dunStartX = dungeon.start_x;
 			int dunStartY = dungeon.start_y;
-			Player.getPlayer().getDungeon()
-					.visitRoom(dunStartX, dunStartY, null);
 			Player.getPlayer().setRoomPos(dunStartX, dunStartY);
+			movedPlayer = true;
+		}
+		if (!dungeon.getRoom(p.getRoomX(), p.getRoomY()).isVisited()) {
+			Player.getPlayer().getDungeon()
+					.visitRoom(p.getRoomX(), p.getRoomY(), getActivity());
+			if (!movedPlayer) {
+				Log.e("DungeonMenu",
+						"Player was in a room that hadn't been visited.");
+			}
 		}
 
 		View v = inflater.inflate(R.layout.dungeon_menu, container, false);
