@@ -2,8 +2,12 @@ package rpisdd.rpgme.gamelogic.items;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import rpisdd.rpgme.R;
@@ -80,9 +84,18 @@ public abstract class Item {
 				return new Boondogle(o);
 			}
 		}, R.raw.boondogles));
+
+		sortedItems.addAll(allItems.values());
+		Collections.sort(sortedItems, new Comparator<Item>() {
+			@Override
+			public int compare(Item lhs, Item rhs) {
+				return lhs.getQuality() - rhs.getQuality();
+			}
+		});
 	}
 
 	private static final Map<String, Item> allItems = new HashMap<String, Item>();
+	private static final ArrayList<Item> sortedItems = new ArrayList<Item>();
 
 	public static Item createItemFromName(String aname) {
 		if (allItems.containsKey(aname)) {
@@ -91,6 +104,28 @@ public abstract class Item {
 			Log.e(TAG, "Trying to create an item that doesn't exist.");
 			return Item.INVALID;
 		}
+	}
+
+	public static List<Item> getQualityItems(int quality) {
+		int start = 0;
+		for (start = 0; start < sortedItems.size(); start++) {
+			if (sortedItems.get(start).getQuality() >= quality) {
+				break;
+			}
+		}
+		int end = 0;
+		for (end = start; end < sortedItems.size(); end++) {
+			if (sortedItems.get(start).getQuality() > quality) {
+				break;
+			}
+		}
+		ArrayList<Item> qualityItems = new ArrayList<Item>();
+		// TODO: Make this distribute items with the same qualities more evenly.
+		for (int j = Math.min(0, start - 2); j < Math.max(end + 2,
+				sortedItems.size()); j++) {
+			qualityItems.add(sortedItems.get(j));
+		}
+		return qualityItems;
 	}
 
 	private Item(String name, int price, String imageName, String description,
