@@ -1,6 +1,8 @@
 package rpisdd.rpgme.gamelogic.dungeon.model;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.items.Item;
+import rpisdd.rpgme.gamelogic.player.Reward;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,12 +12,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class Treasure implements RoomContent {
 
 	private boolean isOpened;
+	private int treasureLevel;
+
+	public Treasure(boolean opened, int treasureLevel_) {
+		this.isOpened = opened;
+		this.treasureLevel = treasureLevel_;
+	}
 
 	public Treasure(boolean opened) {
-		this.isOpened = opened;
+		this(opened, 1);
 	}
 
 	public Treasure() {
@@ -38,17 +48,22 @@ public class Treasure implements RoomContent {
 		return RoomType.TREASURE;
 	}
 
+	public void setTreasureLevel(int nLvl) {
+		this.treasureLevel = nLvl;
+	}
+
 	@Override
 	public String getStringRepresentation() {
-		return "TREASURE" + "," + this.isOpened;
+		return "TREASURE" + "," + this.isOpened + "," + this.treasureLevel;
 	}
 
 	public static Treasure getFromStringRepresentation(String[] contentArgs) {
-		if (contentArgs.length < 2) {
-			Log.wtf("DungeonLoad", "Not enough args for a TREASURE");
+		if (contentArgs.length != 3) {
+			Log.wtf("DungeonLoad", "Not proper number of args for a TREASURE");
 		}
 		boolean isOpened = Boolean.parseBoolean(contentArgs[1]);
-		Treasure newTreasure = new Treasure(isOpened);
+		int tLevel = Integer.parseInt(contentArgs[2]);
+		Treasure newTreasure = new Treasure(isOpened, tLevel);
 		return newTreasure;
 	}
 
@@ -57,24 +72,34 @@ public class Treasure implements RoomContent {
 	}
 
 	public void treasurePopup(Activity activity) {
+		// TODO
+		// what happens if inventory is full
 
-		TreasureRoom tr = new TreasureRoom();
+		// figure out what the chest has
+		Reward tReward = Reward.chestReward(this.treasureLevel);
+		Item rewardItem = tReward.getRewardItem();
 
+		// give the award to the player
+		tReward.applyReward();
+
+		// display the award to the player;
 		View popup = LayoutInflater.from(activity).inflate(
 				R.layout.treasure_room, null);
 
 		TextView treasureText = (TextView) popup
 				.findViewById(R.id.treasureText);
 
-		treasureText.setText("You found a " + tr.getTreasureName() + "!");
+		treasureText.setText("You found a " + rewardItem.getName() + "!");
 
 		ImageView treasureImg = (ImageView) popup
 				.findViewById(R.id.treasureImg);
 
-		// TO DO: figure out how to get the images for any kind of item
-		// TO DO: draw item on top of the treasure chest
-		treasureImg.setImageResource(R.drawable.sword1_red);
+		// Load the image
+		String tImagePath = "";
+		tImagePath = rewardItem.getImagePath();
+		Picasso.with(activity).load(tImagePath).into(treasureImg);
 
+		// Display the popup
 		AlertDialog.Builder builder2 = new AlertDialog.Builder(activity);
 		builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
@@ -89,5 +114,4 @@ public class Treasure implements RoomContent {
 		AlertDialog alert2 = builder2.create();
 		alert2.show();
 	}
-
 }
