@@ -46,7 +46,7 @@
 			        android:id="@+id/textView1"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:text="Create Quest"
+			        android:text="Create Quest:"
 			        android:textAppearance="?android:attr/textAppearanceLarge"
 			        android:textSize="25sp" />
 			    
@@ -68,7 +68,8 @@
 			            android:hint="Enter name"
 			            android:singleLine="true"
 			            android:maxLength="200"
-			            android:layout_weight="1" >
+			            android:layout_weight="1" 
+			            android:imeOptions="actionDone" >
 			        </EditText>
 			    </LinearLayout>
 			
@@ -92,8 +93,8 @@
 			            android:layout_height="wrap_content"
 			            android:hint="Enter a description (optional)"
 			            android:maxLength="500"
-			            android:inputType="textMultiLine" >
-		
+			            android:singleLine="true"
+						android:imeOptions="actionDone" >
 			        </EditText>
 		
 			    </LinearLayout>
