@@ -98,7 +98,9 @@ public class Room {
 		} else if (type.compareTo("STAIRS") == 0) {
 			newContent = Stairs.getFromStringRepresentation(contentArgs);
 		} else if (type.compareTo("TREASURE") == 0) {
-			newContent = Treasure.getFromStringRepresentation(contentArgs);
+			Treasure newT = Treasure.getFromStringRepresentation(contentArgs);
+			newT.setTreasureLevel(Player.getPlayer().getDungeon().getLevel());
+			newContent = newT;
 		} else if (type.compareTo("MONSTER") == 0) {
 			newContent = Monster.getFromStringRepresentation(contentArgs);
 		} else {

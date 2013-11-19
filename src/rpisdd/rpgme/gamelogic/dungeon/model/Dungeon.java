@@ -168,7 +168,7 @@ public class Dungeon {
 		if (contentNum < 5) {
 			content = new Stairs();
 		} else if (contentNum < 30) {
-			content = new Treasure();
+			content = new Treasure(false, this.level);
 		} else if (contentNum < 80) {
 			content = Monster.selectMonster(this);
 		} else {

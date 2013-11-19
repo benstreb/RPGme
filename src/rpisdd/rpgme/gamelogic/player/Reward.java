@@ -100,6 +100,15 @@ public class Reward {
 		return r;
 	}
 
+	public static Reward chestReward(int treasureLevel) {
+		Reward newReward = new Reward();
+		// TODO grab based on level
+		Item rewardItem = Item.createItemFromName("Light Sword");
+
+		newReward.setRewardItem(rewardItem);
+		return newReward;
+	}
+
 	// Give a reward after completing a quest based on that quest
 	public static Reward questReward(Quest quest) {
 

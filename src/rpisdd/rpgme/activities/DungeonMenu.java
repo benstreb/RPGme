@@ -2,10 +2,8 @@ package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.dungeon.model.Dungeon;
-import rpisdd.rpgme.gamelogic.dungeon.model.TreasureRoom;
 import rpisdd.rpgme.gamelogic.dungeon.viewcontrol.DungeonSurfaceView;
 import rpisdd.rpgme.gamelogic.player.Player;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,9 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 public class DungeonMenu extends Fragment implements OnClickListener {
 
@@ -81,30 +77,30 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 		 */
 	}
 
-	public void enterTreasure() {
-
-		TreasureRoom tr = new TreasureRoom();
-
-		View popup = LayoutInflater.from(getActivity()).inflate(
-				R.layout.treasure_room, null);
-
-		TextView treasureText = (TextView) popup
-				.findViewById(R.id.treasureText);
-
-		treasureText.setText("You found a " + tr.getTreasureName() + "!");
-
-		ImageView treasureImg = (ImageView) popup
-				.findViewById(R.id.treasureImg);
-
-		// TO DO: figure out how to get the images for any kind of item
-		// TO DO: draw item on top of the treasure chest
-		treasureImg.setImageResource(R.drawable.sword1_red);
-		AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
-		builder2.setView(popup);
-
-		AlertDialog alert2 = builder2.create();
-		alert2.show();
-	}
+	/*
+	 * public void enterTreasure() {
+	 * 
+	 * TreasureRoom tr = new TreasureRoom();
+	 * 
+	 * View popup = LayoutInflater.from(getActivity()).inflate(
+	 * R.layout.treasure_room, null);
+	 * 
+	 * TextView treasureText = (TextView) popup
+	 * .findViewById(R.id.treasureText);
+	 * 
+	 * treasureText.setText("You found a " + tr.getTreasureName() + "!");
+	 * 
+	 * ImageView treasureImg = (ImageView) popup
+	 * .findViewById(R.id.treasureImg);
+	 * 
+	 * // TO DO: figure out how to get the images for any kind of item // TO DO:
+	 * draw item on top of the treasure chest
+	 * treasureImg.setImageResource(R.drawable.sword1_red); AlertDialog.Builder
+	 * builder2 = new AlertDialog.Builder(getActivity());
+	 * builder2.setView(popup);
+	 * 
+	 * AlertDialog alert2 = builder2.create(); alert2.show(); }
+	 */
 
 	/**** experimental treasure room pop-up functionality ****/
 	// private Button enterTreasureBtn;

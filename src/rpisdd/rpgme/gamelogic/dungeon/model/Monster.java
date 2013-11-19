@@ -85,7 +85,6 @@ public class Monster implements RoomContent, HasHealth {
 		return "file:///android_asset/Monsters/" + imageName;
 	}
 
-	// TODO make a class for attacks so we don't have to assume int array
 	// takes an attack, checks it against the monster's defense and returns the
 	// value
 	public int RecieveAttack(Combat.Attack atk) {
