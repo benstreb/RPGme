@@ -10,7 +10,6 @@ import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.activities.MainActivity;
 import rpisdd.rpgme.activities.TransitionFragment;
 import rpisdd.rpgme.gamelogic.player.Player;
-import rpisdd.rpgme.gamelogic.player.Reward;
 import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 import android.content.Context;
@@ -104,21 +103,16 @@ public class Monster implements RoomContent, HasHealth {
 		this.health -= damage;
 		if (health < 1) {
 			health = 0;
-			die();
 			return true;
 		}
 		return false;
 	}
 
 	//
-	public Reward die() {
+	public void die() {
 		// Fairly certain this is never called
 		Log.d("MonsterDebug", "Monster.die was called");
 		Player.getPlayer().clearCurrentRoom();
-
-		Reward reward = new Reward();
-		reward.setGoldIncrease(10);
-		return reward;
 	}
 
 	@Override
@@ -150,6 +144,10 @@ public class Monster implements RoomContent, HasHealth {
 
 	public int getTreasureLevel() {
 		return treasureLevel;
+	}
+
+	public boolean isDead() {
+		return this.health <= 0;
 	}
 
 	@Override
