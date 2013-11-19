@@ -1,8 +1,9 @@
 [
 	{
 		"name":"Valuable Potion",
-		"price":900001,
+		"price":2000,
 		"filename":"potion_purple.png",
-		"description":"sell it for oodles of money"
+		"description":"Sell it for a lot of money",
+		"quality":10
 	}
 ]
