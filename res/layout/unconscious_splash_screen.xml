@@ -36,14 +36,13 @@
         android:layout_centerVertical="true"
         android:src="@drawable/av_pjs" />
 
-
     <TextView
         android:id="@+id/unconscious_text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/unconscious_av_img"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp"
-        android:text="You should rest now" />
+        android:text="You must drink a revival potion before continuing your adventure." />
 
 </RelativeLayout>
