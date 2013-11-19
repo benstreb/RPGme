@@ -80,21 +80,25 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 			}
 		}
 
+		int armorIndex = Player.getPlayer().getInventory().getArmorIndex();
+		int weaponIndex = Player.getPlayer().getInventory().getWeaponIndex();
+
 		Item item = Player.getPlayer().getInventory()
 				.getItemAt(selectedItemIndex);
 
 		if (item != null) {
 			if (item.isEquipment()) {
-				if (item == Player.getPlayer().getInventory().getWeapon()
-						|| item == Player.getPlayer().getInventory().getArmor()) {
-					use.setText("Unequip");
-				} else {
-					use.setText("Equip");
-				}
+				use.setText("Equip");
 			} else {
 				use.setText("Use");
 			}
 		}
+
+		if (selectedItemIndex != -1 && selectedItemIndex == armorIndex
+				|| selectedItemIndex == weaponIndex) {
+			use.setText("Unequip");
+		}
+
 	}
 
 	@Override
@@ -162,8 +166,10 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 				name.setTextColor(Color.WHITE);
 
-				if (i == Player.getPlayer().getInventory().getArmor()
-						|| i == Player.getPlayer().getInventory().getWeapon()) {
+				if (position == Player.getPlayer().getInventory()
+						.getWeaponIndex()
+						|| position == Player.getPlayer().getInventory()
+								.getArmorIndex()) {
 					name.setTextColor(Color.GREEN);
 					name.append(" (Equipped)");
 				}

@@ -1,6 +1,7 @@
 package rpisdd.rpgme.popups;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.activities.MainActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,6 +25,8 @@ public class LevelupPopup {
 		rewardText.setText("New level: " + Integer.toString(levelAfter));
 
 		builder1.setView(popup);
+
+		((MainActivity) activity).updateEnergyBar();
 
 		if (action == null) {
 			builder1.setPositiveButton("OK",

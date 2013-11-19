@@ -36,12 +36,10 @@ public final class Equipment extends Item {
 			Log.wtf("items", "Item not in inventory before using it.");
 		}
 
-		if (p.getInventory().getItems().get(index) == p.getInventory()
-				.getWeapon()) {
+		if (index == p.getInventory().getWeaponIndex()) {
 			p.getInventory().unEquipWeapon();
 			return;
-		} else if (p.getInventory().getItems().get(index) == p.getInventory()
-				.getArmor()) {
+		} else if (index == p.getInventory().getArmorIndex()) {
 			p.getInventory().unEquipArmor();
 			return;
 		}
