@@ -18,11 +18,13 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public abstract class Item {
+	private static final String TAG = "Item";
+
 	public static final Item INVALID = new Item("M.", -100, "invalid.png",
-			"WILD M. APPEARED") {
+			"WILD M. APPEARED", Integer.MAX_VALUE) {
 		@Override
 		public void useMe(Player p, int index) {
-			Log.wtf("items", "Trying to use invalid item.");
+			Log.wtf(TAG, "Trying to use invalid item.");
 		}
 	};
 
@@ -31,6 +33,7 @@ public abstract class Item {
 	private final String imagePath;
 	private final String offsetImagePath;
 	private final String description;
+	private final int quality;
 
 	protected interface Factory {
 		public Item fromJsonObject(JsonObject o);
@@ -54,20 +57,23 @@ public abstract class Item {
 
 	public static void load(Context c) {
 		if (!allItems.isEmpty()) {
-			Log.e("items", "Items being loaded multiple times from database");
+			Log.e(TAG, "Items being loaded multiple times from database");
 		}
+		Log.d(TAG, "Loading equipment from JSON");
 		allItems.putAll(loadItems(c, new Factory() {
 			@Override
 			public Item fromJsonObject(JsonObject o) {
 				return new Equipment(o);
 			}
 		}, R.raw.equipment));
+		Log.d(TAG, "Loading consumables from JSON");
 		allItems.putAll(loadItems(c, new Factory() {
 			@Override
 			public Item fromJsonObject(JsonObject o) {
 				return new Consumable(o);
 			}
 		}, R.raw.consumables));
+		Log.d(TAG, "Loading boondogles from JSON");
 		allItems.putAll(loadItems(c, new Factory() {
 			@Override
 			public Item fromJsonObject(JsonObject o) {
@@ -82,22 +88,25 @@ public abstract class Item {
 		if (allItems.containsKey(aname)) {
 			return allItems.get(aname);
 		} else {
-			Log.e("items", "Trying to create an item that doesn't exist.");
+			Log.e(TAG, "Trying to create an item that doesn't exist.");
 			return Item.INVALID;
 		}
 	}
 
-	private Item(String name, int price, String imageName, String description) {
+	private Item(String name, int price, String imageName, String description,
+			int quality) {
 		this.name = name;
 		this.price = price;
 		this.imagePath = "file:///android_asset/Items/" + imageName;
 		this.offsetImagePath = "file:///android_asset/Items/av_" + imageName;
 		this.description = description;
+		this.quality = quality;
 	}
 
 	protected Item(JsonObject o) {
 		this(o.get("name").getAsString(), o.get("price").getAsInt(), o.get(
-				"filename").getAsString(), o.get("description").getAsString());
+				"filename").getAsString(), o.get("description").getAsString(),
+				o.get("quality").getAsInt());
 	}
 
 	public int getRefundPrice() {
@@ -135,6 +144,10 @@ public abstract class Item {
 
 	public boolean isEquipment() {
 		return false;
+	}
+
+	public int getQuality() {
+		return quality;
 	}
 
 	public abstract void useMe(Player p, int index);
