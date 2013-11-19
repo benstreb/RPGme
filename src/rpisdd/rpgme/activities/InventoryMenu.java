@@ -166,13 +166,12 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 				name.setTextColor(Color.WHITE);
 
-				if (i.isEquipment()) {
-					if (i == Player.getPlayer().getInventory().getArmor()
-							|| i == Player.getPlayer().getInventory()
-									.getWeapon()) {
-						name.setTextColor(Color.GREEN);
-						name.append(" (Equipped)");
-					}
+				if (position == Player.getPlayer().getInventory()
+						.getWeaponIndex()
+						|| position == Player.getPlayer().getInventory()
+								.getArmorIndex()) {
+					name.setTextColor(Color.GREEN);
+					name.append(" (Equipped)");
 				}
 				Picasso.with(getActivity()).load(i.getImagePath()).into(image);
 			}
