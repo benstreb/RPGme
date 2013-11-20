@@ -21,7 +21,8 @@
 		    
 		    android:orientation="vertical"
 		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content">
+		    android:layout_height="wrap_content" 
+			>
 			
 		    <!-- android:background="@drawable/create_quests_menu_background" -->
 		
@@ -46,21 +47,26 @@
 			        android:id="@+id/textView1"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:text="Create Quest:"
+			        android:layout_gravity="center_horizontal"
+			        android:text="Create Quest"
 			        android:textAppearance="?android:attr/textAppearanceLarge"
-			        android:textSize="25sp" />
+			        android:textSize="35sp" />
 			    
 			    <!-- Enter name -->
 			    <LinearLayout
+			        android:id="@+id/nameRow"
 			        android:orientation="horizontal"
 			        android:layout_width="match_parent"
-			        android:layout_height="wrap_content" >
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="10dp">
+			        
 			        <TextView
 			            android:id="@+id/textView0"
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:text="Name: "
 			            android:textAppearance="?android:attr/textAppearanceLarge" />
+
 			        <EditText
 			            android:id="@+id/enterQuestName"
 			            android:layout_width="0dip"
@@ -73,13 +79,21 @@
 			        </EditText>
 			    </LinearLayout>
 			
+			   <TextView
+			        android:id="@+id/questNameHint"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_below="@+id/nameRow"
+			        android:text="Ex: Clean room, finish masterpiece, call mom, etc."
+			        android:textSize="12sp" />
+			   
 			    <!-- Enter description -->
 			    <LinearLayout
 			        android:orientation="vertical"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content" 
-			        >
-			
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp"
+			        >			
 			        <TextView
 			            android:id="@+id/textView3"
 			            android:layout_width="wrap_content"
@@ -103,7 +117,8 @@
 			    <LinearLayout
 			        android:orientation="horizontal"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp"
 			        >
 			
 			        <TextView
@@ -127,7 +142,8 @@
 			    <LinearLayout
 			        android:orientation="horizontal"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp"
 			        >
 			
 			        <TextView
@@ -148,7 +164,8 @@
 			    <LinearLayout
 			        android:orientation="horizontal"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content" 
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp"
 			        >
 			
 			        <TextView
@@ -169,7 +186,8 @@
 			    <LinearLayout
 			        android:orientation="horizontal"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content">
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp">
 			
 			        <TextView
 			            android:id="@+id/textView6"
