@@ -24,7 +24,7 @@ public class Stairs implements RoomContent {
 						((MainActivity) act).changeFragment(trans);
 					}
 				});
-		return false;
+		return true;
 	}
 
 	@Override

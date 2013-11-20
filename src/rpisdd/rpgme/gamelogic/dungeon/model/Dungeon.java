@@ -237,7 +237,7 @@ public class Dungeon {
 		return map[y][x];
 	}
 
-	// Visits a room. If that room is cleared
+	// Visits a room. If that room is safe
 	// then allow the player to visit nearby rooms
 	public void visitRoom(int x, int y, Activity activity) {
 		if (roomExists(x, y)) {
