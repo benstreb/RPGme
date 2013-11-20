@@ -1,7 +1,9 @@
 package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
+import rpisdd.rpgme.gamelogic.items.Equipment;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.gamelogic.player.Stats;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,6 +27,16 @@ public class StatsMenu extends Fragment {
 	TextView intWidget;
 	TextView willWidget;
 	TextView spiritWidget;
+
+	TextView strengthAtkWidget;
+	TextView intAtkWidget;
+	TextView willAtkWidget;
+	TextView spiritAtkWidget;
+
+	TextView strengthDefWidget;
+	TextView intDefWidget;
+	TextView willDefWidget;
+	TextView spiritDefWidget;
 
 	TextView weaponWidget;
 	TextView armorWidget;
@@ -56,6 +68,8 @@ public class StatsMenu extends Fragment {
 		int avatarId = thePlayer.getAvatar();
 
 		String playerName = thePlayer.getName();
+		Equipment weapon = thePlayer.getInventory().getWeapon();
+		Equipment armor = thePlayer.getInventory().getArmor();
 
 		// draw the avatar and their equipment
 		avatarImage = (ImageView) v.findViewById(R.id.avatarView);
@@ -63,8 +77,8 @@ public class StatsMenu extends Fragment {
 
 		weaponImage = (ImageView) v.findViewById(R.id.weaponView);
 		String weaponPath = "";
-		if (thePlayer.getInventory().getWeapon() != null) {
-			weaponPath = thePlayer.getInventory().getWeapon().getImagePath();
+		if (weapon != null) {
+			weaponPath = weapon.getImagePath();
 			Picasso.with(getActivity()).load(weaponPath).into(weaponImage);
 		} else {
 			weaponPath = "invalid.png";
@@ -73,41 +87,25 @@ public class StatsMenu extends Fragment {
 
 		armorImage = (ImageView) v.findViewById(R.id.armorView);
 		String armorPath = "";
-		if (thePlayer.getInventory().getArmor() != null) {
-			armorPath = thePlayer.getInventory().getArmor().getImagePath();
+		if (armor != null) {
+			armorPath = armor.getImagePath();
 			Picasso.with(getActivity()).load(armorPath).into(armorImage);
 		} else {
 			armorPath = "invalid.png";
 			armorImage.setVisibility(View.INVISIBLE);
 		}
-
-		// display equipment stats
-		String weaponName = "None";
-		if (thePlayer.getInventory().getWeapon() != null) {
-			weaponName = thePlayer.getInventory().getWeapon().getName();
-		}
-		weaponWidget = (TextView) v.findViewById(R.id.weaponDisplay);
-		weaponWidget.setText(weaponName);
-
-		String armorName = "None";
-		if (thePlayer.getInventory().getArmor() != null) {
-			armorName = thePlayer.getInventory().getArmor().getName();
-		}
-		armorWidget = (TextView) v.findViewById(R.id.armorDisplay);
-		armorWidget.setText(armorName);
-
 		// display the stats
 		strengthWidget = (TextView) v.findViewById(R.id.strengthDisplay);
-		strengthWidget.setText("St: " + currentStr);
+		strengthWidget.setText("Strength: " + currentStr);
 
-		intWidget = (TextView) v.findViewById(R.id.intDisplay);
-		intWidget.setText("In: " + currentInt);
+		intWidget = (TextView) v.findViewById(R.id.intelligenceDisplay);
+		intWidget.setText("Intelligence: " + currentInt);
 
 		willWidget = (TextView) v.findViewById(R.id.willDisplay);
-		willWidget.setText("Wi: " + currentWill);
+		willWidget.setText("Will: " + currentWill);
 
 		spiritWidget = (TextView) v.findViewById(R.id.spiritDisplay);
-		spiritWidget.setText("Sp: " + currentSpr);
+		spiritWidget.setText("Spirit: " + currentSpr);
 
 		nameWidget = (TextView) v.findViewById(R.id.nameDisplay);
 		nameWidget.setText(playerName);
@@ -119,7 +117,74 @@ public class StatsMenu extends Fragment {
 		expWidget.setText(total + " / " + toNext + " exp");
 
 		goldWidget = (TextView) v.findViewById(R.id.statPageGoldDisplay);
-		goldWidget.setText("Gold: " + gold);
+
+		goldWidget.setText("" + gold);
+
+		// display the weapon stats
+		if (weapon != null) {
+			Stats.Mod weapon_mod = weapon.getMod();
+
+			strengthAtkWidget = (TextView) v
+					.findViewById(R.id.strengthAtkDisplay);
+			strengthAtkWidget.setText("+" + weapon_mod.str);
+
+			intAtkWidget = (TextView) v
+					.findViewById(R.id.intelligenceAtkDisplay);
+			intAtkWidget.setText("+" + weapon_mod.intel);
+
+			willAtkWidget = (TextView) v.findViewById(R.id.willAtkDisplay);
+			willAtkWidget.setText("+" + weapon_mod.will);
+
+			spiritAtkWidget = (TextView) v.findViewById(R.id.spiritAtkDisplay);
+			spiritAtkWidget.setText("+" + weapon_mod.spirit);
+		} else {
+			strengthAtkWidget = (TextView) v
+					.findViewById(R.id.strengthAtkDisplay);
+			strengthAtkWidget.setText("+0");
+
+			intAtkWidget = (TextView) v
+					.findViewById(R.id.intelligenceAtkDisplay);
+			intAtkWidget.setText("+0");
+
+			willAtkWidget = (TextView) v.findViewById(R.id.willAtkDisplay);
+			willAtkWidget.setText("+0");
+
+			spiritAtkWidget = (TextView) v.findViewById(R.id.spiritAtkDisplay);
+			spiritAtkWidget.setText("+0");
+		}
+
+		// display the armor stats
+		if (armor != null) {
+			Stats.Mod armor_mod = armor.getMod();
+
+			strengthDefWidget = (TextView) v
+					.findViewById(R.id.strengthDefDisplay);
+			strengthDefWidget.setText("+" + armor_mod.str);
+
+			intDefWidget = (TextView) v
+					.findViewById(R.id.intelligenceDefDisplay);
+			intDefWidget.setText("+" + armor_mod.intel);
+
+			willDefWidget = (TextView) v.findViewById(R.id.willDefDisplay);
+			willDefWidget.setText("+" + armor_mod.will);
+
+			spiritDefWidget = (TextView) v.findViewById(R.id.spiritDefDisplay);
+			spiritDefWidget.setText("+" + armor_mod.spirit);
+		} else {
+			strengthDefWidget = (TextView) v
+					.findViewById(R.id.strengthDefDisplay);
+			strengthDefWidget.setText("+0");
+
+			intDefWidget = (TextView) v
+					.findViewById(R.id.intelligenceDefDisplay);
+			intDefWidget.setText("+0");
+
+			willDefWidget = (TextView) v.findViewById(R.id.willDefDisplay);
+			willDefWidget.setText("+0");
+
+			spiritDefWidget = (TextView) v.findViewById(R.id.spiritDefDisplay);
+			spiritDefWidget.setText("+0");
+		}
 
 		// Inflate the layout for this fragment
 		return v;

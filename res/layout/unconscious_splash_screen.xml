@@ -15,11 +15,23 @@
         android:id="@+id/unconscious_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/unconscious_av_img"
+		android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="You have been knocked"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <TextView
+        android:id="@+id/unconscious_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/unconscious_av_img"
+        android:layout_below="@+id/unconscious_text1"
         android:layout_marginBottom="36dp"
-        android:text="You have been knocked unconscious" />
-        
+        android:layout_centerHorizontal="true"
+        android:text="unconscious" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+    
     <ImageView
         android:id="@+id/unconscious_av_img"
         android:layout_width="wrap_content"
@@ -34,16 +46,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/av_pjs" />
+        android:src="@drawable/av_pjs" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 
     <TextView
-        android:id="@+id/unconscious_text2"
+        android:id="@+id/unconscious_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/unconscious_av_img"
         android:layout_marginTop="36dp"
-        android:text="You should rest now" />
+        android:text="You should rest now" 
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
 
 </RelativeLayout>
