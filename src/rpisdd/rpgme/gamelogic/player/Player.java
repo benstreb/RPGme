@@ -497,6 +497,23 @@ public class Player implements HasHealth {
 		}
 
 		player = p;
+
+		// validate the information
+		// ////////////////////////////////////////////////
+		// check to make sure player is in a valid position
+		if (!p.StartPosSet()
+				|| !p.dungeon.roomExists(p.getRoomX(), p.getRoomY())) {
+			if (!p.StartPosSet()) {
+				Log.d("DungeonMenu",
+						"Player pos not set yet. Setting to start\n");
+			} else {
+				Log.e("DungeonMenu",
+						"Player in an invalid room. Setting to start");
+			}
+			int dunStartX = p.dungeon.start_x;
+			int dunStartY = p.dungeon.start_y;
+			p.setRoomPos(dunStartX, dunStartY);
+		}
 	}
 
 	public boolean StartPosSet() {

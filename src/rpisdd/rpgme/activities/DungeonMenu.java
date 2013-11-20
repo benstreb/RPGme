@@ -36,27 +36,12 @@ public class DungeonMenu extends Fragment implements OnClickListener {
 					"Dungeon not generated yet. Can't enter dungeon menu!\n");
 		}
 
-		boolean movedPlayer = false;
-		if (!p.StartPosSet() || !dungeon.roomExists(p.getRoomX(), p.getRoomY())) {
-			if (!p.StartPosSet()) {
-				Log.d("DungeonMenu",
-						"Player pos not set yet. Setting to start\n");
-			} else {
-				Log.e("DungeonMenu",
-						"Player in an invalid room. Setting to start");
-			}
-			int dunStartX = dungeon.start_x;
-			int dunStartY = dungeon.start_y;
-			Player.getPlayer().setRoomPos(dunStartX, dunStartY);
-			movedPlayer = true;
-		}
-		if (!dungeon.getRoom(p.getRoomX(), p.getRoomY()).isVisited()) {
+		if (dungeon.getRoom(p.getRoomX(), p.getRoomY()) == null) {
+			Log.e("DungeonMenu",
+					"Player was in a room that hadn't been visited.");
+		} else if (!dungeon.getRoom(p.getRoomX(), p.getRoomY()).isVisited()) {
 			Player.getPlayer().getDungeon()
 					.visitRoom(p.getRoomX(), p.getRoomY(), getActivity());
-			if (!movedPlayer) {
-				Log.e("DungeonMenu",
-						"Player was in a room that hadn't been visited.");
-			}
 		}
 
 		View v = inflater.inflate(R.layout.dungeon_menu, container, false);

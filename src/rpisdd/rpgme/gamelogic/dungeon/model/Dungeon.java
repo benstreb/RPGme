@@ -31,6 +31,8 @@ public class Dungeon {
 	public void GenerateMap() {
 		boolean setStairs = false;
 		int roomCount = 0;
+		start_x = -1;
+		start_y = -1;
 
 		ArrayList<Room> roomsToExpand;
 		Random rand = new Random();
@@ -189,6 +191,7 @@ public class Dungeon {
 
 		String stringRep = p.getString("Dungeon", "NOTGENERATED");
 		if (stringRep.compareTo("NOTGENERATED") == 0) {
+			Log.d("Debug", "No save file for dungeon!");
 			this.level = 1;
 			this.GenerateMap();
 		} else {
