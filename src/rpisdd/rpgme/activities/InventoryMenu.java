@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,12 +26,13 @@ import com.squareup.picasso.Picasso;
 
 public class InventoryMenu extends ListFragment implements OnClickListener {
 
-	Button sell;
-	Button use;
-	Button details;
+	ImageButton sell;
+	ImageButton use;
+	ImageButton details;
 	Item selectedItem;
 	View selectedItemSlot;
 	int selectedItemIndex;
+	TextView goldWidget;
 
 	ItemAdapter itemAdapter;
 
@@ -49,14 +50,22 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.inventory_menu, container, false);
 
-		sell = (Button) v.findViewById(R.id.sellItem);
+		Log.i("inventory_gold", "about to set sell page");
+		sell = (ImageButton) v.findViewById(R.id.sellItem);
 		sell.setOnClickListener(this);
 
-		use = (Button) v.findViewById(R.id.useItem);
+		use = (ImageButton) v.findViewById(R.id.useItem);
 		use.setOnClickListener(this);
 
-		details = (Button) v.findViewById(R.id.detailsItem);
+		details = (ImageButton) v.findViewById(R.id.detailsItem);
 		details.setOnClickListener(this);
+
+		Log.i("inventory_gold", "about to set gold");
+		Player p = Player.getPlayer();
+		goldWidget = (TextView) v.findViewById(R.id.inventoryGoldDisplay);
+		goldWidget.setText("" + p.getGold());
+
+		Log.i("inventory_gold", " set gold");
 
 		updateButtons();
 
@@ -88,15 +97,15 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		if (item != null) {
 			if (item.isEquipment()) {
-				use.setText("Equip");
+				// use.setText("Equip");
 			} else {
-				use.setText("Use");
+				// use.setText("Use");
 			}
 		}
 
 		if (selectedItemIndex != -1 && selectedItemIndex == armorIndex
 				|| selectedItemIndex == weaponIndex) {
-			use.setText("Unequip");
+			// use.setText("Unequip");
 		}
 
 	}
@@ -232,6 +241,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		p.addGold(selectedItem.getRefundPrice());
 		p.getInventory().removeItemAt(selectedItemIndex);
 		updateListView(true);
+		goldWidget.setText("" + p.getGold());
 	}
 
 	public void useItem() {

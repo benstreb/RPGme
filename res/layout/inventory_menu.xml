@@ -13,28 +13,60 @@
         
     </ListView>
 
-    <Button
-        android:id="@+id/useItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/useItem" />
+	<ImageButton
+ 		android:id="@+id/useItem"
+ 		android:layout_width="50dp"
+ 		android:layout_height="50dp"
+ 		android:onClick="onClickComplete"
+ 		android:src="@drawable/ic_star"
+ 		android:scaleType="fitCenter"
+ 		android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true" 
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/sellItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="15dp"
+        android:layout_toRightOf="@+id/useItem"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_dollar" 
+        />
+
+    <ImageButton
+        android:id="@+id/detailsItem"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/sellItem"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/ic_description" />
+
+    <ImageView
+        android:id="@+id/icGoldInventory"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toLeftOf="@+id/inventoryGoldDisplay"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_gold" />
+        
+    <TextView
+        android:id="@+id/inventoryGoldDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="@string/sellItem" />
-
-    <Button
-        android:id="@+id/detailsItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/details" />
+        android:text="Gold maybe?"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="25sp"         
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"/>
 
 </RelativeLayout>
