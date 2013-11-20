@@ -64,7 +64,7 @@ abstract class EnergyHealer implements Doer {
 
 	@Override
 	public void doIt(Player p) {
-		p.addEnergy((int) (p.getMaxEnergy() * healFactor));
+		p.addEnergy((int) Math.ceil(p.getMaxEnergy() * healFactor));
 	}
 }
 
