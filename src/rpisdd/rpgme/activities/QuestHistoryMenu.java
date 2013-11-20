@@ -63,10 +63,16 @@ public class QuestHistoryMenu extends ListFragment implements OnClickListener {
 
 		if (selectedQuest != null) {
 			deleteQuest.setEnabled(true);
+			deleteQuest.setVisibility(View.VISIBLE);
+
 			viewQuest.setEnabled(true);
+			viewQuest.setVisibility(View.VISIBLE);
 		} else {
 			deleteQuest.setEnabled(false);
+			deleteQuest.setVisibility(View.INVISIBLE);
+
 			viewQuest.setEnabled(false);
+			viewQuest.setVisibility(View.INVISIBLE);
 		}
 
 		if (adapter != null) {
