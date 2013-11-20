@@ -2,12 +2,14 @@ package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.popups.AnnoyingPopup;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +21,7 @@ import android.widget.TextView;
 
 public class CreatePlayerActivity extends Activity {
 	private int avatarId = R.id.avatar1;
-	private Activity thisActivity = this;
+	private final Activity thisActivity = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +55,19 @@ public class CreatePlayerActivity extends Activity {
 		return true;
 	}
 
-	private OnClickListener avatar1Listener = new OnClickListener() {
+	private final OnClickListener avatar1Listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			setAvatarId(R.drawable.av_f1_avatar);
 		}
 	};
-	private OnClickListener avatar2Listener = new OnClickListener() {
+	private final OnClickListener avatar2Listener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			setAvatarId(R.drawable.av_m1_avatar);
 		}
 	};
-	private OnClickListener submitListener = new OnClickListener() {
+	private final OnClickListener submitListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			if (((TextView) findViewById(R.id.playerName)).getText().length() < 1) {
@@ -76,12 +78,26 @@ public class CreatePlayerActivity extends Activity {
 				// error
 				badInputPopup("Please enter a class");
 			} else {
-				Player.createPlayer(
-						((TextView) findViewById(R.id.playerName)).getText(),
-						((TextView) findViewById(R.id.playerClass)).getText(),
-						avatarId);
-				Player.getPlayer().savePlayer(thisActivity);
-				startActivity(new Intent(thisActivity, MainActivity.class));
+				CharSequence playerName = ((TextView) findViewById(R.id.playerName))
+						.getText();
+				String message = playerName
+						+ ", are you ready to begin your adventure?";
+				String doMessage = "Begin";
+				AnnoyingPopup.doDont(thisActivity, message, doMessage,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+								Player.createPlayer(
+										((TextView) findViewById(R.id.playerName))
+												.getText(),
+										((TextView) findViewById(R.id.playerClass))
+												.getText(), avatarId);
+								Player.getPlayer().savePlayer(thisActivity);
+								startActivity(new Intent(thisActivity,
+										MainActivity.class));
+							}
+						});
 			}
 		}
 	};
@@ -125,5 +141,19 @@ public class CreatePlayerActivity extends Activity {
 
 		AlertDialog alert2 = builder2.create();
 		alert2.show();
+	}
+
+	private void confirmationPopup(CharSequence player_name) {
+		Log.i("confirm_player", "got to confirmationPopup()");
+		String message = player_name
+				+ ", are you ready to begin the adventure?";
+		String doMessage = "begin";
+		AnnoyingPopup.doDont(thisActivity, message, doMessage,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 	}
 }
