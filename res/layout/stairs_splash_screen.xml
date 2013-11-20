@@ -8,6 +8,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/stairs_splash_screen"
     tools:context=".SplashScreenActivity" >
-  
+
+    <TextView
+        android:id="@+id/floorNumDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:text="Floor: N"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="35sp" />
 	
 </RelativeLayout>

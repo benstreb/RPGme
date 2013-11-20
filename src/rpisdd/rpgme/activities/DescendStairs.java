@@ -11,11 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class DescendStairs extends Fragment implements OnTouchListener {
 
 	public DescendStairs() {
 	}
+
+	TextView floorNumWidget;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +35,9 @@ public class DescendStairs extends Fragment implements OnTouchListener {
 
 		Player.getPlayer().getDungeon().GenerateMap();
 		Dungeon newFloor = Player.getPlayer().getDungeon();
+
+		floorNumWidget = (TextView) v.findViewById(R.id.floorNumDisplay);
+		floorNumWidget.setText("Floor: " + newFloor.getLevel());
 
 		// set up in start room
 		int dunStartX = newFloor.start_x;

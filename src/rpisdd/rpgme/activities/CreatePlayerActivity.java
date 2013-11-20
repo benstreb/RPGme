@@ -2,6 +2,7 @@ package rpisdd.rpgme.activities;
 
 import rpisdd.rpgme.R;
 import rpisdd.rpgme.gamelogic.player.Player;
+import rpisdd.rpgme.popups.AnnoyingPopup;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -83,12 +84,26 @@ public class CreatePlayerActivity extends Activity {
 				// error
 				badInputPopup("Please enter a class");
 			} else {
-				Player.createPlayer(
-						((TextView) findViewById(R.id.playerName)).getText(),
-						((TextView) findViewById(R.id.playerClass)).getText(),
-						avatarId);
-				Player.getPlayer().savePlayer(thisActivity);
-				startActivity(new Intent(thisActivity, MainActivity.class));
+				CharSequence playerName = ((TextView) findViewById(R.id.playerName))
+						.getText();
+				String message = playerName
+						+ ", are you ready to begin your adventure?";
+				String doMessage = "Begin";
+				AnnoyingPopup.doDont(thisActivity, message, doMessage,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+								Player.createPlayer(
+										((TextView) findViewById(R.id.playerName))
+												.getText(),
+										((TextView) findViewById(R.id.playerClass))
+												.getText(), avatarId);
+								Player.getPlayer().savePlayer(thisActivity);
+								startActivity(new Intent(thisActivity,
+										MainActivity.class));
+							}
+						});
 			}
 		}
 	};

@@ -17,6 +17,8 @@ import android.util.Log;
 
 public class Player implements HasHealth {
 	final static int EXP_PER_LEVEL = 100;
+	final static int EXP_SCALING_BASE = 25;
+	final static double EXP_SCALING_RATIO = 1;
 
 	private static Player player = null;
 	private final String name;
@@ -197,7 +199,15 @@ public class Player implements HasHealth {
 	 * Returns exp to next level up
 	 */
 	public int getExpForLevel(int aLevel) {
-		return EXP_PER_LEVEL * aLevel;
+		// EXP_PER_LEVEL
+		// EXP_SCALING_BASE
+		// EXP_SCALING_RATIO
+		int prev = 0;
+		if (aLevel > 1) {
+			prev = getExpForLevel(aLevel - 1);
+		}
+
+		return prev + EXP_PER_LEVEL + (aLevel - 1) * EXP_SCALING_BASE;
 	}
 
 	public int getNextExp() {
