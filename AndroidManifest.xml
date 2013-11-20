@@ -17,6 +17,7 @@
         <activity
             android:name="rpisdd.rpgme.activities.MainActivity"
             android:label="@string/app_name" 
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"> 
         </activity>
         <!-- need to give splash screen the name "RPGMe" to have the app show its name as "RPGme" in Android menu -->
