@@ -118,6 +118,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		updateMonsterDamage();
 
 		if (!isVictory) {
+			System.out.println(Player.getPlayer().getLastRooms());
 			Player.getPlayer().goToLastRoom();
 		}
 

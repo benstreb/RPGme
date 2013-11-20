@@ -117,8 +117,10 @@ public class DungeonSurfaceView extends SurfaceView implements
 			@Override
 			public void run() {
 
-				float canvasX = avatar.x;
-				float canvasY = avatar.y;
+				float canvasX = FloorView.indexToCoord(Player.getPlayer()
+						.getRoomX());
+				float canvasY = FloorView.indexToCoord(Player.getPlayer()
+						.getRoomY());
 
 				float newX = canvasX - (getScreenWidth() / 2f);
 				float newY = canvasY - (getScreenHeight() / 2f);
@@ -137,8 +139,10 @@ public class DungeonSurfaceView extends SurfaceView implements
 			@Override
 			public void run() {
 
-				float canvasX = avatar.x;
-				float canvasY = avatar.y;
+				float canvasX = FloorView.indexToCoord(Player.getPlayer()
+						.getRoomX());
+				float canvasY = FloorView.indexToCoord(Player.getPlayer()
+						.getRoomY());
 
 				float newX = canvasX - (getScreenWidth() / 2f);
 				float newY = canvasY - (getScreenHeight() / 2f);

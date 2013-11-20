@@ -102,6 +102,10 @@ public class Player implements HasHealth {
 		this.roomY = lastRoomY;
 	}
 
+	public String getLastRooms() {
+		return String.format("%d,%d", lastRoomX, lastRoomY);
+	}
+
 	public void setActivity(MainActivity activity) {
 		this.activity = activity;
 	}
