@@ -17,6 +17,8 @@ import android.util.Log;
 
 public class Player implements HasHealth {
 	final static int EXP_PER_LEVEL = 100;
+	final static int EXP_SCALING_BASE = 25;
+	final static double EXP_SCALING_RATIO = 1;
 
 	private static Player player = null;
 	private final String name;
@@ -100,6 +102,10 @@ public class Player implements HasHealth {
 	public void goToLastRoom() {
 		this.roomX = lastRoomX;
 		this.roomY = lastRoomY;
+	}
+
+	public String getLastRooms() {
+		return String.format("%d,%d", lastRoomX, lastRoomY);
 	}
 
 	public void setActivity(MainActivity activity) {
@@ -193,7 +199,15 @@ public class Player implements HasHealth {
 	 * Returns exp to next level up
 	 */
 	public int getExpForLevel(int aLevel) {
-		return EXP_PER_LEVEL * aLevel;
+		// EXP_PER_LEVEL
+		// EXP_SCALING_BASE
+		// EXP_SCALING_RATIO
+		int prev = 0;
+		if (aLevel > 1) {
+			prev = getExpForLevel(aLevel - 1);
+		}
+
+		return prev + EXP_PER_LEVEL + (aLevel - 1) * EXP_SCALING_BASE;
 	}
 
 	public int getNextExp() {
@@ -493,6 +507,23 @@ public class Player implements HasHealth {
 		}
 
 		player = p;
+
+		// validate the information
+		// ////////////////////////////////////////////////
+		// check to make sure player is in a valid position
+		if (!p.StartPosSet()
+				|| !p.dungeon.roomExists(p.getRoomX(), p.getRoomY())) {
+			if (!p.StartPosSet()) {
+				Log.d("DungeonMenu",
+						"Player pos not set yet. Setting to start\n");
+			} else {
+				Log.e("DungeonMenu",
+						"Player in an invalid room. Setting to start");
+			}
+			int dunStartX = p.dungeon.start_x;
+			int dunStartY = p.dungeon.start_y;
+			p.setRoomPos(dunStartX, dunStartY);
+		}
 	}
 
 	public boolean StartPosSet() {

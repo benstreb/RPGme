@@ -9,12 +9,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +43,8 @@ public class CreatePlayerActivity extends Activity {
 
 		// set default character image
 		setAvatarId(R.drawable.av_f1_avatar);
+
+		setupUI(getWindow().getDecorView().findViewById(android.R.id.content));
 	}
 
 	/**
@@ -143,17 +149,38 @@ public class CreatePlayerActivity extends Activity {
 		alert2.show();
 	}
 
-	private void confirmationPopup(CharSequence player_name) {
-		Log.i("confirm_player", "got to confirmationPopup()");
-		String message = player_name
-				+ ", are you ready to begin the adventure?";
-		String doMessage = "begin";
-		AnnoyingPopup.doDont(thisActivity, message, doMessage,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
+	public void hideSoftKeyboard() {
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(getCurrentFocus()
+				.getWindowToken(), 0);
 	}
+
+	public void setupUI(View view) {
+
+		// Set up touch listener for non-text box views to hide keyboard.
+		if (!(view instanceof EditText)) {
+
+			view.setOnTouchListener(new OnTouchListener() {
+
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					hideSoftKeyboard();
+					return false;
+				}
+
+			});
+		}
+
+		// If a layout container, iterate over children and seed recursion.
+		if (view instanceof ViewGroup) {
+
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+
+				View innerView = ((ViewGroup) view).getChildAt(i);
+
+				setupUI(innerView);
+			}
+		}
+	}
+
 }

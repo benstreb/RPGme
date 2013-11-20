@@ -59,6 +59,9 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		changeDateTime = (Button) v.findViewById(R.id.changeQuestDeadline);
 		changeDateTime.setOnClickListener(this);
 		deadlineView = (TextView) v.findViewById(R.id.createQuestDeadline);
+
+		((MainActivity) getActivity()).setupUI(v);
+
 		return v;
 	}
 
@@ -104,6 +107,8 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 				.findViewById(R.id.questDeadlineDatePicker);
 		final TimePicker timePicker = (TimePicker) changeDeadline
 				.findViewById(R.id.questDeadlineTimePicker);
+
+		timePicker.setCurrentHour(DateTime.now().getHourOfDay() + 1);
 
 		builder1.setView(changeDeadline);
 

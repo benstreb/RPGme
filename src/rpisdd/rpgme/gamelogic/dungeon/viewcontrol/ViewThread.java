@@ -73,6 +73,11 @@ public class ViewThread extends Thread {
 			// in the surface
 			try {
 
+				if (!(surfaceHolder.getSurface() != null && surfaceHolder
+						.getSurface().isValid())) {
+					continue;
+				}
+
 				canvas = this.surfaceHolder.lockCanvas();
 
 				if (canvas == null) {
