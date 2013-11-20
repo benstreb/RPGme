@@ -11,7 +11,8 @@
     android:orientation="vertical"
     android:layout_weight="1"
     tools:context=".MainActivity" >
-
+	
+    <!-- 
     <Button
         android:id="@+id/createQuestButton"
         style="?android:attr/buttonStyleSmall"
@@ -22,7 +23,18 @@
         android:onClick="onClickCreate"
         android:visibility="invisible"
         android:text="Create New Quest!" />
-	
+	 -->
+
+	 <TextView
+	     android:id="@+id/journalTitle"
+	     android:layout_width="wrap_content"
+	     android:layout_height="50dp"
+	     android:layout_gravity="center_horizontal"
+	     android:gravity="center"
+	     android:text="Journal"
+	     android:textColor="#000000"
+	     android:textSize="25sp" />
+	 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

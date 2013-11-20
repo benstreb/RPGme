@@ -241,6 +241,15 @@
 	    android:layout_height="wrap_content">
 	
 		 <Button
+		     android:id="@+id/cancelCreateQuest"
+		     style="?android:attr/buttonStyleSmall"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:layout_weight="1"
+		     android:textSize="20sp"
+		     android:text="Cancel" />
+		 
+		 <Button
 		     android:id="@+id/confirmCreateQuest"
 		     style="?android:attr/buttonStyleSmall"
 		     android:layout_width="wrap_content"
@@ -249,14 +258,6 @@
 		     android:textSize="20sp"
 		     android:text="Create!" />
 		
-		 <Button
-		     android:id="@+id/cancelCreateQuest"
-		     style="?android:attr/buttonStyleSmall"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:layout_weight="1"
-		     android:textSize="20sp"
-		     android:text="Cancel" />
 	     
 	</LinearLayout>
 
