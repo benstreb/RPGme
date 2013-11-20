@@ -94,7 +94,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deadline: "
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/viewQuestDeadline"
@@ -116,7 +117,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recurs: "
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </LinearLayout>
