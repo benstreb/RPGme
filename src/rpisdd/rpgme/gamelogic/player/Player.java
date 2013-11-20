@@ -49,7 +49,7 @@ public class Player implements HasHealth {
 		this.inventory = new Inventory();
 		this.stats = new Stats();
 		this.dungeon = new Dungeon(0);
-		this.gold = 100000;
+		this.gold = 100;
 		this.energy = 10;
 		this.roomX = -1;
 		this.roomY = -1;
