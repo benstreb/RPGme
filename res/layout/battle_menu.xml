@@ -26,18 +26,20 @@
 		    <!--  STRENGTH button -->
 			<Button
 			    android:id="@+id/strengthAtkButton"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
 			    android:layout_height="wrap_content"
-			    android:layout_weight="1"
-			    android:text="Strength Attack" />
+			    android:layout_weight="0.5"
+			    android:text="Strength Attack"
+			    android:background="@color/strength_color"/>
 			
 			<!--  INTELLIGENCE button -->
 			<Button
 			    android:id="@+id/intelAtkButton"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
 			    android:layout_height="wrap_content"
-			    android:layout_weight="1"
-			    android:text="Intel Attack" />
+			    android:layout_weight="0.5"
+			    android:text="Intel Attack"
+			    android:background="@color/intelligence_color"/>
 			
 		</LinearLayout>
 	    	
@@ -51,18 +53,20 @@
 		    <!--  WILL button -->
 			<Button
 			    android:id="@+id/willAtkButton"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
 			    android:layout_height="wrap_content"
-			    android:layout_weight="1"
-			    android:text="Will Attack" />
+			    android:layout_weight="0.5"
+			    android:text="Will Attack" 
+			    android:background="@color/will_color"/>
 			
 			<!--  SPIRIT button -->
 			<Button
 			    android:id="@+id/spiritAtkButton"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
 			    android:layout_height="wrap_content"
-			    android:layout_weight="1"
-			    android:text="Spirit Attack" />
+			    android:layout_weight="0.5"
+			    android:text="Spirit Attack"
+			    android:background="@color/spirit_color"/>
 		    
 		</LinearLayout>
 		
