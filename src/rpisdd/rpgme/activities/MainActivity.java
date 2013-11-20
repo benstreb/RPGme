@@ -226,6 +226,7 @@ public class MainActivity extends FragmentActivity {
 		if (fragment instanceof StatsMenu) {
 			mDrawerList.setItemChecked(3, true);
 			setTitle(mMenuTitles[3]);
+			getActionBar().setIcon(mMenuIcons[3]);
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();

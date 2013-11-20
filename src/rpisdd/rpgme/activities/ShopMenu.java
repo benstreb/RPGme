@@ -67,7 +67,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		Player p = Player.getPlayer();
 		goldWidget = (TextView) v.findViewById(R.id.shopGoldDisplay);
-		goldWidget.setText("Gold: " + p.getGold());
+		goldWidget.setText("" + p.getGold());
 
 		updateButtons();
 
@@ -210,7 +210,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		p.getInventory().addNewItem(i);
 		p.deductGold(i.getPrice());
-		goldWidget.setText("Gold: " + p.getGold());
+		goldWidget.setText("" + p.getGold());
 		return true;
 	}
 
