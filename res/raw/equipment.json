@@ -56,7 +56,7 @@
 	{
 		"name":"Small intelligence Sword",
 		"price":300,
-		"filename":"sword1_purple.png",
+		"filename":"sword1_green.png",
 		"effect":{"strength":5,"intelligence":10,"spirit":5,"will":2},
 		"type":"weapon",
 		"description":"A cheap sword that improves intelligence.",
@@ -65,7 +65,7 @@
 	{
 		"name":"Elegant intelligence Sword",
 		"price":1000,
-		"filename":"sword2_purple.png",
+		"filename":"sword1_green.png",
 		"effect":{"strength":10,"intelligence":25,"spirit":10,"will":4},
 		"type":"weapon",
 		"description":"A high quality sword that improves intelligence.",
@@ -74,7 +74,7 @@
 	{
 		"name":"Arcane Blade",
 		"price":5000,
-		"filename":"sword3_purple.png",
+		"filename":"sword1_green.png",
 		"effect":{"strength":20,"intelligence":60,"spirit":20,"will":8},
 		"type":"weapon",
 		"description":"A legendary sword that improves intelligence.",
@@ -83,7 +83,7 @@
 	{
 		"name":"Small spirit Sword",
 		"price":300,
-		"filename":"sword1_green.png",
+		"filename":"sword3_blue.png",
 		"effect":{"strength":2,"intelligence":5,"spirit":10,"will":5},
 		"type":"weapon",
 		"description":"A cheap sword that improves spirit.",
@@ -92,7 +92,7 @@
 	{
 		"name":"Glowing spirit Sword",
 		"price":1000,
-		"filename":"sword2_green.png",
+		"filename":"sword3_blue.png",
 		"effect":{"strength":10,"intelligence":10,"spirit":25,"will":10},
 		"type":"weapon",
 		"description":"A shining sword that improves spirit.",
@@ -101,7 +101,7 @@
 	{
 		"name":"Justice",
 		"price":5000,
-		"filename":"sword3_green.png",
+		"filename":"sword3_blue.png",
 		"effect":{"strength":20,"intelligence":20,"spirit":60,"will":20},
 		"type":"weapon",
 		"description":"A legendary sword that improves spirit.",
@@ -110,7 +110,7 @@
 	{
 		"name":"Small will Sword",
 		"price":300,
-		"filename":"sword1_blue.png",
+		"filename":"sword1_purple.png",
 		"effect":{"strength":5,"intelligence":2,"spirit":5,"will":10},
 		"type":"weapon",
 		"description":"A cheap sword that improves will.",
@@ -119,7 +119,7 @@
 	{
 		"name":"Sharp will Sword",
 		"price":1000,
-		"filename":"sword2_blue.png",
+		"filename":"sword1_purple.png",
 		"effect":{"strength":10,"intelligence":4,"spirit":10,"will":25},
 		"type":"weapon",
 		"description":"A sturdy sword that improves will.",
@@ -128,7 +128,7 @@
 	{
 		"name":"Eternity",
 		"price":5000,
-		"filename":"sword3_blue.png",
+		"filename":"sword3_purple.png",
 		"effect":{"strength":20,"intelligence":8,"spirit":20,"will":60},
 		"type":"weapon",
 		"description":"A legendary sword that improves will.",
