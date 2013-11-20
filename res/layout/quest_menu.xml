@@ -56,26 +56,26 @@
 		  
 		<ImageButton
  		    android:id="@+id/completeQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
+ 		    android:layout_width="50dp"
+ 		    android:layout_height="50dp"
  		   	android:onClick="onClickComplete"
+ 		   	android:scaleType="fitCenter"
  		    android:src="@drawable/ic_complete" />
 		
  		<ImageButton
  		    android:id="@+id/viewQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
+ 		    android:layout_width="50dp"
+ 		    android:layout_height="50dp"
  		    android:onClick="onClickView"
+ 		   	android:scaleType="fitCenter"
  		    android:src="@drawable/ic_description" />
 
  		<ImageButton
  		    android:id="@+id/deleteQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
+ 		    android:layout_width="50dp"
+ 		    android:layout_height="50dp"
  		    android:onClick="onClickDelete"
+ 		   	android:scaleType="fitCenter" 		    
  		    android:src="@drawable/ic_delete" />
 		
     </LinearLayout>

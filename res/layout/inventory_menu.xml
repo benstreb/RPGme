@@ -45,6 +45,7 @@
         android:layout_toRightOf="@+id/sellItem"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="15dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_description" />
 
     <ImageView

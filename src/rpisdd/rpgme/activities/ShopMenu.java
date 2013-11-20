@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,8 +28,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 	private List<Item> itemsInStock;
 
-	Button buy;
-	Button details;
+	ImageButton buy;
+	ImageButton details;
 	View selectedItemSlot;
 	int selectedItemIndex;
 
@@ -60,9 +60,9 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.shop_menu, container, false);
 
-		buy = (Button) v.findViewById(R.id.shopBuyButton);
+		buy = (ImageButton) v.findViewById(R.id.shopBuyButton);
 		buy.setOnClickListener(this);
-		details = (Button) v.findViewById(R.id.shopDetailButton);
+		details = (ImageButton) v.findViewById(R.id.shopDetailButton);
 		details.setOnClickListener(this);
 
 		Player p = Player.getPlayer();

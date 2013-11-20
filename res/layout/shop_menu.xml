@@ -14,13 +14,27 @@
         
     </ListView>
 
-    <Button
+    <ImageButton
         android:id="@+id/shopBuyButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:text="Buy!" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:scaleType="fitCenter"        
+        android:src="@drawable/ic_dollar" />
+    
+    <ImageButton
+        android:id="@+id/shopDetailButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/shopBuyButton"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="15dp"    
+        android:scaleType="fitCenter"   
+        android:src="@drawable/ic_description"  />
     
     <ImageView
         android:id="@+id/icGoldShop"
@@ -28,7 +42,7 @@
         android:layout_height="25dp"
         android:layout_toLeftOf="@+id/shopGoldDisplay"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginRight="5dp"
         android:src="@drawable/ic_gold" />
         
@@ -40,16 +54,11 @@
         android:layout_alignParentRight="true"
         android:text="Gold maybe?"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:textSize="25sp" />
     
 
-    <Button
-        android:id="@+id/shopDetailButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/shopBuyButton"
-        android:text="@+string/details" />
 
 
 
