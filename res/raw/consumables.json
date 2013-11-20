@@ -27,7 +27,7 @@
 		"name":"Big Energy Potion",
 		"price":400,
 		"filename":"potion_green.png",
-		"effect":["heal energy", 50],
+		"effect":["heal energy", 75],
 		"description":"Restores 75% of your max Energy",
 		"quality":8
 	},
