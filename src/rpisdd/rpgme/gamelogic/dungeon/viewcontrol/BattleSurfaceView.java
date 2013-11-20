@@ -1,5 +1,6 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
+import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
@@ -11,8 +12,11 @@ import rpisdd.rpgme.popups.RewardPopup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -38,6 +42,9 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	private HealthBar avatarHealth;
 	private HealthBar monsterHealth;
+
+	// Positioning Ratios
+	private final float combatantYRatio = 1.0f / 2.2f;
 
 	// Delay in seconds between attacks
 	private final float attackDelay = 1;
@@ -79,14 +86,19 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	private void init(Context context) {
 
+		Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.dungeon_background2);
+
+		this.background = new BitmapDrawable(context.getResources(), bg);
+
 		getHolder().addCallback(this);
 
 		thread = new ViewThread(getHolder(), this);
 
 		setFocusable(true);
 
-		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight() / 3f,
-				false, (Activity) getContext());
+		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight()
+				* combatantYRatio, false, (Activity) getContext());
 
 		avatarHealth = new HealthBar(avatar.x, avatar.y
 				- (80 * ViewObject.SCALE_FACTOR), 50, 10, Player.getPlayer());
@@ -97,7 +109,8 @@ public class BattleSurfaceView extends SurfaceView implements
 		monsterModel = monster;
 
 		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f),
-				getCanvasHeight() / 3f, monster, (Activity) getContext());
+				getCanvasHeight() * combatantYRatio, monster,
+				(Activity) getContext());
 
 		monsterHealth = new HealthBar(this.monster.x, this.monster.y
 				- (80 * ViewObject.SCALE_FACTOR), 50, 10, monster);
@@ -277,8 +290,10 @@ public class BattleSurfaceView extends SurfaceView implements
 	public void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 
-		// background.setBounds(new Rect(0, 0, 1000, 1000));
-		// background.draw(canvas);
+		int width = this.getWidth();
+		int height = this.getHeight();
+		background.setBounds(new Rect(0, 0, width, height));
+		background.draw(canvas);
 
 		monsterHealth.draw(canvas);
 		avatarHealth.draw(canvas);
