@@ -9,7 +9,7 @@ public class DateHelper {
 	// Later this could use words/phrases like "Tomorrow", "In a week",
 	// "In an hour", etc.
 	public static String formatDate(DateTime date) {
-		String formatDate = DateTimeFormat.forPattern("M/d/Y 'at' h:m a")
+		String formatDate = DateTimeFormat.forPattern("M/d/Y 'at' h:mm a")
 				.print(date);
 		return formatDate;
 	}
