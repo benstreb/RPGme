@@ -78,7 +78,7 @@ public class StatsMenu extends Fragment {
 		weaponImage = (ImageView) v.findViewById(R.id.weaponView);
 		String weaponPath = "";
 		if (weapon != null) {
-			weaponPath = weapon.getImagePath();
+			weaponPath = weapon.getOffsetImagePath();
 			Picasso.with(getActivity()).load(weaponPath).into(weaponImage);
 		} else {
 			weaponPath = "invalid.png";
@@ -88,7 +88,7 @@ public class StatsMenu extends Fragment {
 		armorImage = (ImageView) v.findViewById(R.id.armorView);
 		String armorPath = "";
 		if (armor != null) {
-			armorPath = armor.getImagePath();
+			armorPath = armor.getOffsetImagePath();
 			Picasso.with(getActivity()).load(armorPath).into(armorImage);
 		} else {
 			armorPath = "invalid.png";
