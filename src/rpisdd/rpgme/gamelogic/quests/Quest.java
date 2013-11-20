@@ -52,7 +52,7 @@ public class Quest {
 	}
 
 	public boolean isFailed() {
-		return isTimed() && DateTime.now().isAfter(deadline);
+		return !isComplete && isTimed() && DateTime.now().isAfter(deadline);
 	}
 
 	public DateTime getRecCompDate() {

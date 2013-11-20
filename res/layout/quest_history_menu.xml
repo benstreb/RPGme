@@ -61,6 +61,7 @@
  		    android:layout_height="50dp"
  		    android:onClick="onClickView"
  		    android:scaleType="fitCenter"
+ 		    android:background="@drawable/button_light"
  		    android:src="@drawable/ic_description" />
 
  		<ImageButton
@@ -68,7 +69,8 @@
  		    android:layout_width="50dp"
  		    android:layout_height="50dp"
  		    android:onClick="onClickDelete"
- 		   	android:scaleType="fitCenter" 		    
+ 		   	android:scaleType="fitCenter"
+ 		    android:background="@drawable/button_light" 		    
  		    android:src="@drawable/ic_delete" />
 		
     </LinearLayout>

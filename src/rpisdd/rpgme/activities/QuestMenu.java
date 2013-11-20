@@ -150,6 +150,7 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 					name.setTextColor(Color.RED);
 				} else {
 					name.setText(q.getName());
+					name.setTextColor(Color.BLACK);
 				}
 			}
 			return v;
@@ -268,7 +269,9 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 			if (currentQuest.isFailed()) {
 				((TextView) viewQuest.findViewById(R.id.viewQuestName))
 						.append(" (FAILED)");
-				((TextView) viewQuest.findViewById(R.id.viewQuestName))
+				((TextView) viewQuest.findViewById(R.id.viewDeadlineTitle))
+						.setTextColor(Color.RED);
+				((TextView) viewQuest.findViewById(R.id.viewQuestDeadline))
 						.setTextColor(Color.RED);
 			}
 
