@@ -295,14 +295,13 @@ public class MainActivity extends FragmentActivity {
 			return;
 		}
 
-		changeFragment(fragment);
-
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		setTitle(mMenuTitles[position]);
 		setIcon(mMenuIcons[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 
+		changeFragment(fragment);
 	}
 
 	@Override
