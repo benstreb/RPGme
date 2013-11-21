@@ -182,6 +182,10 @@ public abstract class Item {
 		return false;
 	}
 
+	public boolean isBoondogle() {
+		return false;
+	}
+
 	public int getQuality() {
 		return quality;
 	}
