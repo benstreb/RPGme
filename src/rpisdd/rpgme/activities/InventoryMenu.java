@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,7 +51,6 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.inventory_menu, container, false);
 
-		Log.i("inventory_gold", "about to set sell page");
 		sell = (ImageButton) v.findViewById(R.id.sellItem);
 		sell.setOnClickListener(this);
 
@@ -60,12 +60,9 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		details = (ImageButton) v.findViewById(R.id.detailsItem);
 		details.setOnClickListener(this);
 
-		Log.i("inventory_gold", "about to set gold");
 		Player p = Player.getPlayer();
 		goldWidget = (TextView) v.findViewById(R.id.inventoryGoldDisplay);
 		goldWidget.setText("" + p.getGold());
-
-		Log.i("inventory_gold", " set gold");
 
 		updateButtons();
 
@@ -102,17 +99,20 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 		Item item = Player.getPlayer().getInventory()
 				.getItemAt(selectedItemIndex);
 
+		use.setScaleType(ScaleType.FIT_CENTER);
+		use.setMaxHeight(50);
+		use.setMaxWidth(50);
 		if (item != null) {
 			if (item.isEquipment()) {
-				// use.setText("Equip");
+				use.setImageResource(R.drawable.ic_hand);
 			} else {
-				// use.setText("Use");
+				use.setImageResource(R.drawable.ic_hand);
 			}
 		}
 
 		if (selectedItemIndex != -1 && selectedItemIndex == armorIndex
 				|| selectedItemIndex == weaponIndex) {
-			// use.setText("Unequip");
+			use.setImageResource(R.drawable.ic_unequip_hand);
 		}
 
 	}
