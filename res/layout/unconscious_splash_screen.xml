@@ -15,22 +15,13 @@
         android:id="@+id/unconscious_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
+		android:layout_above="@+id/unconscious_av_img"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:text="You have been knocked"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    <TextView
-        android:id="@+id/unconscious_text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/unconscious_av_img"
-        android:layout_below="@+id/unconscious_text1"
-        android:layout_marginBottom="36dp"
-        android:layout_centerHorizontal="true"
-        android:text="unconscious" 
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="You have been knocked unconscious"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:textSize="17sp"/>    
     
     <ImageView
         android:id="@+id/unconscious_av_img"
@@ -47,7 +38,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/av_pjs" 
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/unconscious_text3"
@@ -56,8 +47,8 @@
         android:layout_below="@+id/unconscious_av_img"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="10dp"
         android:text="You must drink a revival potion before continuing your adventure." 
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textSize="17sp"/>
 
 </RelativeLayout>
