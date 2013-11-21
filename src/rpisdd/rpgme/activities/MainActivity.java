@@ -38,11 +38,18 @@ public class MainActivity extends FragmentActivity {
 	private CharSequence mTitle;
 	private int mDrawerIcon;
 	private int mIcon;
+
+	// Quests = 0
+	// Quest history = 1
+	// Stats = 2
+	// Inventory = 3
+	// Shop = 4
+	// Dungeon = 5
 	private final String[] mMenuTitles = { "Quests", "Quest History", "Stats",
 			"Inventory", "Shop", "Dungeon" };
 	private final int[] mMenuIcons = { R.drawable.ic_quests,
-			R.drawable.ic_quest_history, R.drawable.ic_inventory,
-			R.drawable.ic_stats, R.drawable.ic_shop, R.drawable.ic_dungeon };
+			R.drawable.ic_quest_history, R.drawable.ic_stats,
+			R.drawable.ic_inventory, R.drawable.ic_shop, R.drawable.ic_dungeon };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -245,9 +252,9 @@ public class MainActivity extends FragmentActivity {
 		}
 		// Need to change title to "Stats Menu" if we get kicked out of dungeon
 		if (fragment instanceof StatsMenu) {
-			mDrawerList.setItemChecked(3, true);
-			setTitle(mMenuTitles[3]);
-			getActionBar().setIcon(mMenuIcons[3]);
+			mDrawerList.setItemChecked(2, true);
+			setTitle(mMenuTitles[2]);
+			getActionBar().setIcon(mMenuIcons[2]);
 		} else if (fragment instanceof DungeonMenu) {
 			int floor = Player.getPlayer().getDungeon().getLevel();
 			setTitle(mMenuTitles[5] + " B" + Integer.toString(floor));
