@@ -10,7 +10,7 @@
 	},
 	{
 		"name":"Mithril Sword",
-		"price":100,
+		"price":1000,
 		"filename":"sword2_yellow.png",
 		"effect":{"strength":18,"intelligence":18,"spirit":18,"will":18},
 		"type":"weapon",
@@ -19,9 +19,9 @@
 	},
 	{
 		"name":"Sandy's Sword",
-		"price":100,
+		"price":5500,
 		"filename":"sword3_yellow.png",
-		"effect":{"strength":48,"intelligence":48,"spirit":48,"will":48},
+		"effect":{"strength":50,"intelligence":50,"spirit":50,"will":50},
 		"type":"weapon",
 		"description":"A blade belonging to a woman warrior who is said to be the only one ever to reach the bottom of the Dungeon.",
 		"quality":22
