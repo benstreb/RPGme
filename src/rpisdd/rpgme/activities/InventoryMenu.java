@@ -92,6 +92,7 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 				use.setVisibility(View.VISIBLE);
 			} else {
 				use.setEnabled(false);
+				use.setVisibility(View.INVISIBLE);
 			}
 		}
 
