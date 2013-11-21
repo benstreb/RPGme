@@ -30,7 +30,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_weight="0.5"
 			    android:text="Strength Attack"
-			    android:background="@color/strength_color"/>
+			    android:background="@drawable/button_red"/>
 			
 			<!--  INTELLIGENCE button -->
 			<Button
@@ -39,7 +39,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_weight="0.5"
 			    android:text="Intel Attack"
-			    android:background="@color/intelligence_color"/>
+			    android:background="@drawable/button_green"/>
 			
 		</LinearLayout>
 	    	
@@ -57,7 +57,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_weight="0.5"
 			    android:text="Will Attack" 
-			    android:background="@color/will_color"/>
+			    android:background="@drawable/button_purple"/>
 			
 			<!--  SPIRIT button -->
 			<Button
@@ -66,7 +66,7 @@
 			    android:layout_height="wrap_content"
 			    android:layout_weight="0.5"
 			    android:text="Spirit Attack"
-			    android:background="@color/spirit_color"/>
+			    android:background="@drawable/button_blue"/>
 		    
 		</LinearLayout>
 		
@@ -77,7 +77,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_horizontal"
 		    android:layout_weight="1"
-		    android:text="Run" />
+		    android:text="Run Away" />
 		
 	</LinearLayout>
 

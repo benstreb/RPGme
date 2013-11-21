@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,6 +37,8 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 	private Button cancel;
 	private Button clearDateTime;
 	private Button changeDateTime;
+
+	private Spinner recurrenceSpinner;
 
 	private TextView deadlineView;
 
@@ -59,6 +63,23 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		changeDateTime = (Button) v.findViewById(R.id.changeQuestDeadline);
 		changeDateTime.setOnClickListener(this);
 		deadlineView = (TextView) v.findViewById(R.id.createQuestDeadline);
+		recurrenceSpinner = (Spinner) v.findViewById(R.id.recurrenceDropDown);
+
+		recurrenceSpinner
+				.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						showOrHideViews();
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+
+					}
+
+				});
 
 		((MainActivity) getActivity()).setupUI(v);
 
@@ -84,6 +105,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		}
 		case R.id.removeQuestDeadline: {
 			deadlineView.setText(noDateSet);
+			showOrHideViews();
 			break;
 		}
 		case R.id.changeQuestDeadline: {
@@ -92,6 +114,29 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		}
 		default:
 			break;
+		}
+	}
+
+	public void showOrHideViews() {
+
+		// If the deadline text is empty : enable the recurrence, otherwise
+		// disable it
+		if (deadlineView.getText().equals(noDateSet)) {
+			recurrenceSpinner.setEnabled(true);
+		} else {
+			recurrenceSpinner.setSelection(0);
+			recurrenceSpinner.setEnabled(false);
+		}
+
+		// If the recurrence is not set to 0, disable the deadline selection,
+		// otherwise enable it
+		if (recurrenceSpinner.getSelectedItemPosition() != 0) {
+			deadlineView.setText(noDateSet);
+			clearDateTime.setEnabled(false);
+			changeDateTime.setEnabled(false);
+		} else {
+			clearDateTime.setEnabled(true);
+			changeDateTime.setEnabled(true);
 		}
 	}
 
@@ -124,16 +169,12 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 										.getCurrentHour(), timePicker
 										.getCurrentMinute());
 
-						// Log.i("Debug","Set is " +
-						// DateTimeFormat.forPattern(getResources().getString(R.string.dateFormat)).print(date));
-						// Log.i("Debug","Now is " +
-						// DateTimeFormat.forPattern(getResources().getString(R.string.dateFormat)).print(DateTime.now()));
-
 						if (isBadTime(deadline)) {
 							badTimePopup();
 						} else {
 							deadlineView.setText(DateHelper
 									.formatDate(deadline));
+							showOrHideViews();
 							dialog.cancel();
 						}
 					}
@@ -182,8 +223,6 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		Spinner tag = (Spinner) getView().findViewById(R.id.statDropDown);
 		Spinner diff = (Spinner) getView()
 				.findViewById(R.id.difficultyDropDown);
-		Spinner recurrence = (Spinner) getView().findViewById(
-				R.id.recurrenceDropDown);
 
 		if (name.getText().toString().equals("")) {
 			TextView error = (TextView) getView().findViewById(
@@ -207,7 +246,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 		StatType type = StatType.stringToType(tag.getSelectedItem().toString());
 		QuestDifficulty quest_diff = QuestDifficulty.stringToDifficulty(diff
 				.getSelectedItem().toString());
-		Recurrence recType = Recurrence.stringToRecurrence(recurrence
+		Recurrence recType = Recurrence.stringToRecurrence(recurrenceSpinner
 				.getSelectedItem().toString());
 
 		String deadlineStr = (String) deadlineView.getText();
@@ -227,7 +266,20 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 
 		player.getQuestManager().addQuest(newQuest);
 
+		if (name.getText().toString().equals("cheat")) {
+			applyCheat();
+		}
+
 		return true;
 
+	}
+
+	public void applyCheat() {
+		Player.getPlayer().addGold(100000);
+		Player.getPlayer().getStats().incBaseEnergy(1000);
+		Player.getPlayer().getStats().incBaseInt(1000);
+		Player.getPlayer().getStats().incBaseSpr(1000);
+		Player.getPlayer().getStats().incBaseWill(1000);
+		Player.getPlayer().getStats().incBaseStr(1000);
 	}
 }

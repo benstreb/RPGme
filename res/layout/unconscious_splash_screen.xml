@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/unconscious_av_img"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_marginTop="36dp"
         android:text="You must drink a revival potion before continuing your adventure." 
         android:textAppearance="?android:attr/textAppearanceLarge"/>

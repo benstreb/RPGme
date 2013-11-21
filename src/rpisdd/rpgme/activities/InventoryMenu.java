@@ -76,16 +76,23 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 	public void updateButtons() {
 		if (selectedItemSlot == null) {
 			sell.setEnabled(false);
+			sell.setVisibility(View.INVISIBLE);
 			use.setEnabled(false);
+			use.setVisibility(View.INVISIBLE);
 			details.setEnabled(false);
+			details.setVisibility(View.INVISIBLE);
 		} else {
 			sell.setEnabled(true);
+			sell.setVisibility(View.VISIBLE);
 			details.setEnabled(true);
+			details.setVisibility(View.VISIBLE);
 			if (selectedItem != null
 					&& selectedItem.isUsable(Player.getPlayer())) {
 				use.setEnabled(true);
+				use.setVisibility(View.VISIBLE);
 			} else {
 				use.setEnabled(false);
+				use.setVisibility(View.INVISIBLE);
 			}
 		}
 

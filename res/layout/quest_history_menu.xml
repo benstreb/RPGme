@@ -11,7 +11,8 @@
     android:orientation="vertical"
     android:layout_weight="1"
     tools:context=".MainActivity" >
-
+	
+    <!-- 
     <Button
         android:id="@+id/createQuestButton"
         style="?android:attr/buttonStyleSmall"
@@ -22,7 +23,18 @@
         android:onClick="onClickCreate"
         android:visibility="invisible"
         android:text="Create New Quest!" />
-	
+	 -->
+
+	 <TextView
+	     android:id="@+id/journalTitle"
+	     android:layout_width="wrap_content"
+	     android:layout_height="50dp"
+	     android:layout_gravity="center_horizontal"
+	     android:gravity="center"
+	     android:text="Journal"
+	     android:textColor="#000000"
+	     android:textSize="25sp" />
+	 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -57,18 +69,20 @@
 		  
  		<ImageButton
  		    android:id="@+id/viewQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
+ 		    android:layout_width="50dp"
+ 		    android:layout_height="50dp"
  		    android:onClick="onClickView"
+ 		    android:scaleType="fitCenter"
+ 		    android:background="@drawable/button_light"
  		    android:src="@drawable/ic_description" />
 
  		<ImageButton
  		    android:id="@+id/deleteQuestButton"
- 		    style="?android:attr/buttonStyleSmall"
- 		    android:layout_width="wrap_content"
- 		    android:layout_height="wrap_content"
+ 		    android:layout_width="50dp"
+ 		    android:layout_height="50dp"
  		    android:onClick="onClickDelete"
+ 		   	android:scaleType="fitCenter"
+ 		    android:background="@drawable/button_light" 		    
  		    android:src="@drawable/ic_delete" />
 		
     </LinearLayout>

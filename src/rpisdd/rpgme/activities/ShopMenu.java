@@ -78,10 +78,14 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 	public void updateButtons() {
 		if (selectedItemSlot == null) {
 			buy.setEnabled(false);
+			buy.setVisibility(View.INVISIBLE);
 			details.setEnabled(false);
+			details.setVisibility(View.INVISIBLE);
 		} else {
 			buy.setEnabled(true);
+			buy.setVisibility(View.VISIBLE);
 			details.setEnabled(true);
+			details.setVisibility(View.VISIBLE);
 		}
 	}
 

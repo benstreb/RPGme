@@ -15,6 +15,16 @@ public class Reward {
 	private static final double MONSTER_REWARD_GOLD_SCALING = 2.0;
 	private static final double MONSTER_REWARD_EXP_SCALING = 1.0;
 
+	private static final double EASY_EXP_REWARD_RATIO = 0.20;
+	private static final double NORMAL_EXP_REWARD_RATIO = 0.45;
+	private static final double HARD_EXP_REWARD_RATIO = 1.0;
+
+	private static final int EASY_GOLD_REWARD_BASE = 50;
+	private static final int NORMAL_GOLD_REWARD_BASE = 100;
+	private static final int HARD_GOLD_REWARD_BASE = 200;
+
+	private static final double QUEST_REWARD_GOLD_SCALING = 5.0;
+
 	private int goldIncrease = 0;
 	private int expIncrease = 0;
 	private StatType statType = StatType.ERROR;
@@ -126,21 +136,27 @@ public class Reward {
 		int increaseStatBy = 0;
 		int increaseExpBy = 0;
 
+		int playerLevel = Player.getPlayer().getLevel();
+		int expForLevel = Player.getExpForLevel(playerLevel)
+				- Player.getExpForLevel(playerLevel - 1);
+		Log.d("RewardDebug", "Exp for level: " + expForLevel);
+
+		int goldLevelBonus = (int) (playerLevel * QUEST_REWARD_GOLD_SCALING);
 		switch (quest.getDifficulty()) {
 		case EASY:
-			increaseGoldBy = 25;
+			increaseGoldBy = EASY_GOLD_REWARD_BASE + goldLevelBonus;
 			increaseStatBy = 1;
-			increaseExpBy = 10;
+			increaseExpBy = (int) (expForLevel * EASY_EXP_REWARD_RATIO);
 			break;
 		case NORMAL:
-			increaseGoldBy = 60;
+			increaseGoldBy = NORMAL_GOLD_REWARD_BASE + goldLevelBonus * 2;
 			increaseStatBy = 2;
-			increaseExpBy = 20;
+			increaseExpBy = (int) (expForLevel * NORMAL_EXP_REWARD_RATIO);
 			break;
 		case HARD:
-			increaseGoldBy = 150;
+			increaseGoldBy = HARD_GOLD_REWARD_BASE + goldLevelBonus * 4;
 			increaseStatBy = 5;
-			increaseExpBy = 50;
+			increaseExpBy = (int) (expForLevel * HARD_EXP_REWARD_RATIO);
 			break;
 		default:
 			increaseStatBy = 0;

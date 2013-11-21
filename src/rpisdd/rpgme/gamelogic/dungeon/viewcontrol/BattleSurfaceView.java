@@ -1,5 +1,6 @@
 package rpisdd.rpgme.gamelogic.dungeon.viewcontrol;
 
+import rpisdd.rpgme.R;
 import rpisdd.rpgme.activities.BattleMenu;
 import rpisdd.rpgme.gamelogic.dungeon.model.Combat;
 import rpisdd.rpgme.gamelogic.dungeon.model.Monster;
@@ -11,8 +12,11 @@ import rpisdd.rpgme.popups.RewardPopup;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -38,6 +42,9 @@ public class BattleSurfaceView extends SurfaceView implements
 
 	private HealthBar avatarHealth;
 	private HealthBar monsterHealth;
+
+	// Positioning Ratios
+	private final float combatY = 3 / 4f;
 
 	// Delay in seconds between attacks
 	private final float attackDelay = 1;
@@ -65,19 +72,23 @@ public class BattleSurfaceView extends SurfaceView implements
 	}
 
 	public int getCanvasWidth() {
-
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		return metrics.widthPixels;
 	}
 
 	public int getCanvasHeight() {
-
-		DisplayMetrics metrics = getResources().getDisplayMetrics();
-
-		return metrics.heightPixels;
+		return canvasHeight;
+		// DisplayMetrics metrics = getResources().getDisplayMetrics();
+		// System.out.format("Height %d%n", metrics.heightPixels);
+		// return metrics.heightPixels;
 	}
 
 	private void init(Context context) {
+
+		Bitmap bg = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.dungeon_background2);
+
+		this.background = new BitmapDrawable(context.getResources(), bg);
 
 		getHolder().addCallback(this);
 
@@ -85,22 +96,17 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		setFocusable(true);
 
-		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight() / 3f,
-				false, (Activity) getContext());
+		avatar = new AvatarView(getCanvasWidth() / 4f, combatY
+				* getCanvasHeight(), false, (Activity) getContext());
 
-		avatarHealth = new HealthBar(avatar.x, avatar.y
-				- (80 * ViewObject.SCALE_FACTOR), 50, 10, Player.getPlayer());
 	}
 
 	public void setMonster(Monster monster) {
 
 		monsterModel = monster;
 
-		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f),
-				getCanvasHeight() / 3f, monster, (Activity) getContext());
-
-		monsterHealth = new HealthBar(this.monster.x, this.monster.y
-				- (80 * ViewObject.SCALE_FACTOR), 50, 10, monster);
+		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f), combatY
+				* getCanvasHeight(), monster, (Activity) getContext());
 
 	}
 
@@ -264,7 +270,7 @@ public class BattleSurfaceView extends SurfaceView implements
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
-								battleMenu.redirectToStats();
+								battleMenu.goToUnconsciousScreen();
 							}
 						});
 
@@ -277,21 +283,39 @@ public class BattleSurfaceView extends SurfaceView implements
 	public void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 
-		// background.setBounds(new Rect(0, 0, 1000, 1000));
-		// background.draw(canvas);
+		int width = this.getWidth();
+		int height = this.getHeight();
+		background.setBounds(new Rect(0, 0, width, height));
+		background.draw(canvas);
 
-		monsterHealth.draw(canvas);
-		avatarHealth.draw(canvas);
+		if (monsterHealth != null && avatarHealth != null) {
+			monsterHealth.draw(canvas);
+			avatarHealth.draw(canvas);
+		}
 
 		monster.draw(canvas);
 		avatar.draw(canvas);
 	}
 
+	int canvasHeight;
+
 	@Override
 	public void onLayout(boolean changed, int left, int top, int right,
 			int bottom) {
 		if (changed) {
-			// (this).layout(0, 0, (int) floor.width, (int) floor.height);
+			canvasHeight = bottom - top;
+			System.out.format("Setting bottom to %d%n", canvasHeight);
+
+			avatar.setY(canvasHeight * combatY);
+			monster.setY(canvasHeight * combatY);
+
+			avatarHealth = new HealthBar(avatar.x, avatar.y
+					- (80 * ViewObject.SCALE_FACTOR), 50, 10,
+					Player.getPlayer());
+
+			monsterHealth = new HealthBar(this.monster.x, this.monster.y
+					- (80 * ViewObject.SCALE_FACTOR), 50, 10, monsterModel);
+
 		}
 	}
 

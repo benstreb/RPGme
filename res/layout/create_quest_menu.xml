@@ -15,6 +15,8 @@
 	    android:layout_height="fill_parent"
 		android:layout_weight="5" 
 		android:id="@+id/createQuestScrollView"
+		android:layout_marginBottom="7dp"
+		android:fadeScrollbars="false"
 	    >
 	    
 		<LinearLayout 
@@ -113,14 +115,18 @@
 		
 			    </LinearLayout>
 			    
-			     <!-- Select stat type -->
-			    <LinearLayout
-			        android:orientation="horizontal"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="5dp"
-			        >
+			</LinearLayout>   
 			
+			<TableLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:columnCount="2">
+			    
+			    <TableRow
+				    android:layout_marginTop="5dp"
+				    android:layout_marginBottom="5dp"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content" >
 			        <TextView
 			            android:id="@+id/textView4"
 			            android:layout_width="wrap_content"
@@ -132,20 +138,15 @@
 				        android:id="@+id/statDropDown"
 				        android:layout_width="match_parent"
 				        android:layout_height="wrap_content" 
-				        android:entries="@array/stat_types"
-		
-				        />
-				    
-			    </LinearLayout>
-		
-				<!-- Select Difficulty type -->
-			    <LinearLayout
-			        android:orientation="horizontal"
+				        android:entries="@array/stat_types"/>
+			    </TableRow>
+			    
+			    <TableRow
+				    android:layout_marginTop="5dp"
+				    android:layout_marginBottom="5dp"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="5dp"
-			        >
-			
+			        android:layout_height="wrap_content" >
+				    
 			        <TextView
 			            android:id="@+id/textView5"
 			            android:layout_width="wrap_content"
@@ -158,16 +159,13 @@
 				        android:layout_width="match_parent"
 				        android:layout_height="wrap_content" 
 				        android:entries="@array/difficulty"/>
-			    </LinearLayout>
-			    
-			    <!-- Select Recurrance type -->
-			    <LinearLayout
-			        android:orientation="horizontal"
+				</TableRow>
+				
+			    <TableRow
+				    android:layout_marginTop="5dp"
+				    android:layout_marginBottom="5dp"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="5dp"
-			        >
-			
+			        android:layout_height="wrap_content" >
 			        <TextView
 			            android:id="@+id/rec1"
 			            android:layout_width="wrap_content"
@@ -180,47 +178,57 @@
 				        android:layout_width="match_parent"
 				        android:layout_height="wrap_content" 
 				        android:entries="@array/recurrence"/>
-			    </LinearLayout>
-		
-			    <!-- Select Date type -->
-			    <LinearLayout
-			        android:orientation="horizontal"
+		   		</TableRow>
+		   		
+			    <TableRow
+				    android:layout_marginTop="5dp"
+				    android:layout_marginBottom="5dp"
 			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="5dp">
-			
+			        android:layout_height="wrap_content" >
 			        <TextView
 			            android:id="@+id/textView6"
 			            android:layout_width="wrap_content"
 			            android:layout_height="wrap_content"
 			            android:text="Due Date: "
 			            android:textAppearance="?android:attr/textAppearanceLarge" />
-			    	<Button
-				        android:id="@+id/changeQuestDeadline"
-				        style="?android:attr/buttonStyleSmall"
-				        android:layout_width="wrap_content"
-				        android:layout_height="40dp"
-				        android:text="Change" />
-			        <Button
-				        android:id="@+id/removeQuestDeadline"
-				        style="?android:attr/buttonStyleSmall"
-				        android:layout_width="wrap_content"
-				        android:layout_height="40dp"
-				        android:text="Remove" />
-			
-			        
-			    </LinearLayout>
+				    <TextView
+			            android:id="@+id/createQuestDeadline"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:gravity="center"
+			            android:textSize="15sp"
+			            android:text="(None Set)"
+			            android:textAppearance="?android:attr/textAppearanceLarge" />
+				</TableRow>
 			    
-			    <TextView
-		            android:id="@+id/createQuestDeadline"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:textSize="15sp"
-		            android:text="(None Set)"
-		            android:textAppearance="?android:attr/textAppearanceLarge" />
-			    
+			    <TableRow
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content" >
+				    
+			        <View/>
 			        
-		    </LinearLayout>
+			        <LinearLayout
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:orientation="horizontal">
+				    	<Button
+					        android:id="@+id/changeQuestDeadline"
+					        style="?android:attr/buttonStyleSmall"
+					        android:layout_width="wrap_content"
+					        android:layout_height="32dp"
+					        android:textSize="12sp"
+					        android:text="Change" />
+				        <Button
+					        android:id="@+id/removeQuestDeadline"
+					        style="?android:attr/buttonStyleSmall"
+					        android:layout_width="wrap_content"
+					        android:layout_height="32dp"
+					        android:textSize="12sp"
+					        android:text="Remove" />
+		        	</LinearLayout>
+				</TableRow>
+				
+		    </TableLayout>
 		    
 		    
 		</LinearLayout>
@@ -229,23 +237,27 @@
 	
 	<!-- Bottom buttons -->
 	<LinearLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_weight="1">
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
 	
-		 <Button
-		     android:id="@+id/confirmCreateQuest"
-		     style="?android:attr/buttonStyleSmall"
-		     android:layout_width="wrap_content"
-		     android:layout_height="wrap_content"
-		     android:text="Create!" />
-		
 		 <Button
 		     android:id="@+id/cancelCreateQuest"
 		     style="?android:attr/buttonStyleSmall"
 		     android:layout_width="wrap_content"
 		     android:layout_height="wrap_content"
+		     android:layout_weight="1"
+		     android:textSize="20sp"
 		     android:text="Cancel" />
+		 
+		 <Button
+		     android:id="@+id/confirmCreateQuest"
+		     style="?android:attr/buttonStyleSmall"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:layout_weight="1"
+		     android:textSize="20sp"
+		     android:text="Create!" />
+		
 	     
 	</LinearLayout>
 

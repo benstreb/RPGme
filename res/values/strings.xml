@@ -27,7 +27,7 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="hello_world">Hello world!</string>
     <string name="title">RPGme</string>
-    <string name="title_activity_create_player">CreatePlayerActivity</string>
+    <string name="title_activity_create_player">Create Profile</string>
     <string name="name">Name:</string>
     <string name="classs">Class:</string>
     <string name="avatar1">male</string>
