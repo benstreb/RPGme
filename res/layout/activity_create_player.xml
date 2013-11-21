@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/playerClass"
         android:layout_below="@+id/playerClass"
+        android:background="@drawable/button_light"
         android:contentDescription="@string/avatar1"
         android:src="@drawable/av_f1_icon" />
 
@@ -44,6 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/playerClass"
         android:layout_below="@+id/playerClass"
+        android:background="@drawable/button_light"
         android:contentDescription="@string/avatar2"
         android:src="@drawable/av_m1_icon" />
 
