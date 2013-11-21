@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,6 +67,7 @@ public class MainActivity extends FragmentActivity {
 
 		mTitle = mDrawerTitle = getTitle();
 		mIcon = mDrawerIcon = R.drawable.ic_launcher;
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -79,6 +81,9 @@ public class MainActivity extends FragmentActivity {
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
+		if (getActionBar() == null) {
+			Log.wtf("WHAT THE SHIT", "No action bar? What the actual shit.");
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
@@ -351,6 +356,10 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 		}
+	}
+
+	public ActionBarDrawerToggle getDrawerToggle() {
+		return this.mDrawerToggle;
 	}
 
 	public void enableHomeButton(boolean isEnabled) {
