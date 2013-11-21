@@ -131,6 +131,9 @@ public class Monster implements RoomContent, HasHealth {
 		BattleMenu battleMenu = new BattleMenu();
 		battleMenu.setMonster(this);
 
+		((MainActivity) activity).getDrawerToggle().setDrawerIndicatorEnabled(
+				false);
+
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(battleMenu, false);
 		((MainActivity) activity).changeFragment(trans);

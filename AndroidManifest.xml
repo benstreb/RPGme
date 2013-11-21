@@ -13,12 +13,13 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
             android:name="rpisdd.rpgme.activities.MainActivity"
             android:label="@string/app_name" 
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"> 
+            android:screenOrientation="portrait"
+            android:theme="@style/MainActivityTheme"> 
         </activity>
         <!-- need to give splash screen the name "RPGMe" to have the app show its name as "RPGme" in Android menu -->
         <activity
