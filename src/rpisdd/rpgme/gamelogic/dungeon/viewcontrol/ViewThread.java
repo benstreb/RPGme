@@ -60,7 +60,7 @@ public class ViewThread extends Thread {
 		try {
 			// send the thread to sleep for a short period
 			// very useful for battery saving
-			Thread.sleep(400);
+			Thread.sleep(450);
 		} catch (InterruptedException e) {
 			Log.d("ViewThread", "Interrupted.", e);
 		}

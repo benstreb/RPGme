@@ -44,7 +44,7 @@ public class BattleSurfaceView extends SurfaceView implements
 	private HealthBar monsterHealth;
 
 	// Positioning Ratios
-	private final float combatantYRatio = 1.0f / 2.2f;
+	private final float combatY = 3 / 4f;
 
 	// Delay in seconds between attacks
 	private final float attackDelay = 1;
@@ -72,16 +72,15 @@ public class BattleSurfaceView extends SurfaceView implements
 	}
 
 	public int getCanvasWidth() {
-
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		return metrics.widthPixels;
 	}
 
 	public int getCanvasHeight() {
-
-		DisplayMetrics metrics = getResources().getDisplayMetrics();
-
-		return metrics.heightPixels;
+		return canvasHeight;
+		// DisplayMetrics metrics = getResources().getDisplayMetrics();
+		// System.out.format("Height %d%n", metrics.heightPixels);
+		// return metrics.heightPixels;
 	}
 
 	private void init(Context context) {
@@ -97,23 +96,17 @@ public class BattleSurfaceView extends SurfaceView implements
 
 		setFocusable(true);
 
-		avatar = new AvatarView(getCanvasWidth() / 4f, getCanvasHeight()
-				* combatantYRatio, false, (Activity) getContext());
+		avatar = new AvatarView(getCanvasWidth() / 4f, combatY
+				* getCanvasHeight(), false, (Activity) getContext());
 
-		avatarHealth = new HealthBar(avatar.x, avatar.y
-				- (80 * ViewObject.SCALE_FACTOR), 50, 10, Player.getPlayer());
 	}
 
 	public void setMonster(Monster monster) {
 
 		monsterModel = monster;
 
-		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f),
-				getCanvasHeight() * combatantYRatio, monster,
-				(Activity) getContext());
-
-		monsterHealth = new HealthBar(this.monster.x, this.monster.y
-				- (80 * ViewObject.SCALE_FACTOR), 50, 10, monster);
+		this.monster = new MonsterView(getCanvasWidth() * (3 / 4f), combatY
+				* getCanvasHeight(), monster, (Activity) getContext());
 
 	}
 
@@ -295,18 +288,34 @@ public class BattleSurfaceView extends SurfaceView implements
 		background.setBounds(new Rect(0, 0, width, height));
 		background.draw(canvas);
 
-		monsterHealth.draw(canvas);
-		avatarHealth.draw(canvas);
+		if (monsterHealth != null && avatarHealth != null) {
+			monsterHealth.draw(canvas);
+			avatarHealth.draw(canvas);
+		}
 
 		monster.draw(canvas);
 		avatar.draw(canvas);
 	}
 
+	int canvasHeight;
+
 	@Override
 	public void onLayout(boolean changed, int left, int top, int right,
 			int bottom) {
 		if (changed) {
-			// (this).layout(0, 0, (int) floor.width, (int) floor.height);
+			canvasHeight = bottom - top;
+			System.out.format("Setting bottom to %d%n", canvasHeight);
+
+			avatar.setY(canvasHeight * combatY);
+			monster.setY(canvasHeight * combatY);
+
+			avatarHealth = new HealthBar(avatar.x, avatar.y
+					- (80 * ViewObject.SCALE_FACTOR), 50, 10,
+					Player.getPlayer());
+
+			monsterHealth = new HealthBar(this.monster.x, this.monster.y
+					- (80 * ViewObject.SCALE_FACTOR), 50, 10, monsterModel);
+
 		}
 	}
 

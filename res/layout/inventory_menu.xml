@@ -59,7 +59,6 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"/>
 
-    
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
