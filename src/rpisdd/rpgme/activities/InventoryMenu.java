@@ -83,13 +83,28 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 			sell.setVisibility(View.VISIBLE);
 			details.setEnabled(true);
 			details.setVisibility(View.VISIBLE);
-			if (selectedItem != null
-					&& selectedItem.isUsable(Player.getPlayer())) {
-				use.setEnabled(true);
-				use.setVisibility(View.VISIBLE);
-			} else {
-				use.setEnabled(false);
-				use.setVisibility(View.INVISIBLE);
+
+			// If you can use it sometimes, but not right now,
+			// gray it out instead of hide it
+			use.setVisibility(View.VISIBLE);
+			if (selectedItem != null) {
+				if (selectedItem.isUsable(Player.getPlayer())) {
+					use.setEnabled(true);
+					use.setColorFilter(null);
+
+				} else {
+					use.setEnabled(false);
+					// Boondogles are never usable.
+					// By not showing the use item it becomes immediatly
+					// apparent that the item has no use, and it only
+					// meant to be sold
+					if (selectedItem.isBoondogle()) {
+						use.setVisibility(View.INVISIBLE);
+					} else {
+						use.setColorFilter(getResources().getColor(
+								R.color.disabled01));
+					}
+				}
 			}
 		}
 

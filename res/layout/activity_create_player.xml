@@ -31,22 +31,24 @@
 
     <ImageButton
         android:id="@+id/avatar1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
         android:layout_alignLeft="@+id/playerClass"
         android:layout_below="@+id/playerClass"
         android:contentDescription="@string/avatar1"
-        android:background="#ffffff"
+        android:background="@drawable/button_light"
         android:src="@drawable/av_f1_icon" />
 
     <ImageButton
         android:id="@+id/avatar2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
         android:layout_alignRight="@+id/playerClass"
         android:layout_below="@+id/playerClass"
+        android:background="@drawable/button_light"
         android:contentDescription="@string/avatar2"
-        android:background="#ffffff"
         android:src="@drawable/av_m1_icon" />
 
     <ImageView

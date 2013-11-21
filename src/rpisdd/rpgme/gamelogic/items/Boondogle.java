@@ -11,7 +11,13 @@ public final class Boondogle extends Item {
 	}
 
 	@Override
+	public boolean isBoondogle() {
+		return true;
+	}
+
+	@Override
 	public void useMe(Player p, int index) {
 		Log.e("items", "Trying to use a boondogle.");
 	}
+
 }

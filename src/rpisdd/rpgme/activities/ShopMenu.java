@@ -8,10 +8,10 @@ import rpisdd.rpgme.gamelogic.items.Item;
 import rpisdd.rpgme.gamelogic.player.Player;
 import rpisdd.rpgme.popups.AnnoyingPopup;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +27,8 @@ import com.squareup.picasso.Picasso;
 public class ShopMenu extends ListFragment implements OnClickListener {
 
 	private List<Item> itemsInStock;
+
+	private int defaultPriceColor;
 
 	ImageButton buy;
 	ImageButton details;
@@ -60,6 +62,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		View v = inflater.inflate(R.layout.shop_menu, container, false);
 
+		this.defaultPriceColor = android.R.color.secondary_text_dark;
+
 		buy = (ImageButton) v.findViewById(R.id.shopBuyButton);
 		buy.setOnClickListener(this);
 		details = (ImageButton) v.findViewById(R.id.shopDetailButton);
@@ -82,7 +86,16 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 			details.setEnabled(false);
 			details.setVisibility(View.INVISIBLE);
 		} else {
-			buy.setEnabled(true);
+
+			if (this.itemsInStock.get(this.selectedItemIndex).getPrice() > Player
+					.getPlayer().getGold()) {
+				this.buy.setColorFilter(getResources().getColor(
+						R.color.disabled01));
+				buy.setEnabled(false);
+			} else {
+				this.buy.setColorFilter(null);
+				buy.setEnabled(true);
+			}
 			buy.setVisibility(View.VISIBLE);
 			details.setEnabled(true);
 			details.setVisibility(View.VISIBLE);
@@ -131,6 +144,17 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 						.findViewById(R.id.shopItemImage);
 				name.setText(i.getName());
 				price.setText("Price: " + Integer.toString(i.getPrice()));
+
+				// Red price to alert player they can't afford
+				if (i.getPrice() > Player.getPlayer().getGold()) {
+					price.setTextColor(getResources().getColor(R.color.darkRed));
+				} else {
+					int defaultCol = android.R.color.primary_text_dark;
+					Log.d("ShopDebug", "Default color: " + defaultCol);
+					price.setTextColor(getResources().getColor(
+							defaultPriceColor));
+				}
+
 				Picasso.with(getActivity())
 						.load(items.get(position).getImagePath()).into(image);
 
@@ -169,27 +193,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 			if (wasSold) {
 				AnnoyingPopup.notice(getActivity(),
 						"You purchased " + selected.getName());
-			}
-
-			// Using if false as a way to "comment" code, auto-format wrecks the
-			// code format of multi-line commented code
-			if (false) {
-				if (wasSold && selected.isEquipment()) {
-					AnnoyingPopup.doDont(getActivity(), "Equip this item?",
-							"Equip", new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-									selected.useMe(Player.getPlayer(), Player
-											.getPlayer().getInventory()
-											.getItems().size() - 1);
-								}
-							});
-				} else if (wasSold) {
-					AnnoyingPopup.notice(getActivity(), "You purchased "
-							+ selected.getName());
-				}
+				fillListView(getView());
 			}
 
 			break;
