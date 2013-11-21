@@ -101,7 +101,8 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 					if (selectedItem.isBoondogle()) {
 						use.setVisibility(View.INVISIBLE);
 					} else {
-						use.setColorFilter(R.color.black);
+						use.setColorFilter(getResources().getColor(
+								R.color.disabled01));
 					}
 				}
 			}
