@@ -277,7 +277,7 @@ public class BattleSurfaceView extends SurfaceView implements
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
-								battleMenu.redirectToStats();
+								battleMenu.goToUnconsciousScreen();
 							}
 						});
 

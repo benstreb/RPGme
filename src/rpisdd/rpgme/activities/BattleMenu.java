@@ -127,6 +127,15 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		((MainActivity) getActivity()).changeFragment(trans);
 	}
 
+	public void goToUnconsciousScreen() {
+		// update damage even if player runs away
+		updateMonsterDamage();
+
+		TransitionFragment trans = new TransitionFragment();
+		trans.setValues(new UnconsciousWarning(), true);
+		((MainActivity) getActivity()).changeFragment(trans);
+	}
+
 	public void redirectToStats() {
 		// update damage even if player died
 		updateMonsterDamage();
