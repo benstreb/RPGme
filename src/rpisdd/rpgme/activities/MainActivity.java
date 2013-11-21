@@ -38,8 +38,8 @@ public class MainActivity extends FragmentActivity {
 	private CharSequence mTitle;
 	private int mDrawerIcon;
 	private int mIcon;
-	private final String[] mMenuTitles = { "Quests", "Quest History",
-			"Inventory", "Stats", "Shop", "Dungeon" };
+	private final String[] mMenuTitles = { "Quests", "Quest History", "Stats",
+			"Inventory", "Shop", "Dungeon" };
 	private final int[] mMenuIcons = { R.drawable.ic_quests,
 			R.drawable.ic_quest_history, R.drawable.ic_inventory,
 			R.drawable.ic_stats, R.drawable.ic_shop, R.drawable.ic_dungeon };
