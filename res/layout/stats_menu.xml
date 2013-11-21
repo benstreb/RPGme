@@ -111,7 +111,7 @@
 		        
 		        <TextView
 		            android:id="@+id/strengthDisplay"
-		            android:layout_width="163dp"
+		            android:layout_width="175dp"
 		            android:layout_height="wrap_content"
 		            android:text="Strength: "
 	        		android:textSize="20sp"
@@ -161,7 +161,7 @@
 		        
 		        <TextView
 		            android:id="@+id/intelligenceDisplay"
-		            android:layout_width="163dp"
+		            android:layout_width="175dp"
 		            android:layout_height="wrap_content"
 		            android:text="Intelligence: "
 		            android:textSize="20sp"
@@ -210,7 +210,7 @@
 		        
 		       <TextView
 		            android:id="@+id/willDisplay"
-		            android:layout_width="163dp"
+		            android:layout_width="175dp"
 		            android:layout_height="wrap_content"
 		            android:text="Will: "
 		            android:textSize="20sp"
@@ -258,7 +258,7 @@
 		        
 		        <TextView
 		            android:id="@+id/spiritDisplay"
-		            android:layout_width="163dp"
+		            android:layout_width="175dp"
 		            android:layout_height="wrap_content"
 		            android:text="Spirit: "
 		            android:textSize="20sp"

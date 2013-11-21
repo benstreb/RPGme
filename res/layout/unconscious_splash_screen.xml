@@ -18,7 +18,7 @@
 		android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:text="You have been knocked"
+        android:text="You have been KO'd"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <TextView
@@ -55,7 +55,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/unconscious_av_img"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:layout_marginTop="36dp"
         android:text="You must drink a revival potion before continuing your adventure." 
         android:textAppearance="?android:attr/textAppearanceLarge"/>

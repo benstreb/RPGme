@@ -248,9 +248,6 @@ public class MainActivity extends FragmentActivity {
 			mDrawerList.setItemChecked(3, true);
 			setTitle(mMenuTitles[3]);
 			getActionBar().setIcon(mMenuIcons[3]);
-		} else if (fragment instanceof DungeonMenu) {
-			int floor = Player.getPlayer().getDungeon().getLevel();
-			setTitle(mMenuTitles[5] + " B" + Integer.toString(floor));
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -288,13 +285,14 @@ public class MainActivity extends FragmentActivity {
 			return;
 		}
 
+		changeFragment(fragment);
+
 		// update selected item and title, then close the drawer
 		mDrawerList.setItemChecked(position, true);
 		setTitle(mMenuTitles[position]);
 		setIcon(mMenuIcons[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 
-		changeFragment(fragment);
 	}
 
 	@Override

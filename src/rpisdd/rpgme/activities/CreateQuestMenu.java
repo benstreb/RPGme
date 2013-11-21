@@ -266,20 +266,7 @@ public class CreateQuestMenu extends Fragment implements OnClickListener {
 
 		player.getQuestManager().addQuest(newQuest);
 
-		if (name.getText().toString().equals("cheat")) {
-			applyCheat();
-		}
-
 		return true;
 
-	}
-
-	public void applyCheat() {
-		Player.getPlayer().addGold(100000);
-		Player.getPlayer().getStats().incBaseEnergy(1000);
-		Player.getPlayer().getStats().incBaseInt(1000);
-		Player.getPlayer().getStats().incBaseSpr(1000);
-		Player.getPlayer().getStats().incBaseWill(1000);
-		Player.getPlayer().getStats().incBaseStr(1000);
 	}
 }
