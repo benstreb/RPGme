@@ -198,15 +198,15 @@ public class Player implements HasHealth {
 	/*
 	 * Returns exp to next level up
 	 */
-	public int getExpForLevel(int aLevel) {
+	public static int getExpForLevel(int aLevel) {
 		// EXP_PER_LEVEL
 		// EXP_SCALING_BASE
 		// EXP_SCALING_RATIO
 		int prev = 0;
-		if (aLevel > 1) {
-			prev = getExpForLevel(aLevel - 1);
+		if (aLevel < 1) {
+			return 0;
 		}
-
+		prev = getExpForLevel(aLevel - 1);
 		return prev + EXP_PER_LEVEL + (aLevel - 1) * EXP_SCALING_BASE;
 	}
 
