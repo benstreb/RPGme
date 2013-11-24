@@ -55,6 +55,8 @@ public class QuestHistoryMenu extends ListFragment implements OnClickListener {
 
 		updateButtons();
 
+		fillListView(Player.getPlayer().getQuestManager(), getView());
+
 		return v;
 	}
 
@@ -83,7 +85,7 @@ public class QuestHistoryMenu extends ListFragment implements OnClickListener {
 	@Override
 	public void onResume() {
 
-		fillListView(Player.getPlayer().getQuestManager(), getView());
+		// fillListView(Player.getPlayer().getQuestManager(), getView());
 
 		super.onResume();
 	}

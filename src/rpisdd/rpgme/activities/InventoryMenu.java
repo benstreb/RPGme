@@ -66,6 +66,8 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 		updateButtons();
 
+		updateListView(false);
+
 		return v;
 	}
 
@@ -134,7 +136,6 @@ public class InventoryMenu extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		updateListView(false);
 		super.onResume();
 	}
 

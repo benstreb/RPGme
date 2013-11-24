@@ -75,6 +75,8 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 		updateButtons();
 
+		fillListView(v);
+
 		return v;
 	}
 
@@ -104,7 +106,6 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		fillListView(getView());
 		super.onResume();
 	}
 
