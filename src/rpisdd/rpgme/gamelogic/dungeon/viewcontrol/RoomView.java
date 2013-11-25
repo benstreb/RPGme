@@ -88,6 +88,10 @@ public class RoomView extends ViewObject {
 
 			canvas.drawBitmap(roomBitmap, sx, sy, null);
 
+			if (room.getContent() == null && !room.isVisited()) {
+				canvas.drawBitmap(unknownRoomBitmap, sx, sy, null);
+			}
+
 			if (room.getContent() != null) {
 				/*
 				 * Stairs now ask if you want to take them. No longer need to
@@ -97,25 +101,28 @@ public class RoomView extends ViewObject {
 				 * if (room.getContent().getRoomType() == RoomType.STAIRS) {
 				 * canvas.drawBitmap(stairRoomBitmap, sx, sy, null); } else
 				 */
-
-				switch (room.getContent().getRoomType()) {
-				case STAIRS:
-					canvas.drawBitmap(stairRoomBitmap, sx, sy, null);
-					break;
-				case MONSTER:
-					canvas.drawBitmap(monsterRoomBitmap, sx, sy, null);
-					break;
-				case TREASURE:
-					if (!((Treasure) room.getContent()).getIsOpened()) {
-						canvas.drawBitmap(treasureRoomBitmap, sx, sy, null);
-					} else {
-						canvas.drawBitmap(openedTreasureBitmap, sx, sy, null);
+				if (!room.isVisited()) {
+					canvas.drawBitmap(unknownRoomBitmap, sx, sy, null);
+				} else {
+					switch (room.getContent().getRoomType()) {
+					case STAIRS:
+						canvas.drawBitmap(stairRoomBitmap, sx, sy, null);
+						break;
+					case MONSTER:
+						canvas.drawBitmap(monsterRoomBitmap, sx, sy, null);
+						break;
+					case TREASURE:
+						if (!((Treasure) room.getContent()).getIsOpened()) {
+							canvas.drawBitmap(treasureRoomBitmap, sx, sy, null);
+						} else {
+							canvas.drawBitmap(openedTreasureBitmap, sx, sy,
+									null);
+						}
+						break;
+					default:
+						break;
 					}
-					break;
-				default:
-					break;
 				}
-
 			}
 			if (isSelected) {
 				Paint paint = new Paint();

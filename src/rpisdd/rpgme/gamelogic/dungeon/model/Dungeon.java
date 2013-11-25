@@ -3,7 +3,6 @@ package rpisdd.rpgme.gamelogic.dungeon.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import rpisdd.rpgme.gamelogic.player.StatType;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -30,163 +29,125 @@ public class Dungeon {
 	}
 
 	public void GenerateMap() {
+		boolean setStairs = false;
+		int roomCount = 0;
+		start_x = -1;
+		start_y = -1;
 
-		if (level == 1) {
-
-			System.out.println("Generating Test Map");
-
-			start_x = 0;
-			start_y = 0;
-
+		ArrayList<Room> roomsToExpand;
+		Random rand = new Random();
+		// Keep trying until an adequate dungeon is generated
+		while (roomCount < MIN_NUM_ROOMS) {
 			map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
+			setStairs = false;
+			roomCount = 0;
 
-			map[0][0] = new Room(null, 0, 0);
-			map[0][1] = new Room(new Monster("Slime", "slime.png", 1, 1, 1, 0,
-					StatType.STRENGTH), 1, 0);
-			map[1][0] = new Room(new Treasure(), 0, 1);
-			map[1][1] = new Room(new Stairs(), 1, 1);
+			start_x = rand.nextInt(DUNGEON_DIMMENSION);
+			start_y = rand.nextInt(DUNGEON_DIMMENSION);
+			Room startRoom = new Room(null, start_x, start_y);
+			map[start_y][start_x] = startRoom;
 
-		}
+			roomsToExpand = new ArrayList<Room>();
+			roomsToExpand.add(startRoom);
+			// Expand on rooms until no new rooms have been added.
+			while (!roomsToExpand.isEmpty()) {
+				// Pick the next room to expand on
+				Room currentRoom = roomsToExpand.get(roomsToExpand.size() - 1);
+				int x = currentRoom.getX();
+				int y = currentRoom.getY();
 
-		else if (level == 2) {
+				Log.d("Debug", "Looking at: X: " + x + "  Y: " + y);
 
-			start_x = 0;
-			start_y = 0;
-
-			map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
-
-			map[0][0] = new Room(null, 0, 0);
-			map[0][1] = new Room(new Monster("Slime", "slime.png", 2, 2, 20, 0,
-					StatType.STRENGTH), 1, 0);
-			map[1][0] = new Room(new Treasure(), 0, 1);
-			map[1][1] = new Room(new Stairs(), 1, 1);
-		}
-
-		else {
-
-			boolean setStairs = false;
-			int roomCount = 0;
-			start_x = -1;
-			start_y = -1;
-
-			ArrayList<Room> roomsToExpand;
-			Random rand = new Random();
-			// Keep trying until an adequate dungeon is generated
-			while (roomCount < MIN_NUM_ROOMS) {
-				map = new Room[DUNGEON_DIMMENSION][DUNGEON_DIMMENSION];
-				setStairs = false;
-				roomCount = 0;
-
-				start_x = rand.nextInt(DUNGEON_DIMMENSION);
-				start_y = rand.nextInt(DUNGEON_DIMMENSION);
-				Room startRoom = new Room(null, start_x, start_y);
-				map[start_y][start_x] = startRoom;
-
-				roomsToExpand = new ArrayList<Room>();
-				roomsToExpand.add(startRoom);
-				// Expand on rooms until no new rooms have been added.
-				while (!roomsToExpand.isEmpty()) {
-					// Pick the next room to expand on
-					Room currentRoom = roomsToExpand
-							.get(roomsToExpand.size() - 1);
-					int x = currentRoom.getX();
-					int y = currentRoom.getY();
-
-					Log.d("Debug", "Looking at: X: " + x + "  Y: " + y);
-
-					// remove the currentlyExpanded room
-					roomsToExpand.remove(roomsToExpand.size() - 1);
-					// Generate possible adjacent rooms
-					if (rand.nextInt(3) == 0) {
-						// Up
-						Log.d("Debug", "Trying to make room at: " + x + ","
-								+ (y - 1));
-						Room newRoom = this.generateRoom(x, y - 1);
-						if (newRoom != null) {
-							if (newRoom.getContent() != null) {
-								if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
-									setStairs = true;
-								}
-							}
-							roomsToExpand.add(newRoom);
-							roomCount++;
-							Log.d("Debug", "Up room added");
-						}
-					}
-					if (rand.nextInt(3) == 0) {
-						// Right
-						Log.d("Debug", "Trying to make room at: " + (x + 1)
-								+ "," + y);
-						Room newRoom = this.generateRoom(x + 1, y);
-						if (newRoom != null) {
-							if (newRoom.getContent() != null) {
-								if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
-									setStairs = true;
-								}
-							}
-							roomCount++;
-							roomsToExpand.add(newRoom);
-							Log.d("Debug", "Right room added");
-						}
-					}
-					if (rand.nextInt(3) == 0) {
-						// Down
-						Log.d("Debug", "Trying to make room at: " + x + ","
-								+ (y + 1));
-						Room newRoom = this.generateRoom(x, y + 1);
-						if (newRoom != null) {
-							if (newRoom.getContent() != null) {
-								if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
-									setStairs = true;
-								}
-							}
-							roomCount++;
-							roomsToExpand.add(newRoom);
-							Log.d("Debug", "Down room added");
-						}
-					}
-					if (rand.nextInt(3) == 0) {
-						// Left
-						Log.d("Debug", "Trying to make room at: " + (x - 1)
-								+ "," + y);
-						Room newRoom = this.generateRoom(x - 1, y);
-						if (newRoom != null) {
-							if (newRoom.getContent() != null) {
-								if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
-									setStairs = true;
-								}
-							}
-							roomCount++;
-							roomsToExpand.add(newRoom);
-							Log.d("Debug", "Left room added");
-						}
-					}
-				}
-				// Check to make sure enough rooms have been made
-				if (roomCount >= MIN_NUM_ROOMS) {
-					Log.d("Debug", "Generated at least " + MIN_NUM_ROOMS
-							+ "rooms");
-					// If stairs have not been set yet, pick any room
-					// excluding the start room and change it into a stairs room
-					while (!setStairs) {
-						Log.d("Debug", "Trying to place stairs");
-						int stairs_x = rand.nextInt(DUNGEON_DIMMENSION);
-						int stairs_y = rand.nextInt(DUNGEON_DIMMENSION);
-						if (!(stairs_x == start_x && stairs_y == start_y)) {
-							Room targetRoom = this.getRoom(stairs_x, stairs_y);
-							if (targetRoom != null) {
-								map[stairs_y][stairs_x] = new Room(
-										new Stairs(), stairs_x, stairs_y);
+				// remove the currentlyExpanded room
+				roomsToExpand.remove(roomsToExpand.size() - 1);
+				// Generate possible adjacent rooms
+				if (rand.nextInt(3) == 0) {
+					// Up
+					Log.d("Debug", "Trying to make room at: " + x + ","
+							+ (y - 1));
+					Room newRoom = this.generateRoom(x, y - 1);
+					if (newRoom != null) {
+						if (newRoom.getContent() != null) {
+							if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
 								setStairs = true;
 							}
 						}
+						roomsToExpand.add(newRoom);
+						roomCount++;
+						Log.d("Debug", "Up room added");
 					}
-				} else {
-					Log.d("Debug",
-							"FAILURE: didn't make enough rooms, trying again");
+				}
+				if (rand.nextInt(3) == 0) {
+					// Right
+					Log.d("Debug", "Trying to make room at: " + (x + 1) + ","
+							+ y);
+					Room newRoom = this.generateRoom(x + 1, y);
+					if (newRoom != null) {
+						if (newRoom.getContent() != null) {
+							if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
+								setStairs = true;
+							}
+						}
+						roomCount++;
+						roomsToExpand.add(newRoom);
+						Log.d("Debug", "Right room added");
+					}
+				}
+				if (rand.nextInt(3) == 0) {
+					// Down
+					Log.d("Debug", "Trying to make room at: " + x + ","
+							+ (y + 1));
+					Room newRoom = this.generateRoom(x, y + 1);
+					if (newRoom != null) {
+						if (newRoom.getContent() != null) {
+							if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
+								setStairs = true;
+							}
+						}
+						roomCount++;
+						roomsToExpand.add(newRoom);
+						Log.d("Debug", "Down room added");
+					}
+				}
+				if (rand.nextInt(3) == 0) {
+					// Left
+					Log.d("Debug", "Trying to make room at: " + (x - 1) + ","
+							+ y);
+					Room newRoom = this.generateRoom(x - 1, y);
+					if (newRoom != null) {
+						if (newRoom.getContent() != null) {
+							if (newRoom.getContent().getRoomType() == RoomType.STAIRS) {
+								setStairs = true;
+							}
+						}
+						roomCount++;
+						roomsToExpand.add(newRoom);
+						Log.d("Debug", "Left room added");
+					}
 				}
 			}
-
+			// Check to make sure enough rooms have been made
+			if (roomCount >= MIN_NUM_ROOMS) {
+				Log.d("Debug", "Generated at least " + MIN_NUM_ROOMS + "rooms");
+				// If stairs have not been set yet, pick any room
+				// excluding the start room and change it into a stairs room
+				while (!setStairs) {
+					Log.d("Debug", "Trying to place stairs");
+					int stairs_x = rand.nextInt(DUNGEON_DIMMENSION);
+					int stairs_y = rand.nextInt(DUNGEON_DIMMENSION);
+					if (!(stairs_x == start_x && stairs_y == start_y)) {
+						Room targetRoom = this.getRoom(stairs_x, stairs_y);
+						if (targetRoom != null) {
+							map[stairs_y][stairs_x] = new Room(new Stairs(),
+									stairs_x, stairs_y);
+							setStairs = true;
+						}
+					}
+				}
+			} else {
+				Log.d("Debug",
+						"FAILURE: didn't make enough rooms, trying again");
+			}
 		}
 		this.generated = true;
 	}

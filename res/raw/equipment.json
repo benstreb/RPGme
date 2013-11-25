@@ -169,14 +169,5 @@
 		"type":"armor",
 		"description":"Protection fit for royalty - at least until the gold peels off.",
 		"quality":25
-	},
-	{
-		"name":"Broomstick",
-		"price":0,
-		"filename":"sword3_blue.png",
-		"effect":{"strength":0,"intelligence":0,"spirit":0,"will":0},
-		"type":"weapon",
-		"description":"A broomstick for the demo",
-		"quality":1
 	}
 ]
