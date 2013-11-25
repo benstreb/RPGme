@@ -45,6 +45,7 @@ public class ShopMenu extends ListFragment implements OnClickListener {
 		itemsInStock.add(Item.createItemFromName("Light Sword"));
 		itemsInStock.add(Item.createItemFromName("Cracked Plate"));
 		itemsInStock.add(Item.createItemFromName("Revival Potion"));
+		itemsInStock.add(Item.createItemFromName("Broomstick"));
 	}
 
 	public ShopMenu() {

@@ -8,7 +8,7 @@ import android.util.Log;
 //A class to hold functions related to combat
 public class Combat {
 
-	public static double ATTACK_VARIANCE = 0.35;
+	public static double ATTACK_VARIANCE = 0;
 
 	// Represents an attack delivered by any source
 	// Holds the stattype associated with the attack

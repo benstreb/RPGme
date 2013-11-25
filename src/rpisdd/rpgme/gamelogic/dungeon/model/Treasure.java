@@ -81,8 +81,10 @@ public class Treasure implements RoomContent {
 			isOpened = true;
 
 			// figure out what the chest has
-			Reward tReward = Reward.chestReward(this.treasureLevel);
-			Item rewardItem = tReward.getRewardItem();
+			Reward tReward = new Reward();
+			Item rewardItem = Item.createItemFromName("Valuable Potion");
+
+			tReward.setRewardItem(rewardItem);
 
 			// give the award to the player
 			tReward.applyReward();
