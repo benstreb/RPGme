@@ -137,6 +137,7 @@ public class BattleMenu extends Fragment implements OnClickListener {
 		((MainActivity) getActivity()).getDrawerToggle()
 				.setDrawerIndicatorEnabled(true);
 
+		Player.getPlayer().goToLastRoom();
 		TransitionFragment trans = new TransitionFragment();
 		trans.setValues(new UnconsciousWarning(), true);
 		((MainActivity) getActivity()).changeFragment(trans);
