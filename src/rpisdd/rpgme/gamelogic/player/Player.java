@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 public class Player implements HasHealth {
@@ -433,13 +432,12 @@ public class Player implements HasHealth {
 
 	// ///////////////////////////////////////////////
 
+	/*
+	 * Player is implemented as a singleton. This returns the current player.
+	 * There will always only be one (it will be created when the game loads, or
+	 * when the user creates the profile for the first time.)
+	 */
 	public static Player getPlayer() {
-		return player;
-	}
-
-	// Todo: Eliminate this function, and replace all occurrences of
-	// getPlayer(this) with getPlayer()
-	public static Player getPlayer(Fragment fragment) {
 		return player;
 	}
 

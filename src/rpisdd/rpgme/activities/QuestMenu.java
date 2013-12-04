@@ -123,6 +123,11 @@ public class QuestMenu extends ListFragment implements OnClickListener {
 		updateButtons();
 	}
 
+	/*
+	 * Here is an example of the adapter pattern in use. A QuestAdapter class
+	 * will "adapt" an ArrayList of quests into use for ListAdapter. The
+	 * getView() method defines how the data in the ArrayList will be displayed.
+	 */
 	private class QuestAdapter extends ArrayAdapter<Quest> {
 
 		ArrayList<Quest> quests;
