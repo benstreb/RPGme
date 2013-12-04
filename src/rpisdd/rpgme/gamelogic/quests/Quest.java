@@ -159,7 +159,9 @@ public class Quest {
 	}
 
 	public Reward completeQuest() {
-		isComplete = true;
+		if (!isRecurring()) {
+			isComplete = true;
+		}
 		return Reward.questReward(this);
 	}
 
