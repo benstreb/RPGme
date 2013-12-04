@@ -27,6 +27,12 @@ public class Combat {
 	}
 
 	// The equation to use for calculating damage
+	// The use of this is essentially a strategy pattern
+	// All we are doing here in taking in an attack value
+	// and a defense value, and determining the resulting damage.
+	// If we wanted to change the combat system, we could easily swap
+	// this function out for another one without impacting how the rest
+	// of the game played out,
 	public static int CalculateAttackDamage(int atk_, int def_) {
 		Log.d("CombatDebug", "Combat: base damage: " + atk_ + "\n");
 		Log.d("CombatDebug", "Combat: defense: " + def_ + "\n");
@@ -44,6 +50,11 @@ public class Combat {
 		return (int) (atk);
 	}
 
+	// Another example of the strategy pattern.
+	// The idea is that this function takes in an attack value
+	// and adds some variance to it. There are infinitely many ways of doing
+	// this, and so testing out different methods is as easy as swapping out
+	// this function with another one that adds variance to an integer.
 	public static int AttackVariance(int atk_) {
 		Random gen = new Random();
 
