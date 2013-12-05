@@ -201,6 +201,13 @@ public class Monster implements RoomContent, HasHealth {
 		}
 	}
 
+	/*
+	 * This is the monster factory. This is how clients of the Monster class are
+	 * supposed to get new monsters (although currently the constructors are
+	 * public, this is not desirable and I'm planning on fixing it. Not for this
+	 * release, though). We use the factory pattern to keep monster selection
+	 * logic away from clients of the class.
+	 */
 	public static Monster selectMonster(Dungeon d) {
 		Monster baseMon = null;
 		Monster resultMon = null;

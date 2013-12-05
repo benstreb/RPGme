@@ -43,6 +43,8 @@ public abstract class Item {
 		public Item fromJsonObject(JsonObject o);
 	}
 
+	// We use the AbstractFactory pattern here so that this code isn't
+	// duplicated three times.
 	private static Map<String, Item> loadItems(Context c, Factory f,
 			int resource) {
 		Map<String, Item> items = new HashMap<String, Item>();
@@ -97,6 +99,13 @@ public abstract class Item {
 	private static final Map<String, Item> allItems = new HashMap<String, Item>();
 	private static final ArrayList<Item> sortedItems = new ArrayList<Item>();
 
+	/*
+	 * Here we have the Item factory. We use the factory pattern here so that
+	 * there is only one copy of each item. Each time the player gets a "new"
+	 * item, they really just get a reference to the already existing item.
+	 * Items are all immutable, so that each item is only a reference is not a
+	 * problem.
+	 */
 	public static Item createItemFromName(String aname) {
 		if (allItems.containsKey(aname)) {
 			return allItems.get(aname);
